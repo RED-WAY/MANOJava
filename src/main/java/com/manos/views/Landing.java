@@ -1,7 +1,5 @@
 package com.manos.views;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import java.awt.Color;
 import java.awt.Image;
@@ -12,15 +10,10 @@ import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
-import javax.swing.plaf.ColorUIResource;
 
-/**
- *
- * @author Vitor
- */
-public class LandingView extends javax.swing.JFrame {
+public class Landing extends javax.swing.JFrame {
 
-    public LandingView() {
+    public Landing() {
         initComponents();
         initImages();
     }
@@ -218,7 +211,7 @@ public class LandingView extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LandingView().setVisible(true);
+                new Landing().setVisible(true);
             }
         });
     }
