@@ -44,6 +44,11 @@ public class Landing extends javax.swing.JFrame {
         background.setBackground(new java.awt.Color(32, 32, 32));
 
         btnToken.setText("ENVIAR");
+        btnToken.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTokenActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -54,9 +59,9 @@ public class Landing extends javax.swing.JFrame {
                 .addComponent(iptToken, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addContainerGap(590, Short.MAX_VALUE)
+                .addGap(587, 587, 587)
                 .addComponent(btnToken)
-                .addContainerGap(590, Short.MAX_VALUE))
+                .addContainerGap(593, Short.MAX_VALUE))
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -65,13 +70,13 @@ public class Landing extends javax.swing.JFrame {
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addGap(75, 75, 75)
+                .addContainerGap(130, Short.MAX_VALUE)
                 .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addGap(63, 63, 63)
                 .addComponent(iptToken, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addGap(55, 55, 55)
                 .addComponent(btnToken, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(275, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -88,6 +93,10 @@ public class Landing extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTokenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTokenActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
