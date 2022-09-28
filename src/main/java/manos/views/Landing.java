@@ -1,33 +1,16 @@
 package manos.views;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import manos.views.utils.ImageManipulator;
 
 public class Landing extends javax.swing.JFrame {
 
+    // INITIALIZING INSTANCES...
+    ImageManipulator imageMan = new ImageManipulator(2);
+    
     public Landing() {
         initComponents();
-        lblImage.setIcon(resizedImage("manos.png", lblImage));
-    }
-    
-    private ImageIcon resizedImage(String imgName, JLabel label) {
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File(String.format("assets/%s", imgName)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),
-                Image.SCALE_SMOOTH);
-
-        ImageIcon imageIcon = new ImageIcon(dimg);
-
-        return imageIcon;
+        initImages();
     }
 
     @SuppressWarnings("unchecked")
@@ -40,6 +23,7 @@ public class Landing extends javax.swing.JFrame {
         lblImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         background.setBackground(new java.awt.Color(32, 32, 32));
 
@@ -50,21 +34,21 @@ public class Landing extends javax.swing.JFrame {
             }
         });
 
+        lblImage.setBackground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(iptToken, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(400, Short.MAX_VALUE)
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(iptToken, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(400, Short.MAX_VALUE))
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addGap(587, 587, 587)
+                .addGap(562, 562, 562)
                 .addComponent(btnToken)
-                .addContainerGap(593, Short.MAX_VALUE))
-            .addGroup(backgroundLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         backgroundLayout.setVerticalGroup(
@@ -72,11 +56,11 @@ public class Landing extends javax.swing.JFrame {
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addContainerGap(130, Short.MAX_VALUE)
                 .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63)
+                .addGap(69, 69, 69)
                 .addComponent(iptToken, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addGap(46, 46, 46)
                 .addComponent(btnToken, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -94,8 +78,18 @@ public class Landing extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // INTERACTIONS METHODS
     private void btnTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTokenActionPerformed
-        // TODO add your handling code here:
+        // get token input text
+        String token = iptToken.getText();
+
+        // validate at DATABASE if there is a machine with the typed token
+        Boolean isTokenValid = validateToken(token);
+
+        // change 'isUsing' machine state to true and links to local machine
+        if (isTokenValid) {
+            updateMachineIsUsingState(token);
+        }
     }//GEN-LAST:event_btnTokenActionPerformed
 
     public static void main(String args[]) {
@@ -136,4 +130,28 @@ public class Landing extends javax.swing.JFrame {
     private javax.swing.JTextField iptToken;
     private javax.swing.JLabel lblImage;
     // End of variables declaration//GEN-END:variables
+
+    // ---------------------- FUNCTIONS ----------------------
+    public void initImages() {
+        JLabel labels[] = new JLabel[imageMan.getLabelsQuantity()];
+        String images[] = new String[imageMan.getLabelsQuantity()];
+        labels[0] = lblImage;
+        images[0] = "manos.png";
+        imageMan.initImages(labels, images);
+    }
+    
+    public Boolean validateToken(String token) {
+        System.out.println("Validating token...");
+
+        if (true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void updateMachineIsUsingState(String token) {
+        System.out.println("Connecting to database...");
+        System.out.println("Updating 'isUsing' field from machine with token: " + token);
+    }
 }
