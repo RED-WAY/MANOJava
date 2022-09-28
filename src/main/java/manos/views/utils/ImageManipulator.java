@@ -47,7 +47,6 @@ public class ImageManipulator {
             }
 
             for (int i = 0; i < labelsQuantity--; i++) {
-//                System.out.println(labels[i]);
                 labels[i].setIcon(resizeImage(labels[i], images[i]));
             }
         } catch (ArraySizesIncompatibleException e) {
