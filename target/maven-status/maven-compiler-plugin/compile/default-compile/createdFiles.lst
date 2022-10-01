@@ -1,3 +1,7 @@
+manos\views\exceptions\ArraySizesIncompatibleException.class
+manos\views\Landing$2.class
+manos\connection\database\DatabaseConfig.class
 manos\views\Landing.class
 manos\views\Landing$1.class
-manos\views\Landing$2.class
+manos\views\utils\ImageManipulator.class
+manos\views\utils\LabelImage.class

@@ -1,7 +1,11 @@
 package manos.views;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import manos.views.utils.ImageManipulator;
+import manos.connection.database.DatabaseConfig;
 
 public class Landing extends javax.swing.JFrame {
 
@@ -77,15 +81,25 @@ public class Landing extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+   
     // INTERACTIONS METHODS
     private void btnTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTokenActionPerformed
         // get token input text
         String token = iptToken.getText();
+        
 
         // validate at DATABASE if there is a machine with the typed token
         Boolean isTokenValid = validateToken(token);
-
+         //  DatabaseConfig connection = new DatabaseConfig();
+           
+       // try {
+         //   Boolean insert = connection.Connection().createStatement().execute(String.format("insert into Consumer"
+           //         + "(consumerName) values "
+             //       + "('%s');", token));
+          
+       // } catch (SQLException ex) {
+       //     Logger.getLogger(Landing.class.getName()).log(Level.SEVERE, null, ex);
+        //}
         // change 'isUsing' machine state to true and links to local machine
         if (isTokenValid) {
             updateMachineIsUsingState(token);
