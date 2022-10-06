@@ -9,18 +9,15 @@ public class FindingOutSystemOperation {
        String os = System.getProperty("os.name");
        String SO = null;
 
-        try {
+        
             if (os.startsWith("Windows")) {
          //       
-                SO = "Windonws";
+                SO = "Windows";
             } else if (os.startsWith("Linux")) {
            //    
                SO = "Linux";
             } 
-        } catch (Exception ex) {
-            System.out.println("Deu Ruim");
-          
-        }
+      
         
         return SO;
        }

@@ -13,12 +13,15 @@ import manos.connection.database.DatabaseConfig;
 public class MachineConfig {
      Validation code = new Validation();
      DatabaseConfig connection = new DatabaseConfig();
+     
     public Boolean machineConfigDb(String token) throws SQLException{
         Boolean valid = false;
         String codeManos = this.code.getHost() + this.code.getHd();
-        
-        String update = String.format("UPDATE Manchine SET"
-                + "manosCode = '%s' WHERE token = '%s'", codeManos, token);
+         System.out.println(codeManos);
+        String update = String.format("UPDATE Machine SET "
+                + "manoCode = '%s', "
+                + "isUsing = 'yes' "
+                + "WHERE idMachine = %s;", codeManos, token);
         
         
           valid = connection.Connection().createStatement().

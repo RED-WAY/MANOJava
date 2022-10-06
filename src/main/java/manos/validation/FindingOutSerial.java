@@ -23,7 +23,7 @@ public class FindingOutSerial {
         String hd = null;
         
         switch (so) {
-            case "Windowns":
+            case "Windows":
                 hd = getMotherboardSerialWindows();
                 break;
             case "Linux":
@@ -35,7 +35,7 @@ public class FindingOutSerial {
         return hd;
     }
 
-    public static String getMotherboardSerialLinux() {
+    public  String getMotherboardSerialLinux() {
         String result = "";
         try {
             String[] args = {"bash", "-c", "lshw -class bus | grep serial"};
@@ -58,7 +58,7 @@ public class FindingOutSerial {
 
     }
 
-    public static String getMotherboardSerialWindows() {
+    public  String getMotherboardSerialWindows() {
         String result = "";
         try {
             File file = File.createTempFile("realhowto", ".vbs");
@@ -84,6 +84,7 @@ public class FindingOutSerial {
             input.close();
         } catch (IOException e) {
         }
+        
         return result.trim();
     }
 

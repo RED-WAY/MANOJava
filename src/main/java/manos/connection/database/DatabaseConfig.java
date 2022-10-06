@@ -25,9 +25,9 @@ public class DatabaseConfig {
                     // Database name 
                     + "MANOSecurity",
                     // user name  
-                    "root",
+                    "aluno",
                     // passsword  
-                    "#Gf52455690865");
+                    "sptech");
          
                
                return sqlConnection;

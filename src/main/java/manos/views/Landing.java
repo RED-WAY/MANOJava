@@ -12,11 +12,15 @@ import manos.machine.config.MachineConfig;
 
 public class Landing extends javax.swing.JFrame {
 
+    private static void validacao(Runnable runnable) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     // INITIALIZING INSTANCES...
     ImageManipulator imageMan = new ImageManipulator(2);
     Validation validation = new Validation();
     MachineConfig updateMachine = new MachineConfig();
-    
+
     public Landing() {
         initComponents();
         initImages();
@@ -86,26 +90,42 @@ public class Landing extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-   
+
     // INTERACTIONS METHODS
     private void btnTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTokenActionPerformed
         // get token input text
+        Boolean ready = null;
         String token = iptToken.getText();
-        
 
-        // validate at DATABASE if there is a machine with the typed token
-        Boolean isTokenValid = validation.isTokenValid();
+        try {
+            // validate at DATABASE if there is a machine with the typed token
+            ready = updateMachine.machineConfigDb(token);
+        } catch (SQLException ex) {
+            Logger.getLogger(Landing.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        if (isTokenValid) {
-            updateMachineIsUsingState(token);
-        }else{
-            try {
-                updateMachine.machineConfigDb(token);
-            } catch (SQLException ex) {
-                Logger.getLogger(Landing.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (ready) {
+            // rodar programa
+        } else {
+            // error
         }
     }//GEN-LAST:event_btnTokenActionPerformed
+
+   // private void validacao() {
+
+     //   Boolean isTokenValid = validation.isTokenValid();
+
+       // if (isTokenValid) {
+         //   System.out.println("RODANDO");
+        //} else {
+            /* Create and display the form */
+          //  java.awt.EventQueue.invokeLater(new Runnable() {
+            //    public void run() {
+              //      new Landing().setVisible(true);
+               // }
+            //});
+       // }
+   // }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -130,15 +150,12 @@ public class Landing extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Landing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
+         // validacao();
+     
+        // }
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Landing().setVisible(true);
-            }
-        });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JToggleButton btnToken;
@@ -154,7 +171,7 @@ public class Landing extends javax.swing.JFrame {
         images[0] = "manos.png";
         imageMan.initImages(labels, images);
     }
-    
+
     public Boolean validateToken(String token) {
         System.out.println("Validating token...");
 

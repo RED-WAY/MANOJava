@@ -41,6 +41,7 @@ public class Validation {
 
         String validationBD = this.host + this.hd;
          Boolean validacao = false;
+         System.out.println(validationBD);
         try {
             Boolean validar = connection.Connection().createStatement().execute(String
                     .format("SELECT * FROM Machine"
