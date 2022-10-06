@@ -6,11 +6,16 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import manos.views.utils.ImageManipulator;
 import manos.connection.database.DatabaseConfig;
+import manos.validation.Validation;
+import manos.machine.config.MachineConfig;
+import manos.machine.config.MachineConfig;
 
 public class Landing extends javax.swing.JFrame {
 
     // INITIALIZING INSTANCES...
     ImageManipulator imageMan = new ImageManipulator(2);
+    Validation validation = new Validation();
+    MachineConfig updateMachine = new MachineConfig();
     
     public Landing() {
         initComponents();
@@ -89,20 +94,16 @@ public class Landing extends javax.swing.JFrame {
         
 
         // validate at DATABASE if there is a machine with the typed token
-        Boolean isTokenValid = validateToken(token);
-         //  DatabaseConfig connection = new DatabaseConfig();
-           
-       // try {
-         //   Boolean insert = connection.Connection().createStatement().execute(String.format("insert into Consumer"
-           //         + "(consumerName) values "
-             //       + "('%s');", token));
-          
-       // } catch (SQLException ex) {
-       //     Logger.getLogger(Landing.class.getName()).log(Level.SEVERE, null, ex);
-        //}
-        // change 'isUsing' machine state to true and links to local machine
+        Boolean isTokenValid = validation.isTokenValid();
+
         if (isTokenValid) {
             updateMachineIsUsingState(token);
+        }else{
+            try {
+                updateMachine.machineConfigDb(token);
+            } catch (SQLException ex) {
+                Logger.getLogger(Landing.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnTokenActionPerformed
 
