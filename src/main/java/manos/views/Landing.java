@@ -4,10 +4,10 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+
+import com.github.britooo.looca.api.core.Looca;
 import manos.views.utils.ImageManipulator;
-import manos.connection.database.DatabaseConfig;
 import manos.validation.Validation;
-import manos.machine.config.MachineConfig;
 import manos.machine.config.MachineConfig;
 
 public class Landing extends javax.swing.JFrame {
@@ -150,11 +150,14 @@ public class Landing extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Landing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+        Looca looca = new Looca();
+
+        System.out.println(looca.getProcessador().getNome());
          // validacao();
      
         // }
         /* Create and display the form */
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;

@@ -7,13 +7,9 @@ public class FindingOutSystemOperation {
 
        public String OperationSystem(){
        String os = System.getProperty("os.name");
-       String SO = null;
+       String SO = "Windows";
 
-        
-            if (os.startsWith("Windows")) {
-         //       
-                SO = "Windows";
-            } else if (os.startsWith("Linux")) {
+         if (os.startsWith("Linux")) {
            //    
                SO = "Linux";
             } 
