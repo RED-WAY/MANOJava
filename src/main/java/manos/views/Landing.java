@@ -12,10 +12,6 @@ import manos.machine.config.MachineConfig;
 
 public class Landing extends javax.swing.JFrame {
 
-    private static void validacao(Runnable runnable) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     // INITIALIZING INSTANCES...
     ImageManipulator imageMan = new ImageManipulator(2);
     Validation validation = new Validation();
@@ -104,30 +100,20 @@ public class Landing extends javax.swing.JFrame {
             Logger.getLogger(Landing.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        try {
+            ready = validation.isTokenValid();
+        } catch (SQLException ex) {
+            System.out.println("An error occurred in the database");
+        }
+
         if (ready) {
-            // rodar programa
+            //rodar
         } else {
-            // error
+            System.out.println("ERRO");
         }
     }//GEN-LAST:event_btnTokenActionPerformed
 
-   // private void validacao() {
-
-     //   Boolean isTokenValid = validation.isTokenValid();
-
-       // if (isTokenValid) {
-         //   System.out.println("RODANDO");
-        //} else {
-            /* Create and display the form */
-          //  java.awt.EventQueue.invokeLater(new Runnable() {
-            //    public void run() {
-              //      new Landing().setVisible(true);
-               // }
-            //});
-       // }
-   // }
-
-    public static void main(String args[]) {
+    public static void main(String args[]) throws SQLException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -150,14 +136,26 @@ public class Landing extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Landing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        Looca looca = new Looca();
+        // Looca looca = new Looca();
 
-        System.out.println(looca.getProcessador().getNome());
-         // validacao();
-     
+        // System.out.println(looca.getProcessador().getNome());
+        Validation validation = new Validation();
+
+        Boolean isTokenValid = validation.isTokenValid();
+
+        if (isTokenValid) {
+            //rodar
+        } else {
+            /* Create and display the form */
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new Landing().setVisible(true);
+                }
+            });
+        }
+
         // }
         /* Create and display the form */
-
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;

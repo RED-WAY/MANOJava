@@ -12,15 +12,15 @@ import java.net.UnknownHostException;
  * @author pedro
  */
 public class SystemName {
-    public String nameSystem(){
-          
-      String SystemName = null;
-        try  {
+
+    public String nameSystem() {
+
+        String SystemName = null;
+        try {
 
             // get system name
-             SystemName
+            SystemName
                     = InetAddress.getLocalHost().getHostName();
-           
 
             // SystemName stores the name of the system
         } catch (UnknownHostException E) {

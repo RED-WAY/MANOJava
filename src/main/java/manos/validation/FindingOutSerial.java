@@ -21,7 +21,7 @@ public class FindingOutSerial {
     public String serial() {
         String so = System.OperationSystem();
         String hd = null;
-        
+
         switch (so) {
             case "Windows":
                 hd = getMotherboardSerialWindows();
@@ -35,12 +35,12 @@ public class FindingOutSerial {
         return hd;
     }
 
-    public  String getMotherboardSerialLinux() {
+    public String getMotherboardSerialLinux() {
         String result = "";
         try {
             String[] args = {"bash", "-c", "lshw -class bus | grep serial"};
             Process p = Runtime.getRuntime().exec(args);
-            try (BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+            try ( BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
                 String line;
                 while ((line = input.readLine()) != null) {
                     result += line;
@@ -58,7 +58,7 @@ public class FindingOutSerial {
 
     }
 
-    public  String getMotherboardSerialWindows() {
+    public String getMotherboardSerialWindows() {
         String result = "";
         try {
             File file = File.createTempFile("realhowto", ".vbs");
@@ -84,7 +84,7 @@ public class FindingOutSerial {
             input.close();
         } catch (IOException e) {
         }
-        
+
         return result.trim();
     }
 

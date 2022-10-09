@@ -6,6 +6,7 @@ package manos.validation;
 
 // FindingOutSystemOperation SO = new FindingOutSystemOperation();
 //  SystemName host = new SystemName(
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import manos.connection.database.DatabaseConfig;
 
@@ -19,8 +20,8 @@ public class Validation {
     SystemName HOST = new SystemName();
     DatabaseConfig connection = new DatabaseConfig();
 
-    private String hd;
-    private String host;
+    String hd;
+    String host;
 
     public Validation() {
         this.hd = HD.serial();
@@ -34,26 +35,27 @@ public class Validation {
     public String getHost() {
         return host;
     }
-    
-    
 
-    public Boolean isTokenValid() {
+    public Boolean isTokenValid() throws SQLException {
 
         String validationBD = this.host + this.hd;
-         Boolean validacao = false;
-         System.out.println(validationBD);
+        Boolean isValidad = false;
+        ResultSet sql = null;
+
         try {
-            Boolean validar = connection.Connection().createStatement().execute(String
-                    .format("SELECT * FROM Machine"
-                            + "WHERE manosCode = '%s'", validationBD));
-            if(validar){
-             validacao = true;
-            }
+            sql = connection.Connection().createStatement().executeQuery(String
+                    .format("SELECT * FROM Machine "
+                            + "WHERE manoCode = '%s'", validationBD));
 
         } catch (SQLException ex) {
-           
+            System.out.println("An error occurred in the database");
         }
-    return validacao;
+
+        if (sql.next() == true) {
+            isValidad = true;
+        }
+
+        return isValidad;
     }
 
 }
