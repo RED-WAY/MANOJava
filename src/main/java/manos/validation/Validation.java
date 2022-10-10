@@ -8,6 +8,7 @@ package manos.validation;
 //  SystemName host = new SystemName(
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import manos.connection.database.DatabaseConfig;
 
 /**
@@ -40,18 +41,13 @@ public class Validation {
 
         String validationBD = this.host + this.hd;
         Boolean isValidad = false;
-        ResultSet sql = null;
+        List sql;
 
-        try {
-            sql = connection.Connection().createStatement().executeQuery(String
-                    .format("SELECT * FROM Machine "
-                            + "WHERE manoCode = '%s'", validationBD));
+        sql = connection.getConnection().queryForList(String
+                .format("SELECT * FROM Machine "
+                        + "WHERE manoCode = '%s'", validationBD));
 
-        } catch (SQLException ex) {
-            System.out.println("An error occurred in the database");
-        }
-
-        if (sql.next() == true) {
+        if (sql.size() == 1) {
             isValidad = true;
         }
 

@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 
-import com.github.britooo.looca.api.core.Looca;
+//import com.github.britooo.looca.api.core.Looca;
 import manos.views.utils.ImageManipulator;
 import manos.validation.Validation;
 import manos.machine.config.MachineConfig;

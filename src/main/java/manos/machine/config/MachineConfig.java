@@ -5,6 +5,7 @@
 package manos.machine.config;
 
 import java.sql.SQLException;
+import java.util.List;
 import manos.validation.Validation;
 import manos.connection.database.DatabaseConfig;
 
@@ -19,15 +20,30 @@ public class MachineConfig {
 
     public Boolean machineConfigDb(String token) throws SQLException {
         Boolean valid = false;
-        String codeManos = this.code.getHost() + this.code.getHd();
-        System.out.println(codeManos);
+        String manoCode = this.code.getHost() + this.code.getHd();
+        List returnBd = null;
+        System.out.println(manoCode);
         String update = String.format("UPDATE Machine SET "
                 + "manoCode = '%s', "
                 + "isUsing = 'yes' "
-                + "WHERE idMachine = %s;", codeManos, token);
+                + "WHERE idMachine = %s;", manoCode, token);
+        try {
+            connection.getConnection().update(update);
+        } catch (Exception sqlEx) {
+            sqlEx.printStackTrace();
+        }
 
-        valid = connection.Connection().createStatement().
-                execute(update);
+        try {
+            returnBd = connection.getConnection().queryForList(String
+                    .format("SELECT * FROM Machine "
+                            + "WHERE manoCode = '%s'", manoCode));
+        } catch (Exception sqlEx) {
+            sqlEx.printStackTrace();
+        }
+
+        if (returnBd.size() == 1) {
+            valid = true;
+        }
 
         return valid;
 

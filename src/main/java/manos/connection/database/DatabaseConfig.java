@@ -4,9 +4,8 @@
  */
 package manos.connection.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
@@ -14,27 +13,30 @@ import java.sql.SQLException;
  */
 public class DatabaseConfig {
 
-    public Connection Connection() {
-        Connection sqlConnection;
-        try {
-            // start connection
-            Class.forName("com.mysql.cj.jdbc.Driver");
+    private JdbcTemplate connection;
 
-            sqlConnection = DriverManager.getConnection("jdbc:mysql://localhost/"
-                    // Database name 
-                    + "MANOSecurity",
-                    // user name  
-                    "root",
-                    // passsword  
-                    "");
+    public DatabaseConfig() {
 
-            return sqlConnection;
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Error to found class");
-        } catch (SQLException ex) {
-            System.out.println("Error to connect to database, erro :" + ex.getMessage());
-        }
-        return null;
+        BasicDataSource dataSource = new BasicDataSource();
+
+        dataSource​.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+        dataSource​.setUrl("jdbc:sqlserver://svr-manosecurity.database.windows.net:1433;"
+                + "database=db-azure-manosecurity;encryp\n"
+                + "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
+
+        dataSource​.setUsername("admin-manosecurity");
+
+        dataSource​.setPassword("#Gfgrupo6");
+
+        this.connection = new JdbcTemplate(dataSource);
+
     }
 
+    // GETTER
+    public JdbcTemplate getConnection() {
+
+        return connection;
+
+    }
 }
