@@ -50,10 +50,10 @@ public class FindingOutSerial {
         } catch (IOException e) {
         }
         System.out.println(result);
-        if (result.trim().length() < 1 || result == null) {
-            result = "NO_DISK_ID";
-
-        }
+//        if (result.trim().length() < 1 || result == null) {
+//            result = "NO_DISK_ID";
+//
+//        }
         
         return result.trim();
     }
