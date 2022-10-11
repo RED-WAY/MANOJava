@@ -37,21 +37,21 @@ public class Validation {
         return host;
     }
 
-    public Boolean isTokenValid() throws SQLException {
+    public Boolean isManoCodeValid() throws SQLException {
 
         String validationBD = this.host + this.hd;
-        Boolean isValidad = false;
+        Boolean isValid = false;
         List sql;
 
         sql = connection.getConnection().queryForList(String
-                .format("SELECT * FROM Machine "
+                .format("SELECT * FROM machine "
                         + "WHERE manoCode = '%s'", validationBD));
 
         if (sql.size() == 1) {
-            isValidad = true;
+            isValid = true;
         }
 
-        return isValidad;
+        return isValid;
     }
 
 }

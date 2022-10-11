@@ -1,19 +1,23 @@
 package manos.views;
 
+// JAVA
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
 
-//import com.github.britooo.looca.api.core.Looca;
+// CLASSES
 import manos.views.utils.ImageManipulator;
 import manos.validation.Validation;
 import manos.machine.config.MachineConfig;
 
+// STYLE
+import javax.swing.UIManager;
+import com.formdev.flatlaf.FlatDarculaLaf;
+
 public class Landing extends javax.swing.JFrame {
 
     // INITIALIZING INSTANCES...
-    ImageManipulator imageMan = new ImageManipulator(2);
+    ImageManipulator imageMan = new ImageManipulator();
     Validation validation = new Validation();
     MachineConfig updateMachine = new MachineConfig();
 
@@ -26,56 +30,49 @@ public class Landing extends javax.swing.JFrame {
     private void initComponents() {
 
         background = new javax.swing.JPanel();
-        iptToken = new javax.swing.JTextField();
-        btnToken = new javax.swing.JToggleButton();
-        lblImage = new javax.swing.JLabel();
+        logoLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("man.OS");
+        setBackground(new java.awt.Color(250, 250, 250));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setName("Base"); // NOI18N
+        setUndecorated(true);
         setResizable(false);
 
-        background.setBackground(new java.awt.Color(32, 32, 32));
+        background.setBackground(new java.awt.Color(18, 18, 18));
+        background.setMaximumSize(new java.awt.Dimension(1366, 768));
+        background.setMinimumSize(new java.awt.Dimension(1366, 768));
+        background.setPreferredSize(new java.awt.Dimension(1366, 768));
 
-        btnToken.setText("ENVIAR");
-        btnToken.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTokenActionPerformed(evt);
-            }
-        });
-
-        lblImage.setBackground(new java.awt.Color(255, 0, 0));
+        logoLabel.setForeground(new java.awt.Color(0, 0, 0));
+        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/manos.png"))); // NOI18N
+        logoLabel.setLabelFor(logoLabel);
+        logoLabel.setAlignmentX(0.5F);
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addContainerGap(400, Short.MAX_VALUE)
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(iptToken, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(400, Short.MAX_VALUE))
-            .addGroup(backgroundLayout.createSequentialGroup()
-                .addGap(562, 562, 562)
-                .addComponent(btnToken)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(593, 593, 593)
+                .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(593, 593, 593))
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addContainerGap(130, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
-                .addComponent(iptToken, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(btnToken, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addGap(252, 252, 252)
+                .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(252, 252, 252))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,92 +83,38 @@ public class Landing extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    // INTERACTIONS METHODS
-    private void btnTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTokenActionPerformed
-        // get token input text
-        Boolean ready = null;
-        String token = iptToken.getText();
-
-        try {
-            // validate at DATABASE if there is a machine with the typed token
-            ready = updateMachine.machineConfigDb(token);
-        } catch (SQLException ex) {
-            Logger.getLogger(Landing.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            ready = validation.isTokenValid();
-        } catch (SQLException ex) {
-            System.out.println("An error occurred in the database");
-        }
-
-        if (ready) {
-            //rodar
-        } else {
-            System.out.println("ERRO");
-        }
-    }//GEN-LAST:event_btnTokenActionPerformed
-
+    // ------------------- USER INTERACTIONS -------------------
+    Boolean themeLight = false;
+    int x, y;
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Landing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Landing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Landing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Landing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new FlatDarculaLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
         }
-        //</editor-fold>
 
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Landing().setVisible(true);
             }
         });
-
-        // }
-        /* Create and display the form */
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
-    private javax.swing.JToggleButton btnToken;
-    private javax.swing.JTextField iptToken;
-    private javax.swing.JLabel lblImage;
+    private javax.swing.JLabel logoLabel;
     // End of variables declaration//GEN-END:variables
 
-    // ---------------------- FUNCTIONS ----------------------
-    public void initImages() {
-        JLabel labels[] = new JLabel[imageMan.getLabelsQuantity()];
-        String images[] = new String[imageMan.getLabelsQuantity()];
-        labels[0] = lblImage;
-        images[0] = "manos.png";
-        imageMan.initImages(labels, images);
-    }
-
+    // ------------------- FUNCTIONS -------------------
     public void validateToken(String token) throws SQLException {
         System.out.println("Validating token...");
 
-        Boolean isTokenValid = validation.isTokenValid();
+        Boolean isTokenValid = validation.isManoCodeValid();
 
         if (isTokenValid) {
             //rodar
         } else {
-            
+
         }
 
     }
@@ -180,4 +123,5 @@ public class Landing extends javax.swing.JFrame {
         System.out.println("Connecting to database...");
         System.out.println("Updating 'isUsing' field from machine with token: " + token);
     }
+
 }

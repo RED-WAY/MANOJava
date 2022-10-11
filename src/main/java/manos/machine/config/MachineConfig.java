@@ -19,33 +19,26 @@ public class MachineConfig {
     DatabaseConfig connection = new DatabaseConfig();
 
     public Boolean machineConfigDb(String token) throws SQLException {
-        Boolean valid = false;
+        Boolean isValid = false;
         String manoCode = this.code.getHost() + this.code.getHd();
-        List returnBd = null;
-        System.out.println(manoCode);
-        String update = String.format("UPDATE Machine SET "
+        String update = String.format("UPDATE machine SET "
                 + "manoCode = '%s', "
                 + "isUsing = 'yes' "
                 + "WHERE idMachine = %s;", manoCode, token);
         try {
-            connection.getConnection().update(update);
+            List machineAvailable = connection.getConnection()
+                    .queryForList(String.format("SELECT * FROM machine "
+                            + "WHERE idMachine = '%s' AND manoCode IS NULL;", token));
+
+            if (machineAvailable.size() == 1) {
+                connection.getConnection().update(update);
+                isValid = true;
+            }
         } catch (Exception sqlEx) {
             sqlEx.printStackTrace();
         }
 
-        try {
-            returnBd = connection.getConnection().queryForList(String
-                    .format("SELECT * FROM Machine "
-                            + "WHERE manoCode = '%s'", manoCode));
-        } catch (Exception sqlEx) {
-            sqlEx.printStackTrace();
-        }
-
-        if (returnBd.size() == 1) {
-            valid = true;
-        }
-
-        return valid;
+        return isValid;
 
     }
 }
