@@ -11,11 +11,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
-public class Landing extends javax.swing.JFrame {
+public class LandingOld extends javax.swing.JFrame {
 
-    public Landing() {
+    public LandingOld() {
         initComponents();
-        initImages();
     }
 
     @SuppressWarnings("unchecked")
@@ -55,6 +54,7 @@ public class Landing extends javax.swing.JFrame {
         logoLabel.setBackground(new java.awt.Color(255, 0, 51));
         logoLabel.setForeground(new java.awt.Color(0, 0, 0));
         logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/manos.png"))); // NOI18N
         logoLabel.setLabelFor(logoLabel);
         logoLabel.setAlignmentX(0.5F);
         logoLabel.setOpaque(true);
@@ -79,6 +79,7 @@ public class Landing extends javax.swing.JFrame {
         });
 
         closeLabel.setBackground(new java.awt.Color(18, 18, 18));
+        closeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
         closeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         closeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -168,7 +169,6 @@ public class Landing extends javax.swing.JFrame {
         }
         themeLight = !themeLight;
 
-        changeSize();
     }//GEN-LAST:event_themeChangerActionPerformed
 
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
@@ -195,13 +195,6 @@ public class Landing extends javax.swing.JFrame {
         this.setLocation(xx - x, yy - y);
     }//GEN-LAST:event_windowBarMouseDragged
 
-    private void initImages() {
-        logoLabel.setBackground(Color.red);
-
-        logoLabel.setIcon(resizedImage("manos.png", logoLabel));
-        closeLabel.setIcon(resizedImage("close.png", closeLabel));
-    }
-
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatDarculaLaf());
@@ -209,11 +202,11 @@ public class Landing extends javax.swing.JFrame {
             System.err.println("Failed to initialize LaF");
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Landing().setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new LandingOld().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -230,7 +223,7 @@ public class Landing extends javax.swing.JFrame {
     private ImageIcon resizedImage(String imgName, JLabel label) {
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File(String.format("assets/%s", imgName)));
+            img = ImageIO.read(new File(String.format("src/main/resources/images/%s", imgName)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -242,8 +235,4 @@ public class Landing extends javax.swing.JFrame {
         return imageIcon;
     }
 
-    private void changeSize() {
-        logoLabel.setSize(100, 140);
-        logoLabel.setIcon(resizedImage("manos.png", logoLabel));
-    }
 }
