@@ -19,7 +19,6 @@ public class Landing extends javax.swing.JFrame {
 
     public Landing() {
         initComponents();
-        initImages();
     }
 
     @SuppressWarnings("unchecked")
@@ -113,7 +112,7 @@ public class Landing extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnTokenActionPerformed
 
-    public static void main(String args[]) throws SQLException {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -136,23 +135,14 @@ public class Landing extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Landing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        // Looca looca = new Looca();
 
-        // System.out.println(looca.getProcessador().getNome());
-        Validation validation = new Validation();
 
-        Boolean isTokenValid = validation.isTokenValid();
-
-        if (isTokenValid) {
-            //rodar
-        } else {
-            /* Create and display the form */
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    new Landing().setVisible(true);
-                }
-            });
-        }
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Landing().setVisible(true);
+            }
+        });
 
         // }
         /* Create and display the form */
@@ -173,14 +163,17 @@ public class Landing extends javax.swing.JFrame {
         imageMan.initImages(labels, images);
     }
 
-    public Boolean validateToken(String token) {
+    public void validateToken(String token) throws SQLException {
         System.out.println("Validating token...");
 
-        if (true) {
-            return true;
+        Boolean isTokenValid = validation.isTokenValid();
+
+        if (isTokenValid) {
+            //rodar
         } else {
-            return false;
+            
         }
+
     }
 
     public void updateMachineIsUsingState(String token) {

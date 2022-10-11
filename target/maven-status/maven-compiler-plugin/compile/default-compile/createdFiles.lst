@@ -6,10 +6,16 @@ manos\views\Landing$1.class
 manos\views\utils\LabelImage.class
 manos\hardware\dynamic\Dynamic.class
 manos\validation\Validation.class
+com\manos\views\LandingOld.class
 manos\hardware\constant\Constant.class
+com\manos\views\LandingOld$2.class
 manos\validation\SystemName.class
+com\manos\views\LandingOld$3.class
 manos\views\Landing$2.class
+com\manos\views\Start.class
 manos\validation\FindingOutSystemOperation.class
+com\manos\views\LandingOld$4.class
 manos\views\Landing.class
+com\manos\views\LandingOld$1.class
 manos\machine\config\MachineConfig.class
 manos\views\utils\ImageManipulator.class
