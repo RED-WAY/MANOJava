@@ -54,7 +54,7 @@ public class FindingOutSerial {
 
         }
         
-        return result;
+        return result.trim();
     }
 
     public String getMotherboardSerialWindows() {
