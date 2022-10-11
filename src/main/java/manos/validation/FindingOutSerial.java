@@ -53,9 +53,8 @@ public class FindingOutSerial {
             result = "NO_DISK_ID";
 
         }
-
-        return filtraString(result, "serial: ");
-
+        
+        return result;
     }
 
     public String getMotherboardSerialWindows() {
@@ -86,10 +85,6 @@ public class FindingOutSerial {
         }
 
         return result.trim();
-    }
-
-    private static String filtraString(String result, String serial_) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
