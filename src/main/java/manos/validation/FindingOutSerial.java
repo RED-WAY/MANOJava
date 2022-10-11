@@ -16,10 +16,10 @@ import java.io.InputStreamReader;
  */
 public class FindingOutSerial {
 
-    FindingOutSystemOperation System = new FindingOutSystemOperation();
+    FindingOutSystemOperation SO = new FindingOutSystemOperation();
 
     public String serial() {
-        String so = System.OperationSystem();
+        String so = SO.OperationSystem();
         String hd = null;
 
         switch (so) {
@@ -38,7 +38,7 @@ public class FindingOutSerial {
     public String getMotherboardSerialLinux() {
         String result = "";
         try {
-            String[] args = {"bash", "-c", "lshw -class bus | grep serial"};
+            String[] args = {"bash", "-c", "lshw -class bus | grep serial"};            
             Process p = Runtime.getRuntime().exec(args);
             try ( BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
                 String line;
@@ -49,6 +49,7 @@ public class FindingOutSerial {
 
         } catch (IOException e) {
         }
+        System.out.println(result);
         if (result.trim().length() < 1 || result == null) {
             result = "NO_DISK_ID";
 
