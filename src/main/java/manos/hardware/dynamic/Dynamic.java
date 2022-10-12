@@ -41,10 +41,11 @@ public class Dynamic {
         Thread.sleep(5000);
         constantData();
     }
-    public static void main(String[] args) throws InterruptedException {
-        Looca looca = new Looca();
-        System.out.println();
-    }
+
+//    public static void main(String[] args) throws InterruptedException {
+//        Looca looca = new Looca();
+//        System.out.println();
+//    }
 
 }
 
