@@ -3,6 +3,7 @@ manos\views\exceptions\ArraySizesIncompatibleException.class
 manos\views\View$3.class
 manos\connection\database\DatabaseConfig.class
 manos\hardware\conversor\Conversor.class
+manos\machine\utils\LoocaUtils.class
 manos\views\View$2.class
 manos\hardware\dynamic\Dynamic.class
 manos\validation\Validation.class
