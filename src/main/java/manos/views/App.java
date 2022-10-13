@@ -1,7 +1,6 @@
 package manos.views;
 
 import manos.hardware.constant.Constant;
-import manos.views.View;
 
 public class App {
 
