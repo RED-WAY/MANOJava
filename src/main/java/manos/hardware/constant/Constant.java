@@ -1,27 +1,67 @@
 package manos.hardware.constant;
 
 import com.github.britooo.looca.api.core.Looca;
+import java.util.Locale;
+import manos.connection.database.DatabaseConfig;
+import manos.hardware.conversor.Conversor;
+import manos.machine.utils.LoocaUtils;
 
 public class Constant {
-    Long diskSize;
-    String diskModel;
-    String ramSize;
-    String nameProcessor;
-    Integer cores;
-    String systemOperational;
-    Integer threads;
+
+    private String cpuName;
+    private Integer cpuCore;
+    private Double ramSize;
+    private String diskModel;
+    private Double diskSize;
+    private String operationalSystem;
 
     public Constant() {
         Looca looca = new Looca();
+        LoocaUtils utils = new LoocaUtils();
 
-        this.diskSize = looca.getGrupoDeDiscos().getTamanhoTotal();
-        this.diskModel = diskModel;
-        this.systemOperational = looca.getSistema().getSistemaOperacional();
-        this.ramSize = String.format("%.1f", looca.getMemoria().getTotal() / Math.pow(1024, 3));
-        this.nameProcessor = looca.getProcessador().getNome();
-        this.cores = looca.getProcessador().getNumeroCpusFisicas();
-        this.threads = looca.getProcessador().getNumeroCpusLogicas();
+        this.cpuName = looca.getProcessador().getNome();
+        this.cpuCore = looca.getProcessador().getNumeroCpusFisicas();
+        this.ramSize = Math.ceil(utils.ConvertToDoubleGb(looca.getMemoria().getTotal(), 1));
+        this.diskModel = looca.getGrupoDeDiscos().getDiscos().get(0).getModelo();
+        this.diskSize = utils.ConvertToDoubleGb(looca.getGrupoDeDiscos().getTamanhoTotal(), 2);
+        this.operationalSystem = looca.getSistema().getSistemaOperacional();
     }
 
+    public void constantData() {
+        DatabaseConfig connection = new DatabaseConfig();
+        Constant constant = new Constant();
 
+        String insertQuery = String.format(Locale.US, 
+                "INSERT INTO constantHardware "
+                + "(cpuName, cpuCore, ramSize, diskModel, diskSize, operationalSystem, fkMachine) "
+                + "VALUES ('%s', %d, %.2f, '%s', %.2f, '%s', %d)",
+                constant.cpuName,
+                constant.cpuCore,
+                constant.ramSize,
+                constant.diskModel,
+                constant.diskSize,
+                constant.operationalSystem,
+                10
+        );
+
+        connection.getConnection().update(insertQuery);
+
+    }
+
+//    public static void constantData() {
+//        DatabaseConfig connection = new DatabaseConfig();
+//        Constant constant = new Constant();
+//
+//        String update = String.format("INSERT INTO constantHardware VALUES (null, %s, %d, %s, %s, %l, %s, null)",
+//                constant.cpuName,
+//                constant.cpuCore,
+//                constant.ramSize,
+//                constant.diskModel,
+//                constant.diskSize,
+//                constant.operationalSystem
+//        );
+//
+//        connection.getConnection().update(update);
+//
+//    }
 }
