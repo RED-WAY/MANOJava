@@ -1,9 +1,8 @@
 package manos.hardware.constant;
 
-import com.github.britooo.looca.api.core.Looca;
 import java.util.Locale;
+import com.github.britooo.looca.api.core.Looca;
 import manos.connection.database.DatabaseConfig;
-import manos.hardware.conversor.Conversor;
 import manos.machine.utils.LoocaUtils;
 
 public class Constant {
@@ -47,21 +46,4 @@ public class Constant {
         connection.getConnection().update(insertQuery);
 
     }
-
-//    public static void constantData() {
-//        DatabaseConfig connection = new DatabaseConfig();
-//        Constant constant = new Constant();
-//
-//        String update = String.format("INSERT INTO constantHardware VALUES (null, %s, %d, %s, %s, %l, %s, null)",
-//                constant.cpuName,
-//                constant.cpuCore,
-//                constant.ramSize,
-//                constant.diskModel,
-//                constant.diskSize,
-//                constant.operationalSystem
-//        );
-//
-//        connection.getConnection().update(update);
-//
-//    }
 }

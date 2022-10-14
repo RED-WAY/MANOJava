@@ -2,50 +2,36 @@ package manos.hardware.dynamic;
 
 import com.github.britooo.looca.api.core.Looca;
 import manos.connection.database.DatabaseConfig;
-import manos.hardware.constant.Constant;
 import manos.hardware.conversor.Conversor;
 
 import java.time.LocalDate;
 
 public class Dynamic {
-    private Double cpuInUse;
-    private String ramInUse;
-    private Long totalDisk;
-    private Long diskAvailable;
+
+    private Double cpuUse;
+    private Long ramUse;
     private String activityTime;
 
     public Dynamic() {
         Looca looca = new Looca();
 
-        this.cpuInUse = looca.getProcessador().getUso();
-        this.ramInUse = Conversor.formatarBytes(looca.getMemoria().getEmUso());
-        this.totalDisk = looca.getGrupoDeDiscos().getTamanhoTotal();
-        this.diskAvailable = looca.getGrupoDeDiscos().getVolumes().get(0).getTotal();
-        this.activityTime = Conversor.formatarSegundosDecorridos(looca.getSistema().getTempoDeAtividade());
+        this.cpuUse = looca.getProcessador().getUso();
+        this.ramUse = (looca.getMemoria().getEmUso() * 100) / looca.getMemoria().getTotal();
     }
 
-    public static void constantData() throws InterruptedException {
+    public void dynamicData() throws InterruptedException {
         DatabaseConfig connection = new DatabaseConfig();
         Dynamic dynamic = new Dynamic();
-        LocalDate localDate = LocalDate.now();
 
-        String update = String.format("INSERT INTO dynamicHardware VALUES (null, %d, %s, %s, NAO SEI O QUE COLCAR AINDA)",
-                dynamic.cpuInUse,
-                dynamic.ramInUse,
-                dynamic.activityTime,
-                localDate
+        String updateQuery = String.format("INSERT INTO dynamicHardware (cpu, ram, fkMachine) VALUES (%d, %s, %d)",
+                dynamic.cpuUse,
+                dynamic.ramUse,
+                10
         );
 
-        connection.getConnection().update(update);
+        connection.getConnection().update(updateQuery);
 
         Thread.sleep(5000);
-        constantData();
+        this.dynamicData();
     }
-
-//    public static void main(String[] args) throws InterruptedException {
-//        Looca looca = new Looca();
-//        System.out.println();
-//    }
-
 }
-
