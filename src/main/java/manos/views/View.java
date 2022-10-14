@@ -63,7 +63,6 @@ public class View extends javax.swing.JFrame {
         Loading.setName(""); // NOI18N
         Loading.setPreferredSize(new java.awt.Dimension(1366, 768));
 
-        lblLoading.setForeground(new java.awt.Color(0, 0, 0));
         lblLoading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLoading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gifs/loading2reverse.gif"))); // NOI18N
         lblLoading.setLabelFor(lblLogo);
@@ -112,7 +111,7 @@ public class View extends javax.swing.JFrame {
 
         lblClose.setBackground(new java.awt.Color(18, 18, 18));
         lblClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
-        lblClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblClose.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCloseMouseClicked(evt);
@@ -158,7 +157,6 @@ public class View extends javax.swing.JFrame {
         Login.setName(""); // NOI18N
         Login.setPreferredSize(new java.awt.Dimension(1366, 768));
 
-        lblLogo.setForeground(new java.awt.Color(0, 0, 0));
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/manos.png"))); // NOI18N
         lblLogo.setLabelFor(lblLogo);

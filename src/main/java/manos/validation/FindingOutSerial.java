@@ -4,6 +4,7 @@
  */
 package manos.validation;
 
+import com.github.britooo.looca.api.core.Looca;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -16,10 +17,10 @@ import java.io.InputStreamReader;
  */
 public class FindingOutSerial {
 
-    FindingOutSystemOperation SO = new FindingOutSystemOperation();
+    FindingOutSystemOperation System = new FindingOutSystemOperation();
 
     public String serial() {
-        String so = SO.OperationSystem();
+        String so = System.OperationSystem();
         String hd = null;
 
         switch (so) {
@@ -27,7 +28,7 @@ public class FindingOutSerial {
                 hd = getMotherboardSerialWindows();
                 break;
             case "Linux":
-                hd = getMotherboardSerialLinux();
+                hd = getProcessorIdLinux();
                 break;
             default:
                 break;
@@ -35,27 +36,17 @@ public class FindingOutSerial {
         return hd;
     }
 
-    public String getMotherboardSerialLinux() {
-        String result = "";
-        try {
-            String[] args = {"bash", "-c", "lshw -class bus | grep serial"};            
-            Process p = Runtime.getRuntime().exec(args);
-            try ( BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-                String line;
-                while ((line = input.readLine()) != null) {
-                    result += line;
-                }
-            }
+    public String getProcessorIdLinux() {
+        Looca looca = new Looca();
+        String result;
 
-        } catch (IOException e) {
-        }
-        System.out.println(result);
-//        if (result.trim().length() < 1 || result == null) {
-//            result = "NO_DISK_ID";
-//
-//        }
-        
-        return result.trim();
+         result = looca.getProcessador().getId();
+      
+       
+
+
+       return result;
+
     }
 
     public String getMotherboardSerialWindows() {
@@ -87,5 +78,7 @@ public class FindingOutSerial {
 
         return result.trim();
     }
+
+   
 
 }
