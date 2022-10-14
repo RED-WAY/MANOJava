@@ -4,6 +4,7 @@
  */
 package manos.validation;
 
+import com.github.britooo.looca.api.core.Looca;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -27,7 +28,7 @@ public class FindingOutSerial {
                 hd = getMotherboardSerialWindows();
                 break;
             case "Linux":
-                hd = getMotherboardSerialLinux();
+                hd = getProcessorIdLinux();
                 break;
             default:
                 break;
@@ -35,26 +36,16 @@ public class FindingOutSerial {
         return hd;
     }
 
-    public String getMotherboardSerialLinux() {
-        String result = "";
-        try {
-            String[] args = {"bash", "-c", "lshw -class bus | grep serial"};
-            Process p = Runtime.getRuntime().exec(args);
-            try ( BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-                String line;
-                while ((line = input.readLine()) != null) {
-                    result += line;
-                }
-            }
+    public String getProcessorIdLinux() {
+        Looca looca = new Looca();
+        String result;
 
-        } catch (IOException e) {
-        }
-        if (result.trim().length() < 1 || result == null) {
-            result = "NO_DISK_ID";
+         result = looca.getProcessador().getId();
+      
+       
 
-        }
 
-        return filtraString(result, "serial: ");
+       return result;
 
     }
 
@@ -88,8 +79,6 @@ public class FindingOutSerial {
         return result.trim();
     }
 
-    private static String filtraString(String result, String serial_) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
 
 }
