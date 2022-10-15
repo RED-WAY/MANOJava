@@ -3,7 +3,7 @@ package manos.hardware.constant;
 import java.util.Locale;
 import com.github.britooo.looca.api.core.Looca;
 import manos.connection.database.DatabaseConfig;
-import manos.machine.utils.LoocaUtils;
+import manos.machine.utils.Utils;
 
 public class Constant {
 
@@ -16,7 +16,7 @@ public class Constant {
 
     public Constant() {
         Looca looca = new Looca();
-        LoocaUtils utils = new LoocaUtils();
+        Utils utils = new Utils();
 
         this.cpuName = looca.getProcessador().getNome();
         this.cpuCore = looca.getProcessador().getNumeroCpusFisicas();
@@ -26,7 +26,7 @@ public class Constant {
         this.operationalSystem = looca.getSistema().getSistemaOperacional();
     }
 
-    public void constantData() {
+    public void constantData(Integer idMachine) {
         DatabaseConfig connection = new DatabaseConfig();
         Constant constant = new Constant();
 
@@ -40,7 +40,7 @@ public class Constant {
                 constant.diskModel,
                 constant.diskSize,
                 constant.operationalSystem,
-                10
+                idMachine
         );
 
         connection.getConnection().update(insertQuery);

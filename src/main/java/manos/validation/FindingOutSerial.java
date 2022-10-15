@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package manos.validation;
 
 import com.github.britooo.looca.api.core.Looca;
@@ -11,10 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/**
- *
- * @author pedro
- */
 public class FindingOutSerial {
 
     FindingOutSystemOperation System = new FindingOutSystemOperation();
@@ -38,15 +30,10 @@ public class FindingOutSerial {
 
     public String getProcessorIdLinux() {
         Looca looca = new Looca();
-        String result;
-
-         result = looca.getProcessador().getId();
-      
-       
-
-
-       return result;
-
+        String result;       
+        result = looca.getProcessador().getId();
+        
+        return result;
     }
 
     public String getMotherboardSerialWindows() {
@@ -74,11 +61,10 @@ public class FindingOutSerial {
             }
             input.close();
         } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return result.trim();
     }
-
-   
 
 }

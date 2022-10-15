@@ -2,8 +2,6 @@ package manos.views;
 
 // JAVA
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 // CLASSES
 import manos.validation.Validation;
@@ -12,18 +10,24 @@ import manos.machine.config.MachineConfig;
 // STYLE
 import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.UnsupportedLookAndFeelException;
+import manos.hardware.dynamic.Dynamic;
 
 public class View extends javax.swing.JFrame {
 
     // INITIALIZING INSTANCES...
     Validation validation = new Validation();
     MachineConfig updateMachine = new MachineConfig();
-
+    Integer idMachine = null;
+    
     public View() {
         initComponents();
+        this.setSize(1400, 800);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -52,16 +56,18 @@ public class View extends javax.swing.JFrame {
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1400, 800));
         setResizable(false);
+        setSize(new java.awt.Dimension(1400, 800));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         Loading.setBackground(new java.awt.Color(32, 32, 32));
         Loading.setAlignmentX(100.0F);
         Loading.setAlignmentY(100.0F);
+        Loading.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         Loading.setDoubleBuffered(false);
         Loading.setMaximumSize(new java.awt.Dimension(1400, 800));
         Loading.setMinimumSize(new java.awt.Dimension(1400, 800));
         Loading.setName(""); // NOI18N
-        Loading.setPreferredSize(new java.awt.Dimension(1366, 768));
+        Loading.setPreferredSize(new java.awt.Dimension(1400, 800));
 
         lblLoading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLoading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gifs/loading2reverse.gif"))); // NOI18N
@@ -90,14 +96,17 @@ public class View extends javax.swing.JFrame {
         Views.setBackground(new java.awt.Color(32, 32, 32));
         Views.setAlignmentX(100.0F);
         Views.setAlignmentY(100.0F);
+        Views.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Views.setDoubleBuffered(false);
         Views.setMaximumSize(new java.awt.Dimension(1400, 800));
         Views.setMinimumSize(new java.awt.Dimension(1400, 800));
         Views.setName(""); // NOI18N
-        Views.setPreferredSize(new java.awt.Dimension(1366, 768));
+        Views.setPreferredSize(new java.awt.Dimension(1400, 800));
 
         windowBar.setBackground(new java.awt.Color(18, 18, 18));
-        windowBar.setPreferredSize(new java.awt.Dimension(719, 42));
+        windowBar.setMaximumSize(new java.awt.Dimension(1400, 42));
+        windowBar.setMinimumSize(new java.awt.Dimension(1400, 42));
+        windowBar.setPreferredSize(new java.awt.Dimension(1400, 42));
         windowBar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 windowBarMouseDragged(evt);
@@ -111,7 +120,7 @@ public class View extends javax.swing.JFrame {
 
         lblClose.setBackground(new java.awt.Color(18, 18, 18));
         lblClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
-        lblClose.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lblClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCloseMouseClicked(evt);
@@ -155,7 +164,7 @@ public class View extends javax.swing.JFrame {
         Login.setMaximumSize(new java.awt.Dimension(1400, 800));
         Login.setMinimumSize(new java.awt.Dimension(1400, 800));
         Login.setName(""); // NOI18N
-        Login.setPreferredSize(new java.awt.Dimension(1366, 768));
+        Login.setPreferredSize(new java.awt.Dimension(1400, 800));
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/manos.png"))); // NOI18N
@@ -193,14 +202,14 @@ public class View extends javax.swing.JFrame {
                     .addGroup(LoginLayout.createSequentialGroup()
                         .addGap(583, 583, 583)
                         .addComponent(lblLogo)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(484, Short.MAX_VALUE))
         );
         LoginLayout.setVerticalGroup(
             LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginLayout.createSequentialGroup()
                 .addGap(123, 123, 123)
-                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(iptToken, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnToken, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -216,7 +225,7 @@ public class View extends javax.swing.JFrame {
         Home.setMaximumSize(new java.awt.Dimension(1400, 800));
         Home.setMinimumSize(new java.awt.Dimension(1400, 800));
         Home.setName(""); // NOI18N
-        Home.setPreferredSize(new java.awt.Dimension(1366, 768));
+        Home.setPreferredSize(new java.awt.Dimension(1400, 800));
 
         lblWelcome.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
         lblWelcome.setText("Bem-vindo ao man.OS");
@@ -249,17 +258,17 @@ public class View extends javax.swing.JFrame {
             ViewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ViewsLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(windowBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1400, Short.MAX_VALUE)
+                .addComponent(windowBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
             .addGroup(ViewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(ViewsLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 1343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
             .addGroup(ViewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(ViewsLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 1400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         ViewsLayout.setVerticalGroup(
@@ -270,16 +279,18 @@ public class View extends javax.swing.JFrame {
             .addGroup(ViewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(ViewsLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
             .addGroup(ViewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(ViewsLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         getContentPane().add(Views);
+
+        getAccessibleContext().setAccessibleParent(this);
 
         pack();
         setLocationRelativeTo(null);
@@ -288,7 +299,7 @@ public class View extends javax.swing.JFrame {
     // ------------------- USER INTERACTIONS -------------------
     Boolean themeLight = false;
     private void btnThemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemeActionPerformed
-
+        
         if (themeLight) {
             Login.setBackground(new java.awt.Color(32, 32, 32));
         } else {
@@ -308,7 +319,7 @@ public class View extends javax.swing.JFrame {
     private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
         lblClose.setIcon(new ImageIcon(getClass().getResource("/images/close.png")));
     }//GEN-LAST:event_lblCloseMouseExited
-
+    
     int x, y;
     private void windowBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_windowBarMousePressed
         x = evt.getX();
@@ -325,17 +336,19 @@ public class View extends javax.swing.JFrame {
         // get token input text
         linkMachine();
     }//GEN-LAST:event_btnTokenActionPerformed
-
+    
     public static void main(String args[]) {
         // LOOK AND FEEL
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());
-        } catch (Exception ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
             System.err.println("Failed to initialize LaF");
+            ex.printStackTrace();
         }
 
         // RUN
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new View();
             }
@@ -364,54 +377,70 @@ public class View extends javax.swing.JFrame {
         // Hiding views
         Loading.setVisible(true);
         Login.setVisible(false);
-
+        
         verifyLink();
     }
 
     // search machine on DB
     public void verifyLink() {
-        boolean alreadyLinked = false;
-
+        
         try {
-            alreadyLinked = validation.isManoCodeValid();
+            idMachine = validation.isManoCodeValid();
+            Boolean alreadyLinked = idMachine != null;
+            
+            Loading.setVisible(false);
+            System.out.println("LINKED: " + (alreadyLinked ? "YES" : "NOT"));
+            if (alreadyLinked) {
+                System.out.println("ID: " + idMachine);
+                Home.setVisible(true);
+                
+                startDataCapture(idMachine);
+                
+            } else {
+                Login.setVisible(true);
+            }
+            
         } catch (SQLException ex) {
-            System.out.println("An error occurred in the database");
+            System.err.println("An error occurred in the database");
+            ex.printStackTrace();
         }
-
-        System.out.println(alreadyLinked);
-        if (alreadyLinked) {
-            Home.setVisible(true);
-            Loading.setVisible(false);
-        } else {
-            Login.setVisible(true);
-            Loading.setVisible(false);
-        }
-
+        
     }
 
     // connect machine to web entity
     public void linkMachine() {
-        Boolean wasLinked = null;
+        Boolean wasLinked;
         String token = iptToken.getText();
-
+        
         try {
             // validate at DATABASE if there is a machine with the typed token
             wasLinked = updateMachine.machineConfigDb(token);
+            
+            if (wasLinked) {
+                Login.setVisible(false);
+                Home.setVisible(true);
+                
+                startDataCapture(Integer.valueOf(token));
+                
+            } else {
+                System.err.println("Erro ao conectar a máquina, talvez não exista ou já esta conectada!");
+            }
+            
         } catch (SQLException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-
-        if (wasLinked) {
-            Home.setVisible(true);
-            Login.setVisible(false);
-        } else {
-            System.out.println("Erro ao conectar a máquina, talvez não exista ou já esta conectada!");
-        }
+        
     }
-
-    public void updateMachineIsUsingState(String token) {
-        System.out.println("Connecting to database...");
-        System.out.println("Updating 'isUsing' field from machine with token: " + token);
+    
+    public void startDataCapture(Integer idMachine) {
+        new Thread(() -> {
+            try {
+                Dynamic dynamic = new Dynamic();
+                dynamic.dynamicData(idMachine);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
     }
-
+    
 }

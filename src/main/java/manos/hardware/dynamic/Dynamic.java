@@ -16,21 +16,21 @@ public class Dynamic {
         this.ramUse = Double.valueOf((looca.getMemoria().getEmUso() * 100) / looca.getMemoria().getTotal());
     }
 
-    public void dynamicData() throws InterruptedException {
+    public void dynamicData(Integer idMachine) throws InterruptedException {
         DatabaseConfig connection = new DatabaseConfig();
         Dynamic dynamic = new Dynamic();
 
         String updateQuery = String.format(Locale.US, "INSERT INTO dynamicHardware (cpu, ram, fkMachine) VALUES (%.2f, %.2f, %d)",
                 dynamic.cpuUse,
                 dynamic.ramUse,
-                10
+                idMachine
         );
 
         connection.getConnection().update(updateQuery);
 
-//        System.out.println(this.toString(dynamic.cpuUse, dynamic.ramUse));
-        Thread.sleep(2000);
-        this.dynamicData();
+        System.out.println(this.toString(dynamic.cpuUse, dynamic.ramUse));
+        Thread.sleep(5000);
+        this.dynamicData(idMachine);
     }
 
     public String toString(Double cpuUse, Double ramUse) {

@@ -1,8 +1,10 @@
 package manos.machine.utils;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
-public class LoocaUtils {
+public class Utils {
 
     public Double ConvertToDoubleGb(Long value, Integer decimalNumbers) {
         String decimalCounter = "%." + decimalNumbers + "f";
@@ -10,5 +12,12 @@ public class LoocaUtils {
         String limitDecimals = String.format(Locale.US, decimalCounter, value / divisor);
         Double convertToDouble = Double.parseDouble(limitDecimals);
         return convertToDouble;
+    }
+
+    public String extractIdMachine(List<Map<String, Object>> list) {
+        return list.get(0)
+                .toString()
+                .replace("{idMachine=", "")
+                .replace("}", "");
     }
 }

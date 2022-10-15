@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import manos.validation.Validation;
 import manos.connection.database.DatabaseConfig;
+import manos.hardware.constant.Constant;
 
 public class MachineConfig {
 
@@ -13,17 +14,26 @@ public class MachineConfig {
     public Boolean machineConfigDb(String token) throws SQLException {
         Boolean isValid = false;
         String manoCode = this.code.getHost() + this.code.getHd();
-        String update = String.format("UPDATE machine SET "
-                + "manoCode = '%s', "
-                + "isUsing = 'yes' "
-                + "WHERE idMachine = %s;", manoCode, token);
+
         try {
+            // check if exists and if it's available
             List machineAvailable = connection.getConnection()
-                    .queryForList(String.format("SELECT * FROM machine "
+                    .queryForList(String.format(
+                            "SELECT * FROM machine "
                             + "WHERE idMachine = '%s' AND manoCode IS NULL;", token));
 
             if (machineAvailable.size() == 1) {
-                connection.getConnection().update(update);
+                // link local to remote
+                connection.getConnection()
+                        .update(String.format(
+                                "UPDATE machine SET "
+                                + "manoCode = '%s', "
+                                + "isUsing = 'yes' "
+                                + "WHERE idMachine = %s;", manoCode, token));
+
+                Constant constant = new Constant();
+                constant.constantData(Integer.valueOf(token));
+
                 isValid = true;
             }
         } catch (Exception sqlEx) {
