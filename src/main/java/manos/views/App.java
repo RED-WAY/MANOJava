@@ -5,8 +5,9 @@ import com.github.britooo.looca.api.core.Looca;
 public class App {
 
     public static void main(String[] args) {
-        Looca looca = new Looca();
-        System.out.println(looca.getGrupoDeDiscos().getDiscos().get(0));
+        Looca looca = new Looca();        
+        System.out.println(looca.getGrupoDeDiscos().getDiscos());
+        System.out.println(looca.getGrupoDeDiscos().getVolumes());
 
 //        View view = new View();
 //
