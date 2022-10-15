@@ -1,20 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package manos.validation;
 
-// FindingOutSystemOperation SO = new FindingOutSystemOperation();
-//  SystemName host = new SystemName(
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import manos.connection.database.DatabaseConfig;
+import manos.machine.utils.Utils;
 
-/**
- *
- * @author pedro
- */
 public class Validation {
 
     FindingOutSerial HD = new FindingOutSerial();
@@ -37,21 +28,21 @@ public class Validation {
         return host;
     }
 
-    public Boolean isManoCodeValid() throws SQLException {
+    public Integer isManoCodeValid() throws SQLException {
 
         String validationBD = this.host + this.hd;
-        Boolean isValid = false;
-        List sql;
+        List<Map<String, Object>> sql;
 
         sql = connection.getConnection().queryForList(String
-                .format("SELECT * FROM machine "
+                .format("SELECT idMachine FROM machine "
                         + "WHERE manoCode = '%s'", validationBD));
 
         if (sql.size() == 1) {
-            isValid = true;
+            Utils utils = new Utils();
+            return Integer.valueOf(utils.extractIdMachine(sql));
         }
 
-        return isValid;
+        return null;
     }
 
 }

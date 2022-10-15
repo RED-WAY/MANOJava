@@ -7,7 +7,6 @@ public class FindingOutSystemOperation {
         String SO = "Windows";
 
         if (os.startsWith("Linux")) {
-            //    
             SO = "Linux";
         }
 
