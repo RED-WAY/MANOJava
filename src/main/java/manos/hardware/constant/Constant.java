@@ -17,27 +17,27 @@ public class Constant {
     public Constant() {
         Looca looca = new Looca();
         Utils utils = new Utils();
-        
+
         this.cpuName = looca.getProcessador().getNome();
         this.cpuCore = looca.getProcessador().getNumeroCpusFisicas();
         this.ramSize = Math.ceil(utils.ConvertToDoubleGb(looca.getMemoria().getTotal(), 1));
         this.diskModel = looca.getGrupoDeDiscos().getDiscos().get(0).getModelo();
         this.diskSize = utils.ConvertToDoubleGb(looca.getGrupoDeDiscos().getTamanhoTotal(), 2);
-        this.operationalSystem = looca.getSistema().getSistemaOperacional();        
+        this.operationalSystem = looca.getSistema().getSistemaOperacional();
     }
 
     public void constantData(Integer idMachine) {
         DatabaseConfig connection = new DatabaseConfig();
         Constant constant = new Constant();
 
-        String insertQuery = String.format(Locale.US, 
+        String insertQuery = String.format(Locale.US,
                 "INSERT INTO constantHardware "
                 + "(cpuName, cpuCore, ramSize, diskModel, diskSize, operationalSystem, fkMachine) "
                 + "VALUES ('%s', %d, %.2f, '%s', %.2f, '%s', %d)",
                 constant.cpuName,
                 constant.cpuCore,
                 constant.ramSize,
-                constant.diskModel,
+                constant.diskModel.equals("unknown") ? "NÃO IDENTIFICADO" : constant.diskModel,
                 constant.diskSize,
                 constant.operationalSystem,
                 idMachine
