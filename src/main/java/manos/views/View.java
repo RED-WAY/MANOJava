@@ -8,12 +8,11 @@ import manos.validation.Validation;
 import manos.machine.config.MachineConfig;
 
 // STYLE
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.UnsupportedLookAndFeelException;
+
 import manos.hardware.dynamic.Dynamic;
 
 public class View extends javax.swing.JFrame {
@@ -22,12 +21,12 @@ public class View extends javax.swing.JFrame {
     Validation validation = new Validation();
     MachineConfig updateMachine = new MachineConfig();
     Integer idMachine = null;
-    
+
     public View() {
         initComponents();
         this.setSize(1400, 800);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -228,28 +227,30 @@ public class View extends javax.swing.JFrame {
         Home.setPreferredSize(new java.awt.Dimension(1400, 800));
 
         lblWelcome.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
+        lblWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblWelcome.setText("Bem-vindo ao man.OS");
-        lblWelcome.setMaximumSize(new java.awt.Dimension(420, 50));
-        lblWelcome.setMinimumSize(new java.awt.Dimension(420, 50));
+        lblWelcome.setAlignmentY(0.0F);
+        lblWelcome.setMaximumSize(new java.awt.Dimension(1400, 70));
+        lblWelcome.setMinimumSize(new java.awt.Dimension(1400, 70));
         lblWelcome.setName(""); // NOI18N
         lblWelcome.setOpaque(true);
-        lblWelcome.setPreferredSize(new java.awt.Dimension(420, 50));
+        lblWelcome.setPreferredSize(new java.awt.Dimension(1400, 70));
 
         javax.swing.GroupLayout HomeLayout = new javax.swing.GroupLayout(Home);
         Home.setLayout(HomeLayout);
         HomeLayout.setHorizontalGroup(
             HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HomeLayout.createSequentialGroup()
-                .addContainerGap(490, Short.MAX_VALUE)
-                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(490, 490, 490))
+                .addGap(0, 0, 0)
+                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         HomeLayout.setVerticalGroup(
             HomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HomeLayout.createSequentialGroup()
                 .addGap(116, 116, 116)
-                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(634, Short.MAX_VALUE))
+                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(614, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout ViewsLayout = new javax.swing.GroupLayout(Views);
@@ -296,10 +297,10 @@ public class View extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    // ------------------- USER INTERACTIONS -------------------
+    // ------------------- USER INTERACTIONS -------------------    
     Boolean themeLight = false;
     private void btnThemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemeActionPerformed
-        
+
         if (themeLight) {
             Login.setBackground(new java.awt.Color(32, 32, 32));
         } else {
@@ -319,7 +320,7 @@ public class View extends javax.swing.JFrame {
     private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
         lblClose.setIcon(new ImageIcon(getClass().getResource("/images/close.png")));
     }//GEN-LAST:event_lblCloseMouseExited
-    
+
     int x, y;
     private void windowBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_windowBarMousePressed
         x = evt.getX();
@@ -336,7 +337,7 @@ public class View extends javax.swing.JFrame {
         // get token input text
         linkMachine();
     }//GEN-LAST:event_btnTokenActionPerformed
-    
+
     public static void main(String args[]) {
         // LOOK AND FEEL
         try {
@@ -376,62 +377,66 @@ public class View extends javax.swing.JFrame {
     public void startupApp() {
         // Hiding views
         Loading.setVisible(true);
-        Login.setVisible(false);
-        
+        Views.setVisible(false);
+
         verifyLink();
     }
 
     // search machine on DB
     public void verifyLink() {
-        
+
         try {
             idMachine = validation.isManoCodeValid();
             Boolean alreadyLinked = idMachine != null;
-            
+
             Loading.setVisible(false);
+            Views.setVisible(true);
+            windowBar.setVisible(true);
             System.out.println("LINKED: " + (alreadyLinked ? "YES" : "NOT"));
             if (alreadyLinked) {
                 System.out.println("ID: " + idMachine);
+                Login.setVisible(false);
                 Home.setVisible(true);
-                
+
                 startDataCapture(idMachine);
-                
+
             } else {
                 Login.setVisible(true);
+                Home.setVisible(false);
             }
-            
+
         } catch (SQLException ex) {
             System.err.println("An error occurred in the database");
             ex.printStackTrace();
         }
-        
+
     }
 
     // connect machine to web entity
     public void linkMachine() {
         Boolean wasLinked;
         String token = iptToken.getText();
-        
+
         try {
             // validate at DATABASE if there is a machine with the typed token
             wasLinked = updateMachine.machineConfigDb(token);
-            
+
             if (wasLinked) {
                 Login.setVisible(false);
                 Home.setVisible(true);
-                
+
                 startDataCapture(Integer.valueOf(token));
-                
+
             } else {
                 System.err.println("Erro ao conectar a máquina, talvez não exista ou já esta conectada!");
             }
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
     }
-    
+
     public void startDataCapture(Integer idMachine) {
         new Thread(() -> {
             try {
@@ -442,5 +447,5 @@ public class View extends javax.swing.JFrame {
             }
         }).start();
     }
-    
+
 }
