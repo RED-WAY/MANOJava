@@ -17,13 +17,13 @@ public class Constant {
     public Constant() {
         Looca looca = new Looca();
         Utils utils = new Utils();
-
+        
         this.cpuName = looca.getProcessador().getNome();
         this.cpuCore = looca.getProcessador().getNumeroCpusFisicas();
         this.ramSize = Math.ceil(utils.ConvertToDoubleGb(looca.getMemoria().getTotal(), 1));
         this.diskModel = looca.getGrupoDeDiscos().getDiscos().get(0).getModelo();
         this.diskSize = utils.ConvertToDoubleGb(looca.getGrupoDeDiscos().getTamanhoTotal(), 2);
-        this.operationalSystem = looca.getSistema().getSistemaOperacional();
+        this.operationalSystem = looca.getSistema().getSistemaOperacional();        
     }
 
     public void constantData(Integer idMachine) {
