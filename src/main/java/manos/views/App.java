@@ -1,7 +1,5 @@
 package manos.views;
 
-import com.github.britooo.looca.api.core.Looca;
-
 public class App {
 
     public static void main(String[] args) {
@@ -15,4 +13,5 @@ public class App {
             ex.printStackTrace();
         }
     }
+    
 }

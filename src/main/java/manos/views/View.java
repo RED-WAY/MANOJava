@@ -11,8 +11,11 @@ import manos.machine.config.MachineConfig;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 
+import manos.hardware.constant.Constant;
 import manos.hardware.dynamic.Dynamic;
 
 public class View extends javax.swing.JFrame {
@@ -21,6 +24,8 @@ public class View extends javax.swing.JFrame {
     Validation validation = new Validation();
     MachineConfig updateMachine = new MachineConfig();
     Integer idMachine = null;
+    Constant constant;
+    Dynamic dynamic;
 
     public View() {
         initComponents();
@@ -69,7 +74,7 @@ public class View extends javax.swing.JFrame {
         Loading.setPreferredSize(new java.awt.Dimension(1400, 800));
 
         lblLoading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLoading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gifs/loading2reverse.gif"))); // NOI18N
+        lblLoading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gifs/splashLoading.gif"))); // NOI18N
         lblLoading.setLabelFor(lblLogo);
         lblLoading.setAlignmentX(0.5F);
 
@@ -419,13 +424,17 @@ public class View extends javax.swing.JFrame {
 
         try {
             // validate at DATABASE if there is a machine with the typed token
-            wasLinked = updateMachine.machineConfigDb(token);
+            wasLinked = updateMachine.linkMachine(token);
 
             if (wasLinked) {
                 Login.setVisible(false);
                 Home.setVisible(true);
 
-                startDataCapture(Integer.valueOf(token));
+                this.idMachine = Integer.valueOf(token);
+                this.constant = new Constant(this.idMachine);
+                this.constant.insertData();
+                
+                startDataCapture(this.idMachine);
 
             } else {
                 System.err.println("Erro ao conectar a máquina, talvez não exista ou já esta conectada!");
@@ -440,12 +449,12 @@ public class View extends javax.swing.JFrame {
     public void startDataCapture(Integer idMachine) {
         new Thread(() -> {
             try {
-                Dynamic dynamic = new Dynamic();
-                dynamic.dynamicData(idMachine);
+                this.dynamic = new Dynamic(this.idMachine);
+                this.dynamic.insertData();
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }).start();
     }
-
+    
 }

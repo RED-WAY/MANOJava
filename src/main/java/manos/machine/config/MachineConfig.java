@@ -4,43 +4,48 @@ import java.sql.SQLException;
 import java.util.List;
 import manos.validation.Validation;
 import manos.connection.database.DatabaseConfig;
-import manos.hardware.constant.Constant;
+import org.springframework.dao.DataAccessException;
 
 public class MachineConfig {
 
-    Validation code = new Validation();
-    DatabaseConfig connection = new DatabaseConfig();
+    private Validation validation;
+    private DatabaseConfig connection;
+    private String manoCode;
 
-    public Boolean machineConfigDb(String token) throws SQLException {
-        Boolean isValid = false;
-        String manoCode = this.code.getHost() + this.code.getHd();
+    public MachineConfig() {
+        this.validation = new Validation();
+        this.connection = new DatabaseConfig();
+        this.manoCode = this.validation.getHost() + this.validation.getHd();
+    }
+
+    public Boolean checkMachineAvailability(String token) {
+        List machineAvailable = connection.getConnection()
+                .queryForList(String.format(
+                        "SELECT * FROM machine "
+                        + "WHERE idMachine = '%s' "
+                        + "AND manoCode IS NULL;", token));
+
+        return machineAvailable.size() == 1;
+    }
+
+    public Boolean linkMachine(String token) throws SQLException {
 
         try {
-            // check if exists and if it's available
-            List machineAvailable = connection.getConnection()
-                    .queryForList(String.format(
-                            "SELECT * FROM machine "
-                            + "WHERE idMachine = '%s' AND manoCode IS NULL;", token));
-
-            if (machineAvailable.size() == 1) {
-                // link local to remote
+            if (checkMachineAvailability(token)) {
                 connection.getConnection()
                         .update(String.format(
                                 "UPDATE machine SET "
                                 + "manoCode = '%s', "
                                 + "isUsing = 'yes' "
-                                + "WHERE idMachine = %s;", manoCode, token));
+                                + "WHERE idMachine = %s;", this.manoCode, token));
 
-                Constant constant = new Constant();
-                constant.constantData(Integer.valueOf(token));
-
-                isValid = true;
+                return true;
             }
-        } catch (Exception sqlEx) {
+        } catch (DataAccessException sqlEx) {
             sqlEx.printStackTrace();
         }
 
-        return isValid;
+        return false;
 
     }
 }

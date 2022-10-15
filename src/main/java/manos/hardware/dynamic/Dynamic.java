@@ -9,35 +9,44 @@ public class Dynamic {
     private Double cpuUse;
     private Double ramUse;
 
-    public Dynamic() {
-        Looca looca = new Looca();
+    private Integer idMachine;
 
+    private Looca looca;
+    private DatabaseConfig connection;
+
+    public Dynamic(Integer idMachine) {
+        this.idMachine = idMachine;
+        this.looca = new Looca();
+        this.connection = new DatabaseConfig();
+    }
+
+    public void getData() {
         this.cpuUse = looca.getProcessador().getUso();
         this.ramUse = Double.valueOf((looca.getMemoria().getEmUso() * 100) / looca.getMemoria().getTotal());
     }
 
-    public void dynamicData(Integer idMachine) throws InterruptedException {
-        DatabaseConfig connection = new DatabaseConfig();
-        Dynamic dynamic = new Dynamic();
+    public void insertData() throws InterruptedException {
+        this.getData();
 
-        String updateQuery = String.format(Locale.US, "INSERT INTO dynamicHardware (cpu, ram, fkMachine) VALUES (%.2f, %.2f, %d)",
-                dynamic.cpuUse,
-                dynamic.ramUse,
-                idMachine
+        String updateQuery = String.format(Locale.US,
+                "INSERT INTO dynamicHardware (cpu, ram, fkMachine) "
+                + "VALUES (%.2f, %.2f, %d)",
+                this.cpuUse,
+                this.ramUse,
+                this.idMachine
         );
 
         connection.getConnection().update(updateQuery);
+        System.out.println(this.toString());
 
-        System.out.println(this.toString(dynamic.cpuUse, dynamic.ramUse));
         Thread.sleep(5000);
-        this.dynamicData(idMachine);
+        this.insertData();
     }
 
-    public String toString(Double cpuUse, Double ramUse) {
-        String str = "--- CATCH ---\n"
-                + "CPU: " + cpuUse + "%\n"
-                + "RAM: " + ramUse + "%\n\n";
-
-        return str;
+    @Override
+    public String toString() {
+        return "--- CATCH ---\n"
+                + "CPU: " + this.cpuUse.intValue() + "%\n"
+                + "RAM: " + this.ramUse.intValue() + "%\n\n";
     }
 }
