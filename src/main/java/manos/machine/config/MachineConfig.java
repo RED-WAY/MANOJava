@@ -2,7 +2,7 @@ package manos.machine.config;
 
 import java.sql.SQLException;
 import java.util.List;
-import manos.validation.Validation;
+import manos.machine.validation.Validation;
 import manos.connection.database.DatabaseConfig;
 import org.springframework.dao.DataAccessException;
 
@@ -30,19 +30,14 @@ public class MachineConfig {
 
     public Boolean linkMachine(String token) throws SQLException {
 
-        try {
-            if (checkMachineAvailability(token)) {
-                connection.getConnection()
-                        .update(String.format(
-                                "UPDATE machine SET "
-                                + "manoCode = '%s', "
-                                + "isUsing = 'yes' "
-                                + "WHERE idMachine = %s;", this.manoCode, token));
-
-                return true;
-            }
-        } catch (DataAccessException sqlEx) {
-            sqlEx.printStackTrace();
+        if (checkMachineAvailability(token)) {
+            connection.getConnection()
+                    .update(String.format(
+                            "UPDATE machine SET "
+                            + "manoCode = '%s', "
+                            + "isUsing = 'yes' "
+                            + "WHERE idMachine = %s;", this.manoCode, token));
+            return true;
         }
 
         return false;
