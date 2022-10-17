@@ -15,10 +15,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import manos.hardware.Constant;
 import manos.hardware.Dynamic;
@@ -32,14 +30,8 @@ public class View extends javax.swing.JFrame {
     Constant constant;
     Dynamic dynamic;
 
-    // COLORS
-    Color btnPrimary = new Color(70, 70, 70, 255);
-    Color btnFocus = new Color(100, 100, 100, 255);
-    Color btnActive = new Color(120, 120, 120, 255);
-    Color btnDisabled = new Color(18, 18, 18, 255);
-
-    Color closePrimary = new Color(255, 255, 255, 255);
-    Color closeFocus = new Color(237, 20, 91, 255);
+    Utils utils = new Utils();
+    Colors colors = new Colors();
 
     public View() {
         // icon
@@ -62,6 +54,7 @@ public class View extends javax.swing.JFrame {
         lblClose = new javax.swing.JLabel();
         lblTitleBar = new javax.swing.JLabel();
         Login = new javax.swing.JPanel();
+        LoginContainer = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
         pnlIptToken = new javax.swing.JPanel();
         iptToken = new javax.swing.JTextField();
@@ -75,6 +68,8 @@ public class View extends javax.swing.JFrame {
         setTitle("man.OS");
         setBackground(new java.awt.Color(0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        setForeground(new java.awt.Color(205, 205, 205));
         setMaximumSize(new java.awt.Dimension(1400, 800));
         setMinimumSize(new java.awt.Dimension(1400, 800));
         setName("Base"); // NOI18N
@@ -89,6 +84,7 @@ public class View extends javax.swing.JFrame {
         Loading.setAlignmentY(100.0F);
         Loading.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         Loading.setDoubleBuffered(false);
+        Loading.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         Loading.setMaximumSize(new java.awt.Dimension(1400, 800));
         Loading.setMinimumSize(new java.awt.Dimension(1400, 800));
         Loading.setName(""); // NOI18N
@@ -123,12 +119,14 @@ public class View extends javax.swing.JFrame {
         Views.setAlignmentY(100.0F);
         Views.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Views.setDoubleBuffered(false);
+        Views.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         Views.setMaximumSize(new java.awt.Dimension(1400, 800));
         Views.setMinimumSize(new java.awt.Dimension(1400, 800));
         Views.setName(""); // NOI18N
         Views.setPreferredSize(new java.awt.Dimension(1400, 800));
 
         windowBar.setBackground(new java.awt.Color(18, 18, 18));
+        windowBar.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         windowBar.setMaximumSize(new java.awt.Dimension(1400, 42));
         windowBar.setMinimumSize(new java.awt.Dimension(1400, 42));
         windowBar.setPreferredSize(new java.awt.Dimension(1400, 42));
@@ -200,10 +198,17 @@ public class View extends javax.swing.JFrame {
         Login.setAlignmentX(100.0F);
         Login.setAlignmentY(100.0F);
         Login.setDoubleBuffered(false);
+        Login.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         Login.setMaximumSize(new java.awt.Dimension(1400, 800));
         Login.setMinimumSize(new java.awt.Dimension(1400, 800));
         Login.setName(""); // NOI18N
         Login.setPreferredSize(new java.awt.Dimension(1400, 800));
+
+        LoginContainer.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        LoginContainer.setMaximumSize(new java.awt.Dimension(1400, 800));
+        LoginContainer.setMinimumSize(new java.awt.Dimension(1400, 800));
+        LoginContainer.setOpaque(false);
+        LoginContainer.setPreferredSize(new java.awt.Dimension(1400, 800));
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/manos.png"))); // NOI18N
@@ -236,7 +241,7 @@ public class View extends javax.swing.JFrame {
         });
 
         lblIptTokenError.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
-        lblIptTokenError.setForeground(new java.awt.Color(237, 20, 91));
+        lblIptTokenError.setForeground(new java.awt.Color(32, 32, 32));
         lblIptTokenError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblIptTokenError.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblIptTokenError.setMaximumSize(new java.awt.Dimension(420, 30));
@@ -308,41 +313,60 @@ public class View extends javax.swing.JFrame {
             .addComponent(lblBtnToken, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        javax.swing.GroupLayout LoginContainerLayout = new javax.swing.GroupLayout(LoginContainer);
+        LoginContainer.setLayout(LoginContainerLayout);
+        LoginContainerLayout.setHorizontalGroup(
+            LoginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1400, Short.MAX_VALUE)
+            .addGroup(LoginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(LoginContainerLayout.createSequentialGroup()
+                    .addGap(475, 475, 475)
+                    .addGroup(LoginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(LoginContainerLayout.createSequentialGroup()
+                            .addGap(126, 126, 126)
+                            .addComponent(lblLogo))
+                        .addGroup(LoginContainerLayout.createSequentialGroup()
+                            .addGap(118, 118, 118)
+                            .addComponent(btnToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pnlIptToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(475, Short.MAX_VALUE)))
+        );
+        LoginContainerLayout.setVerticalGroup(
+            LoginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(LoginContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(LoginContainerLayout.createSequentialGroup()
+                    .addGap(152, 152, 152)
+                    .addComponent(lblLogo)
+                    .addGap(18, 18, 18)
+                    .addComponent(pnlIptToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(btnToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(152, Short.MAX_VALUE)))
+        );
+
+        pnlIptToken.getAccessibleContext().setAccessibleName("");
+
         javax.swing.GroupLayout LoginLayout = new javax.swing.GroupLayout(Login);
         Login.setLayout(LoginLayout);
         LoginLayout.setHorizontalGroup(
             LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginLayout.createSequentialGroup()
-                .addGroup(LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(LoginLayout.createSequentialGroup()
-                        .addGap(600, 600, 600)
-                        .addComponent(lblLogo))
-                    .addGroup(LoginLayout.createSequentialGroup()
-                        .addGap(592, 592, 592)
-                        .addComponent(btnToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(LoginLayout.createSequentialGroup()
-                        .addGap(474, 474, 474)
-                        .addComponent(pnlIptToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(LoginContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(476, 476, 476))
         );
         LoginLayout.setVerticalGroup(
             LoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginLayout.createSequentialGroup()
-                .addGap(180, 180, 180)
-                .addComponent(lblLogo)
-                .addGap(18, 18, 18)
-                .addComponent(pnlIptToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(96, 96, 96))
+                .addComponent(LoginContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        pnlIptToken.getAccessibleContext().setAccessibleName("");
 
         Home.setBackground(new java.awt.Color(32, 32, 32));
         Home.setAlignmentX(100.0F);
         Home.setAlignmentY(100.0F);
         Home.setDoubleBuffered(false);
+        Home.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         Home.setMaximumSize(new java.awt.Dimension(1400, 800));
         Home.setMinimumSize(new java.awt.Dimension(1400, 800));
         Home.setName(""); // NOI18N
@@ -425,12 +449,12 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_lblCloseMouseClicked
 
     private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
-        this.animateColor(lblClose, closeFocus, "fore", 1);
+        utils.animateColor(lblClose, colors.closeFocus, "fore", 1);
 
     }//GEN-LAST:event_lblCloseMouseEntered
 
     private void lblCloseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseExited
-        this.animateColor(lblClose, closePrimary, "fore", 1);
+        utils.animateColor(lblClose, colors.closePrimary, "fore", 1);
     }//GEN-LAST:event_lblCloseMouseExited
 
     int x, y;
@@ -451,9 +475,9 @@ public class View extends javax.swing.JFrame {
             if (lblBtnToken.getText().equals("CONECTAR")) {
                 new Thread(() -> {
                     try {
-                        this.animateColor(btnToken, btnActive, "back", 2);
+                        utils.animateColor(btnToken, colors.btnActive, "back", 2);
                         Thread.sleep(100);
-                        this.animateColor(btnToken, btnPrimary, "back", 2);
+                        utils.animateColor(btnToken, colors.btnPrimary, "back", 2);
 
                         this.readInputToken();
                     } catch (InterruptedException ex) {
@@ -466,14 +490,14 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_iptTokenKeyPressed
 
     private void btnTokenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTokenMouseClicked
+
         if (lblBtnToken.getText().equals("CONECTAR")) {
 
             new Thread(() -> {
                 try {
-
-                    this.animateColor(btnToken, btnActive, "back", 2);
+                    utils.animateColor(btnToken, colors.btnActive, "back", 2);
                     Thread.sleep(100);
-                    this.animateColor(btnToken, btnPrimary, "back", 2);
+                    utils.animateColor(btnToken, colors.btnPrimary, "back", 2);
 
                     this.readInputToken();
                 } catch (InterruptedException ex) {
@@ -487,13 +511,13 @@ public class View extends javax.swing.JFrame {
 
     private void btnTokenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTokenMouseEntered
         if (lblBtnToken.getText().equals("CONECTAR")) {
-            this.animateColor(btnToken, btnFocus, "back", 10);
+            utils.animateColor(btnToken, colors.btnFocus, "back", 10);
         }
     }//GEN-LAST:event_btnTokenMouseEntered
 
     private void btnTokenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTokenMouseExited
         if (lblBtnToken.getText().equals("CONECTAR")) {
-            this.animateColor(btnToken, btnPrimary, "back", 10);
+            utils.animateColor(btnToken, colors.btnPrimary, "back", 10);
         }
     }//GEN-LAST:event_btnTokenMouseExited
 
@@ -520,6 +544,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel Home;
     private javax.swing.JPanel Loading;
     private javax.swing.JPanel Login;
+    private javax.swing.JPanel LoginContainer;
     private javax.swing.JPanel Views;
     private javax.swing.JPanel btnToken;
     private javax.swing.JTextField iptToken;
@@ -568,6 +593,8 @@ public class View extends javax.swing.JFrame {
                 Login.setVisible(true);
                 Home.setVisible(false);
 
+                iptToken.grabFocus();
+                iptToken.requestFocus();
             }
 
         } catch (SQLException ex) {
@@ -588,7 +615,10 @@ public class View extends javax.swing.JFrame {
                 try {
 
                     lblIptTokenError.setText("Token inválido. Apenas números são permitidos!");
-                    Thread.sleep(5000);
+                    utils.animateColor(lblIptTokenError, colors.textSecondary, "text", 1);
+                    Thread.sleep(3000);
+                    utils.animateColor(lblIptTokenError, colors.textHidden, "text", 1);
+                    Thread.sleep(2000);
                     lblIptTokenError.setText("");
 
                     Thread.currentThread().interrupt();
@@ -599,7 +629,6 @@ public class View extends javax.swing.JFrame {
                 }
 
             }).start();
-
         } else {
 
             this.linkMachine(token);
@@ -612,18 +641,18 @@ public class View extends javax.swing.JFrame {
         try {
             lblBtnToken.setText("");
             lblBtnToken.setIcon(new ImageIcon(getClass().getResource("/gifs/loadingButton.gif")));
-            this.animateColor(btnToken, btnDisabled, "back", 2);
+            utils.animateColor(btnToken, colors.btnDisabled, "back", 2);
 
             // validate at DATABASE if there is a machine with the typed token
             Boolean wasLinked = updateMachine.linkMachine(token);
 
             new Thread(() -> {
+
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
 
                     if (wasLinked) {
-                        Login.setVisible(false);
-                        Home.setVisible(true);
+                        this.transitionPanels(Login, Home);
 
                         this.idMachine = Integer.valueOf(token);
                         this.constant = new Constant(this.idMachine);
@@ -635,11 +664,15 @@ public class View extends javax.swing.JFrame {
 
                         lblBtnToken.setIcon(null);
                         lblBtnToken.setText("CONECTAR");
-                        this.animateColor(btnToken, new Color(70, 70, 70), "back", 2);
+                        utils.animateColor(btnToken, new Color(70, 70, 70), "back", 2);
 
                         System.err.println("Erro ao conectar a máquina, talvez não exista ou já esta conectada!");
+
                         lblIptTokenError.setText("Máquina já esta conectada ou ainda não foi criada no site!");
-                        Thread.sleep(5000);
+                        utils.animateColor(lblIptTokenError, colors.textSecondary, "text", 1);
+                        Thread.sleep(3000);
+                        utils.animateColor(lblIptTokenError, colors.textHidden, "text", 1);
+                        Thread.sleep(2000);
                         lblIptTokenError.setText("");
 
                         Thread.currentThread().interrupt();
@@ -663,64 +696,38 @@ public class View extends javax.swing.JFrame {
         }).start();
     }
 
-    public void animateColor(JComponent component, Color end, String type, Integer delay) {
-
+    public void transitionPanels(JPanel actualPanel, JPanel nextPanel) {
         new Thread(() -> {
             try {
-                int r = type.equals("back")
-                        ? component.getBackground().getRed()
-                        : component.getForeground().getRed();
 
-                int g = type.equals("back")
-                        ? component.getBackground().getGreen()
-                        : component.getForeground().getGreen();
-
-                int b = type.equals("back")
-                        ? component.getBackground().getBlue()
-                        : component.getForeground().getBlue();
-
-                int a = type.equals("back")
-                        ? component.getBackground().getAlpha()
-                        : component.getForeground().getAlpha();
-
-                Color start = type.equals("back")
-                        ? component.getBackground()
-                        : component.getForeground();
-
-                while (!start.equals(end)) {
-
-                    if (r != end.getRed()) {
-                        r = r > end.getRed() ? r - 1 : r + 1;
-                    }
-                    if (g != end.getGreen()) {
-                        g = g > end.getGreen() ? g - 1 : g + 1;
-                    }
-                    if (b != end.getBlue()) {
-                        b = b > end.getBlue() ? b - 1 : b + 1;
-                    }
-                    if (a != end.getAlpha()) {
-                        a = a > end.getAlpha() ? a - 1 : a + 1;
-                    }
-
-                    start = new Color(r, g, b, a);
-
-                    if (type.equals("back")) {
-                        component.setBackground(start);
-                    } else {
-                        component.setForeground(start);
-                    }
-                    Thread.sleep(delay);
+                Double timer = 1.0;
+                for (int i = 42; i <= 800; i++) {
+                    i += 4;
+                    timer += 0.025;
+                    windowBar.setSize(1400, i);
+                    Thread.sleep(Math.round(timer));
                 }
 
-                Thread.currentThread().interrupt();
+                timer = 1.0;
+                Views.setBackground(new Color(18, 18, 18));
+                actualPanel.setVisible(false);
+                Thread.sleep(100);
+                nextPanel.setVisible(true);
+
+                for (int i = 800; i >= 42; i--) {
+                    i = i - 4;
+                    timer += 0.01;
+                    windowBar.setSize(1400, i);
+                    Thread.sleep(Math.round(timer));
+                }
+
+                Views.setBackground(new Color(32, 32, 32));
 
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
                 Thread.currentThread().interrupt();
             }
-
         }).start();
-
     }
 
 }
