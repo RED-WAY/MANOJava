@@ -20,15 +20,20 @@ import javax.swing.JPanel;
 
 import manos.hardware.Constant;
 import manos.hardware.Dynamic;
+import manos.process.Processes;
 
 public class View extends javax.swing.JFrame {
 
     // INITIALIZING INSTANCES...
     Validation validation = new Validation();
     MachineConfig updateMachine = new MachineConfig();
+
+    String operationalSystem = null;
     Integer idMachine = null;
+
     Constant constant;
     Dynamic dynamic;
+    Processes processes;
 
     Utils utils = new Utils();
     Colors colors = new Colors();
@@ -573,20 +578,20 @@ public class View extends javax.swing.JFrame {
 
         try {
 
-            idMachine = validation.isManoCodeValid();
-            Boolean alreadyLinked = idMachine != null;
+            this.idMachine = this.validation.isManoCodeValid();
+
+            Boolean alreadyLinked = this.idMachine != null;
 
             Loading.setVisible(false);
             Views.setVisible(true);
             windowBar.setVisible(true);
 
             if (alreadyLinked) {
-
-                System.out.println("ID: " + idMachine);
                 Login.setVisible(false);
                 Home.setVisible(true);
 
-                this.startDataCapture(idMachine);
+                this.constant = new Constant(this.idMachine);
+                this.startDataCapture(this.idMachine);
 
             } else {
 
@@ -615,9 +620,9 @@ public class View extends javax.swing.JFrame {
                 try {
 
                     lblIptTokenError.setText("Token inválido. Apenas números são permitidos!");
-                    utils.animateColor(lblIptTokenError, colors.textSecondary, "text", 1);
+                    this.utils.animateColor(lblIptTokenError, colors.textSecondary, "text", 1);
                     Thread.sleep(3000);
-                    utils.animateColor(lblIptTokenError, colors.textHidden, "text", 1);
+                    this.utils.animateColor(lblIptTokenError, colors.textHidden, "text", 1);
                     Thread.sleep(2000);
                     lblIptTokenError.setText("");
 
@@ -655,6 +660,7 @@ public class View extends javax.swing.JFrame {
                         this.transitionPanels(Login, Home);
 
                         this.idMachine = Integer.valueOf(token);
+                        this.validation.setIdMachine(idMachine);
                         this.constant = new Constant(this.idMachine);
                         this.constant.insertData();
 
@@ -690,9 +696,15 @@ public class View extends javax.swing.JFrame {
     }
 
     public void startDataCapture(Integer idMachine) {
+//        new Thread(() -> {
+//            this.dynamic = new Dynamic(this.idMachine);
+//            this.dynamic.insertData();
+//        }).start();
         new Thread(() -> {
-            this.dynamic = new Dynamic(this.idMachine);
-            this.dynamic.insertData();
+            this.operationalSystem = this.constant.getOperationalSystem();
+            this.processes = new Processes(this.idMachine, this.operationalSystem);
+            this.processes.getManosProcesses();
+            this.processes.matchProcesses();
         }).start();
     }
 

@@ -14,10 +14,16 @@ public class Utils {
         return convertToDouble;
     }
 
-    public String extractIdMachine(List<Map<String, Object>> list) {
+    public String extractQueryList(List<Map<String, Object>> list, String key) {
         return list.get(0)
                 .toString()
-                .replace("{idMachine=", "")
+                .replace("{" + key + "=", "")
+                .replace("}", "");
+    }
+
+    public String extractQueryList(Map<String, Object> map, String key) {
+        return map.toString()
+                .replace("{" + key + "=", "")
                 .replace("}", "");
     }
 }

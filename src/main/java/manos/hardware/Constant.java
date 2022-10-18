@@ -26,6 +26,18 @@ public class Constant {
         this.utils = new Utils();
     }
 
+    public String getCpuName() {
+        return looca.getProcessador().getNome();
+    }
+
+    public Integer getCpuCore() {
+        return looca.getProcessador().getNumeroCpusFisicas();
+    }
+
+    public Double getRamSize() {
+        return Math.ceil(utils.ConvertToDoubleGb(looca.getMemoria().getTotal(), 1));
+    }
+
     private String getDiskModel() {
         String loocaDisk = looca.getGrupoDeDiscos().getDiscos().get(0).getModelo();
 
@@ -33,13 +45,21 @@ public class Constant {
                 : loocaDisk.replace(" (Unidades de disco padrão)", "");
     }
 
+    public Double getDiskSize() {
+        return utils.ConvertToDoubleGb(looca.getGrupoDeDiscos().getTamanhoTotal(), 2);
+    }
+
+    public String getOperationalSystem() {
+        return looca.getSistema().getSistemaOperacional();
+    }
+
     private void getData() {
-        this.cpuName = looca.getProcessador().getNome();
-        this.cpuCore = looca.getProcessador().getNumeroCpusFisicas();
-        this.ramSize = Math.ceil(utils.ConvertToDoubleGb(looca.getMemoria().getTotal(), 1));
+        this.cpuName = this.getCpuName();
+        this.cpuCore = this.getCpuCore();
+        this.ramSize = this.getRamSize();
         this.diskModel = this.getDiskModel();
-        this.diskSize = utils.ConvertToDoubleGb(looca.getGrupoDeDiscos().getTamanhoTotal(), 2);
-        this.operationalSystem = looca.getSistema().getSistemaOperacional();
+        this.diskSize = this.getDiskSize();
+        this.operationalSystem = this.getOperationalSystem();
     }
 
     public void insertData() {
