@@ -81,16 +81,16 @@ public class Processes {
         try {
 
             String pidsString = "";
-            for (Integer pid : pids) {
-                pidsString += String.format("/PID %d ", pid);
-            }
-            
-            System.out.println(pidsString);
-
             Runtime rt = Runtime.getRuntime();
             if (operationalSystem.equals("Windows")) {
+                for (Integer pid : pids) {
+                    pidsString += String.format("/PID %d ", pid);
+                }
                 rt.exec("taskkill /F " + pidsString + "/T");
             } else {
+                for (Integer pid : pids) {
+                    pidsString += String.format("%d ", pid);
+                }
                 rt.exec("kill -9 " + pidsString);
             }
 
