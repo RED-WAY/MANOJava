@@ -29,7 +29,7 @@ public class App {
             System.out.println("Process Used Time: " + processInfo.getTime());
             System.out.println("Full command: " + processInfo.getCommand());
             System.out.println("------------------");
-        }
+        } 
     }
 
 }
