@@ -4,8 +4,8 @@ package manos.views;
 import java.sql.SQLException;
 
 // CLASSES
-import manos.machine.validation.Validation;
-import manos.machine.config.MachineConfig;
+import manos.machine.Validation;
+import manos.machine.MachineConfig;
 
 // STYLE
 import javax.swing.UnsupportedLookAndFeelException;

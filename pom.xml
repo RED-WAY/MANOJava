@@ -80,5 +80,11 @@
             <artifactId>flatlaf-intellij-themes</artifactId>
             <version>2.4</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.jprocesses</groupId>
+            <artifactId>jProcesses</artifactId>
+            <version>1.6.5</version>
+        </dependency>
     </dependencies>
 </project>
