@@ -67,7 +67,8 @@ public class Processes {
                         .replaceAll("\\s+", "")
                         .toUpperCase();
 
-                if (processName.contains(manosProcess)) {
+                if (processName.contains(manosProcess)
+                        || processName.contentEquals(manosProcess)) {
                     pids.add(process.getPid());
                 }
 

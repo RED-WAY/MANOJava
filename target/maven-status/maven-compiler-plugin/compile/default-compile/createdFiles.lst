@@ -10,6 +10,7 @@ manos\machine\FindingOutSerial.class
 manos\process\Processes.class
 manos\views\App.class
 manos\views\View.class
+manos\machine\Machine.class
 manos\views\Colors.class
 manos\views\View$4.class
 manos\views\View$3.class
