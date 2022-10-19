@@ -15,11 +15,9 @@ manos\views\Colors.class
 manos\views\View$4.class
 manos\views\View$3.class
 manos\connection\database\DatabaseConfig.class
-manos\views\NewJFrame.class
 manos\views\Utils.class
 manos\hardware\Constant.class
 manos\machine\MachineConfig.class
 manos\hardware\Dynamic.class
 manos\views\View$5.class
 manos\machine\Validation.class
-manos\views\NewJFrame$1.class

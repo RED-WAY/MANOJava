@@ -749,10 +749,10 @@ public class View extends javax.swing.JFrame {
     }
 
     public void startDataCapture() {
-        new Thread(() -> {
-            this.dynamic = new Dynamic(this.machine.getIdMachine());
-            this.dynamic.insertData();
-        }).start();
+//        new Thread(() -> {
+//            this.dynamic = new Dynamic(this.machine.getIdMachine());
+//            this.dynamic.insertData();
+//        }).start();
         new Thread(() -> {
             this.processes = new Processes(this.machine.getIdMachine(), this.machine.getOperationalSystem());
             this.processes.getManosProcesses();

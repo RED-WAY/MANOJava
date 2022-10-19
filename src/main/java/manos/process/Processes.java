@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import manos.connection.database.DatabaseConfig;
@@ -20,7 +21,8 @@ public class Processes {
 
     private String operationalSystem;
     private Integer idMachine;
-    private List<String> manosProcesses;
+    private List<String> manosNames;
+    private List<Integer> manosIds;
 
     public Processes(Integer idMachine, String operationalSystem) {
         this.connection = new DatabaseConfig();
@@ -29,25 +31,39 @@ public class Processes {
 
         this.operationalSystem = operationalSystem;
         this.idMachine = idMachine;
-        this.manosProcesses = new ArrayList<>();
+
+        this.manosNames = new ArrayList<>();
+        this.manosIds = new ArrayList<>();
     }
 
     public void getManosProcesses() {
         List<Map<String, Object>> sql = this.connection.getConnection()
                 .queryForList(String.format(
-                        "SELECT operationName FROM operation"
+                        "SELECT operationName, idOperation, operationType FROM operation"
                         + " JOIN companyoperations ON idOperation = fkOperation"
                         + " JOIN familyoperations ON idCompanyOperations = fkCompanyOperations"
                         + " JOIN family ON idFamily = familyoperations.fkFamily"
                         + " JOIN machine ON idFamily = machine.fkFamily "
                         + " WHERE idMachine = %d;", this.idMachine));
 
-        System.out.println(sql.size());
+        List<String> urls = new ArrayList<>();
 
         for (Map<String, Object> map : sql) {
-            this.manosProcesses.add(this.utils.extractQueryList(map, "operationName"));
+            String name = map.entrySet().toArray()[0].toString().replace("operationName=", "");
+            Integer id = Integer.valueOf(map.entrySet().toArray()[1].toString().replace("idOperation=", ""));
+            String type = map.entrySet().toArray()[2].toString().replace("operationType=", "");
+
+            if (type.equals("desktop")) {
+                manosNames.add(name);
+                manosIds.add(id);
+            } else {
+                urls.add(name.toLowerCase());
+            }
         }
 
+        if (!urls.isEmpty()) {
+            this.handleWebBlock(urls);
+        }
     }
 
     public List<Processo> getOsProcess() {
@@ -55,11 +71,13 @@ public class Processes {
     }
 
     public void matchProcesses() {
-
         List<Processo> osProcess = this.getOsProcess();
         List<Integer> pids = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
 
-        for (String manosProcess : this.manosProcesses) {
+        for (int i = 0; i < manosNames.size(); i++) {
+            String manosName = manosNames.get(i);
+
             for (Processo process : osProcess) {
 
                 String processName = process
@@ -67,18 +85,33 @@ public class Processes {
                         .replaceAll("\\s+", "")
                         .toUpperCase();
 
-                if (processName.contains(manosProcess)
-                        || processName.contentEquals(manosProcess)) {
+                if (processName.contains(manosName)
+                        || processName.contentEquals(manosName)) {
+
                     pids.add(process.getPid());
+                    ids.add(manosIds.get(i));
                 }
 
             }
+
         }
 
-        this.killProcesses(pids);
+        try {
+
+            if (!pids.isEmpty()) {
+                this.killProcesses(pids, ids);
+            }
+
+            Thread.sleep(10000);
+            this.matchProcesses();
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+            Thread.currentThread().interrupt();
+        }
     }
 
-    public void killProcesses(List<Integer> pids) {
+    public void killProcesses(List<Integer> pids, List<Integer> ids) {
         try {
 
             String pidsString = "";
@@ -95,17 +128,39 @@ public class Processes {
                 rt.exec("kill -9 " + pidsString);
             }
 
-            Thread.sleep(10000);
-            this.matchProcesses();
+            this.insertData(ids);
 
         } catch (IOException ex) {
             ex.printStackTrace();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        } finally {
-            Thread.currentThread().interrupt();
         }
 
+    }
+
+    public void insertData(List<Integer> ids) {
+        String strValues = "";
+        for (int i = 0; i < ids.size(); i++) {
+            Integer id = ids.get(i);
+            strValues += String.format("(%d, %d)", this.idMachine, id);
+            strValues += i == ids.size() - 1 ? ";" : ",";
+        }
+
+        String insertQuery = "INSERT INTO "
+                + "operationKilled (fkMachine, fkOperation) "
+                + "VALUES " + strValues;
+
+        connection.getConnection().update(insertQuery);
+    }
+
+    public void handleWebBlock(List<String> urls) {
+        // ---------------------- START ----------------------
+        // ----------------------   -   ----------------------
+        // ----------------------   -   ----------------------
+        // ----------------------   -   ----------------------
+        // ----------------------   -   ----------------------
+        // ----------------------   -   ----------------------
+        for (String url : urls) {
+            System.out.println(url);
+        }
     }
 
 }

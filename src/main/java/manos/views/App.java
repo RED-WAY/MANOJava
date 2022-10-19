@@ -1,7 +1,5 @@
 package manos.views;
 
-import manos.process.Processes;
-
 public class App {
 
     public static void main(String[] args) {
@@ -14,9 +12,8 @@ public class App {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-
-//            Processes proc = new Processes(1);
-//            proc.getManosProcess();
+        
+        
     }
 
 }
