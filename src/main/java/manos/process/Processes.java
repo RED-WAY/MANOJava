@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import manos.connection.database.DatabaseConfig;
 import manos.hardware.Utils;
 
@@ -152,14 +151,23 @@ public class Processes {
     }
 
     public void handleWebBlock(List<String> urls) {
-        // ---------------------- START ----------------------
-        // ----------------------   -   ----------------------
-        // ----------------------   -   ----------------------
-        // ----------------------   -   ----------------------
-        // ----------------------   -   ----------------------
-        // ----------------------   -   ----------------------
-        for (String url : urls) {
-            System.out.println(url);
+
+        Runtime rt = Runtime.getRuntime();
+        String comandUpdate = ""; // mesclar com as URL's
+
+        for (int i = 0; i < urls.size(); i++) {
+            comandUpdate += "      127.0.0.1     " + urls.get(i) + ".com\n"
+                    + "      127.0.0.1     www." + urls.get(i) + ".com\n";
+        }
+        try {
+            if (this.operationalSystem.equals("Windows")) {
+                rt.exec("C:'\'Windows'\'System32'\'drivers'\'etc' cat > hosts "
+                        + comandUpdate);
+            } else {
+                rt.exec( "/etc cat > hosts  " + comandUpdate);
+            }
+        } catch(IOException ex) {
+            ex.printStackTrace();
         }
     }
 
