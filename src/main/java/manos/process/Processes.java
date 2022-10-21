@@ -161,12 +161,12 @@ public class Processes {
         }
         try {
             if (this.operationalSystem.equals("Windows")) {
-                rt.exec("C:'\'Windows'\'System32'\'drivers'\'etc' cat > hosts "
-                        + comandUpdate);
+                rt.exec(String.format("cmd.exe /c echo %s > \"C:\\Windows\\System32\\"
+                        + "drivers\\etc\\hosts\"", comandUpdate));
             } else {
-                rt.exec( "/etc cat > hosts  " + comandUpdate);
+              //  rt.exec("/etc cat > hosts  " + comandUpdate);
             }
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
