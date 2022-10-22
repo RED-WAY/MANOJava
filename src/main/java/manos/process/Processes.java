@@ -164,7 +164,7 @@ public class Processes {
                 rt.exec(String.format("cmd.exe /c echo %s > \"C:\\Windows\\System32\\"
                         + "drivers\\etc\\hosts\"", comandUpdate));
             } else {
-                rt.exec("sudo -- sh -c \"echo %s > /etc/hosts\"" + comandUpdate);
+                rt.exec(String.format("sudo -- sh -c \"echo %s > /etc/hosts\"", comandUpdate));
             }
         } catch (IOException ex) {
             ex.printStackTrace();
