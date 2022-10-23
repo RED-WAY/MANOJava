@@ -152,11 +152,13 @@ public class Processes {
     public void handleWebBlock(List<String> urls) {
 
         Runtime rt = Runtime.getRuntime();
-        String commandUpdate = "echo # " + "-".repeat(50)
-                + "&echo:# REDWAY - man.OS & echo:";
+        String commandUpdate;
 
         try {
             if (this.operationalSystem.equals("Windows")) {
+                commandUpdate = "echo # " + "-".repeat(50)
+                        + "&echo:# REDWAY - man.OS & echo:";
+
                 for (String url : urls) {
                     commandUpdate += String.format("& echo:# "
                             + "-".repeat(10) + " %1$s " + "-".repeat(10)
@@ -170,6 +172,9 @@ public class Processes {
                 rt.exec(String.format("cmd.exe /c (%s) > \"C:\\Windows\\System32\\"
                         + "drivers\\etc\\hosts\"", commandUpdate));
             } else {
+                commandUpdate = "echo # " + "-".repeat(50)
+                        + "\n# REDWAY - man.OS\n";
+                
                 for (String url : urls) {
                     commandUpdate += String.format("# "
                             + "-".repeat(10) + " %1$s " + "-".repeat(10)
@@ -180,7 +185,7 @@ public class Processes {
                             + "\n", url.toUpperCase(), url);
                 }
 
-                rt.exec(String.format("sudo -- sh -c \"echo %s > /etc/hosts\"", commandUpdate));
+                rt.exec(String.format("sudo -- sh -c \"%s > /etc/hosts\"", commandUpdate));
             }
         } catch (IOException ex) {
             ex.printStackTrace();
