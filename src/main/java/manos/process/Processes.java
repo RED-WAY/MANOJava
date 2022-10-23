@@ -174,7 +174,7 @@ public class Processes {
             } else {
                 commandUpdate = "echo # " + "-".repeat(50)
                         + "\n# REDWAY - man.OS\n";
-                
+
                 for (String url : urls) {
                     commandUpdate += String.format("# "
                             + "-".repeat(10) + " %1$s " + "-".repeat(10)
@@ -185,7 +185,7 @@ public class Processes {
                             + "\n", url.toUpperCase(), url);
                 }
 
-                rt.exec(String.format("sudo -- sh -c \"%s > /etc/hosts\"", commandUpdate));
+                rt.exec(String.format("echo '%s' | sudo tee -a /etc/hosts", commandUpdate));
             }
         } catch (IOException ex) {
             ex.printStackTrace();
