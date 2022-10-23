@@ -2,8 +2,10 @@ package manos.process;
 
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.processos.Processo;
+import java.io.File;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -151,42 +153,30 @@ public class Processes {
 
     public void handleWebBlock(List<String> urls) {
 
-        Runtime rt = Runtime.getRuntime();
-        String commandUpdate;
+        String commandUpdate = "# " + "-".repeat(50)
+                + "\n# REDWAY - man.OS\n";
+
+        for (String url : urls) {
+            commandUpdate += String.format("\n# "
+                    + "-".repeat(10) + " %1$s " + "-".repeat(10)
+                    + "\n127.0.0.1\t%2$s.com"
+                    + "\n127.0.0.1\twww.%2$s.com"
+                    + "\n127.0.1.1\t%2$s.com"
+                    + "\n127.0.1.1\twww.%2$s.com"
+                    + "\n", url.toUpperCase(), url);
+        }
+
+        File hostsFile = new File("/etc/hosts");
 
         try {
             if (this.operationalSystem.equals("Windows")) {
-                commandUpdate = "echo # " + "-".repeat(50)
-                        + "&echo:# REDWAY - man.OS & echo:";
-
-                for (String url : urls) {
-                    commandUpdate += String.format("& echo:# "
-                            + "-".repeat(10) + " %1$s " + "-".repeat(10)
-                            + "& echo:127.0.0.1  %2$s.com"
-                            + "& echo:127.0.0.1  www.%2$s.com"
-                            + "& echo:127.0.1.1  %2$s.com"
-                            + "& echo:127.0.1.1  www.%2$s.com"
-                            + "& echo:", url.toUpperCase(), url);
-                }
-
-                rt.exec(String.format("cmd.exe /c (%s) > \"C:\\Windows\\System32\\"
-                        + "drivers\\etc\\hosts\"", commandUpdate));
-            } else {
-                commandUpdate = "echo # " + "-".repeat(50)
-                        + "\n# REDWAY - man.OS\n";
-
-                for (String url : urls) {
-                    commandUpdate += String.format("# "
-                            + "-".repeat(10) + " %1$s " + "-".repeat(10)
-                            + "\n127.0.0.1  %2$s.com"
-                            + "\n127.0.0.1  www.%2$s.com"
-                            + "\n127.0.1.1  %2$s.com"
-                            + "\n127.0.1.1  www.%2$s.com"
-                            + "\n", url.toUpperCase(), url);
-                }
-
-                rt.exec(String.format("echo '%s' | sudo tee -a /etc/hosts", commandUpdate));
+                hostsFile = new File("C://Windows/System32/drivers/etc/hosts");
             }
+
+            PrintWriter pw = new PrintWriter(hostsFile);
+            pw.println(commandUpdate);
+            pw.close();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
