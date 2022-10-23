@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import manos.connection.database.DatabaseConfig;
 import manos.hardware.Utils;
@@ -153,18 +152,35 @@ public class Processes {
     public void handleWebBlock(List<String> urls) {
 
         Runtime rt = Runtime.getRuntime();
-        String comandUpdate = ""; // mesclar com as URL's
+        String commandUpdate = "echo # " + "-".repeat(50)
+                + "&echo:# REDWAY - man.OS & echo:";
 
-        for (int i = 0; i < urls.size(); i++) {
-            comandUpdate += "      127.0.0.1     " + urls.get(i) + ".com\n"
-                    + "      127.0.0.1     www." + urls.get(i) + ".com\n";
-        }
         try {
             if (this.operationalSystem.equals("Windows")) {
-                rt.exec(String.format("cmd.exe /c echo %s > \"C:\\Windows\\System32\\"
-                        + "drivers\\etc\\hosts\"", comandUpdate));
+                for (String url : urls) {
+                    commandUpdate += String.format("& echo:# "
+                            + "-".repeat(10) + " %1$s " + "-".repeat(10)
+                            + "& echo:127.0.0.1  %2$s.com"
+                            + "& echo:127.0.0.1  www.%2$s.com"
+                            + "& echo:127.0.1.1  %2$s.com"
+                            + "& echo:127.0.1.1  www.%2$s.com"
+                            + "& echo:", url.toUpperCase(), url);
+                }
+
+                rt.exec(String.format("cmd.exe /c (%s) > \"C:\\Windows\\System32\\"
+                        + "drivers\\etc\\hosts\"", commandUpdate));
             } else {
-                rt.exec(String.format("sudo -- sh -c \"echo %s > /etc/hosts\"", comandUpdate));
+                for (String url : urls) {
+                    commandUpdate += String.format("# "
+                            + "-".repeat(10) + " %1$s " + "-".repeat(10)
+                            + "\n127.0.0.1  %2$s.com"
+                            + "\n127.0.0.1  www.%2$s.com"
+                            + "\n127.0.1.1  %2$s.com"
+                            + "\n127.0.1.1  www.%2$s.com"
+                            + "\n", url.toUpperCase(), url);
+                }
+
+                rt.exec(String.format("sudo -- sh -c \"echo %s > /etc/hosts\"", commandUpdate));
             }
         } catch (IOException ex) {
             ex.printStackTrace();
