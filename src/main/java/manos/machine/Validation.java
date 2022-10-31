@@ -55,13 +55,8 @@ public class Validation {
                         + " JOIN consumer ON idConsumer = fkConsumer"
                         + " WHERE manoCode = '%s'", manoCode));
 
-//        sql = connection.getConnection()
-//                .queryForList(String.format(
-//                        "SELECT idMachine FROM machine "
-//                        + "WHERE manoCode = '%s'", manoCode));
         if (sql.size() == 1) {
             m = sql.get(0);
-//            this.idMachine = Integer.valueOf(utils.extractQueryList(sql, "idMachine"));;
             this.machine = new Machine(
                     (Integer) m.get("idMachine"),
                     manoCode,

@@ -9,8 +9,14 @@ import java.io.PrintWriter;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import manos.connection.database.DatabaseConfig;
+import manos.extern.Telegram;
 import manos.hardware.Utils;
 
 public class Processes {
@@ -20,20 +26,26 @@ public class Processes {
     private Looca looca;
 
     private String operationalSystem;
+    private String machineName;
     private Integer idMachine;
     private List<String> manosNames;
     private List<Integer> manosIds;
 
-    public Processes(Integer idMachine, String operationalSystem) {
+    private Telegram telegram = new Telegram();
+
+    public Processes(String machineName, Integer idMachine, String operationalSystem) {
         this.connection = new DatabaseConfig();
         this.utils = new Utils();
         this.looca = new Looca();
 
         this.operationalSystem = operationalSystem;
+        this.machineName = machineName;
         this.idMachine = idMachine;
 
         this.manosNames = new ArrayList<>();
         this.manosIds = new ArrayList<>();
+
+        this.telegram.requestChatIds();
     }
 
     public void getManosProcesses() {
@@ -73,7 +85,8 @@ public class Processes {
     public void matchProcesses() {
         List<Processo> osProcess = this.getOsProcess();
         List<Integer> pids = new ArrayList<>();
-        List<Integer> ids = new ArrayList<>();
+        Set<Integer> ids = new HashSet<>();
+        Set<String> notifyNames = new HashSet<>();
 
         for (int i = 0; i < manosNames.size(); i++) {
             String manosName = manosNames.get(i);
@@ -90,6 +103,8 @@ public class Processes {
 
                     pids.add(process.getPid());
                     ids.add(manosIds.get(i));
+                    notifyNames.add(manosName);
+
                 }
 
             }
@@ -99,7 +114,16 @@ public class Processes {
         try {
 
             if (!pids.isEmpty()) {
-                this.killProcesses(pids, ids);
+                String[] names = notifyNames.toArray(new String[notifyNames.size()]);
+                for (String notifyName : names) {
+                    String message = String.format(
+                                        "O processo %s foi morto na máquina '%s'",
+                                        notifyName, this.machineName);
+
+                        this.telegram.sendNotification(message);
+                }
+
+                this.killProcesses(pids, new ArrayList<>(ids));
             }
 
             Thread.sleep(10000);

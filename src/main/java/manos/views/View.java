@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
+import java.util.Objects;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -22,6 +23,7 @@ import manos.hardware.Constant;
 import manos.hardware.Dynamic;
 import manos.machine.Machine;
 import manos.process.Processes;
+import manos.extern.Telegram;
 
 public class View extends javax.swing.JFrame {
 
@@ -621,7 +623,7 @@ public class View extends javax.swing.JFrame {
 
             this.machine = this.validation.isManoCodeValid();
 
-            Boolean alreadyLinked = this.machine != null;
+            Boolean alreadyLinked = Objects.nonNull(machine);
 
             Loading.setVisible(false);
             Views.setVisible(true);
@@ -754,7 +756,7 @@ public class View extends javax.swing.JFrame {
             this.dynamic.insertData();
         }).start();
         new Thread(() -> {
-            this.processes = new Processes(this.machine.getIdMachine(), this.machine.getOperationalSystem());
+            this.processes = new Processes(this.machine.getMachineName(), this.machine.getIdMachine(), this.machine.getOperationalSystem());
             this.processes.getManosProcesses();
             this.processes.matchProcesses();
         }).start();
