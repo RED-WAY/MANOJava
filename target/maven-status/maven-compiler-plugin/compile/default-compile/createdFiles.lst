@@ -15,6 +15,7 @@ manos\views\Colors.class
 manos\views\View$4.class
 manos\views\View$3.class
 manos\connection\database\DatabaseConfig.class
+manos\extern\Telegram.class
 manos\views\Utils.class
 manos\hardware\Constant.class
 manos\machine\MachineConfig.class
