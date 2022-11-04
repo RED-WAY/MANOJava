@@ -52,7 +52,7 @@ public class Constant {
             connection.getConnection().update(insertQuery);
         }
         catch (RuntimeException e){
-            System.out.println("Erro ao inserir os dados.");
+            e.printStackTrace();
         }
     }
 

@@ -31,56 +31,17 @@ public class Machine {
         return this.idMachine;
     }
 
-    public void setIdMachine(Integer idMachine) {
-        this.idMachine = idMachine;
-    }
-
-    public String getManoCode() {
-        return this.manoCode;
-    }
-
-    public void setManoCode(String manoCode) {
-        this.manoCode = manoCode;
-    }
-
     public String getMachineName() {
         return this.machineName;
-    }
-
-    public void setMachineName(String machineName) {
-        this.machineName = machineName;
-    }
-
-    public String getDtAdded() {
-        return this.dtAdded;
-    }
-
-    public void setDtAdded(String dtAdded) {
-        this.dtAdded = dtAdded;
     }
 
     public String getConsumerName() {
         return this.consumerName;
     }
 
-    public void setConsumerName(String consumerName) {
-        this.consumerName = consumerName;
-    }
-
-    public String getFamilyName() {
-        return this.familyName;
-    }
-
-    public void setFamilyName(String familyName) {
-        this.familyName = familyName;
-    }
-
     public String getOperationalSystem() {
         return this.operationalSystem;
     }
 
-    public void setOperationalSystem(String operationalSystem) {
-        this.operationalSystem = operationalSystem;
-    }
 
 }
