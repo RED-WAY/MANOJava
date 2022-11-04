@@ -35,7 +35,7 @@ public class Telegram {
 
             try {
                 
-                String urlString = String.format("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s", this.apiToken, chatId, message);
+                 urlString = String.format("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s", this.apiToken, chatId, message);
                 URL url = new URL(urlString);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();

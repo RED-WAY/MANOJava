@@ -11,15 +11,15 @@ public class DatabaseConfig {
 
         BasicDataSource dataSource = new BasicDataSource();
 
-        dataSource​.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-        dataSource​.setUrl("jdbc:sqlserver://svr-manosecurity.database.windows.net:1433;"
+        dataSource.setUrl("jdbc:sqlserver://svr-manosecurity.database.windows.net:1433;"
                 + "database=db-azure-manosecurity;encryp\n"
                 + "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
 
-        dataSource​.setUsername("admin-manosecurity");
+        dataSource.setUsername("admin-manosecurity");
 
-        dataSource​.setPassword("#Gfgrupo6");
+        dataSource.setPassword("#Gfgrupo6");
 
         this.connection = new JdbcTemplate(dataSource);
 
