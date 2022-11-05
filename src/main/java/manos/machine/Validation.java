@@ -10,13 +10,9 @@ import manos.hardware.Utils;
 public class Validation {
     
     private DatabaseConfig connection;
-    Utils utils;
-    
-    private FindingOutSerial HD;
-    private SystemName HOST;
+    private Utils utils;
     private String hd;
     private String host;
-    
     private Machine machine;
     private Looca looca;
     
@@ -24,12 +20,9 @@ public class Validation {
         this.connection = new DatabaseConfig();
         this.utils = new Utils();
         this.looca = new Looca();
-        
-        this.HD = new FindingOutSerial();
-        this.HOST = new SystemName();
-        
-        this.hd = HD.serial();
-        this.host = HOST.nameSystem();
+
+        this.hd = new FindingOutSerial().serial();
+        this.host = new SystemName().nameSystem();
     }
     
     public String getHd() {

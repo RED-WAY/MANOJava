@@ -1,8 +1,4 @@
 package manos.hardware;
-
-import java.util.concurrent.TimeUnit;
-
-
 public class Conversor {
 
     private static final long KIBI = 1L << 10;

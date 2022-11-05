@@ -1,6 +1,7 @@
 package manos.machine;
 
 import com.github.britooo.looca.api.core.Looca;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,33 +9,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.*;
 import java.lang.String;
+
 public class FindingOutSerial {
 
-    FindingOutSystemOperation System = new FindingOutSystemOperation();
+    private FindingOutSystemOperation System = new FindingOutSystemOperation();
 
     public String serial() {
-        String so = System.OperationSystem();
-        String hd = null;
-
-        switch (so) {
-            case "Windows":
-                hd = getMotherboardSerialWindows();
-                break;
-            case "Linux":
-                hd = getProcessorIdLinux();
-                break;
-            default:
-                break;
+        if (System.OperationSystem().equals("Windows")) {
+            return getMotherboardSerialWindows();
         }
-        return hd;
+        return getProcessorIdLinux();
     }
 
     public String getProcessorIdLinux() {
-        Looca looca = new Looca();
-        String result;       
-        result = looca.getProcessador().getId();
-        
-        return result;
+        return new Looca().getProcessador().getId();
     }
 
     public String getMotherboardSerialWindows() {

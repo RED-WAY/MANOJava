@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Utils {
 
-    public Double ConvertToDoubleGb(Long value, Integer decimalNumbers) {
+    public Double convertToDoubleGb(Long value, Integer decimalNumbers) {
         String decimalCounter = "%." + decimalNumbers + "f";
         Double divisor = Math.pow(1024, 3);
         String limitDecimals = String.format(Locale.US, decimalCounter, value / divisor);
