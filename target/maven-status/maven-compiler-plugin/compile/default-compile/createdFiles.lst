@@ -3,6 +3,7 @@ manos\views\exceptions\ArraySizesIncompatibleException.class
 manos\hardware\Utils.class
 manos\machine\SystemName.class
 manos\views\View$2.class
+manos\views\exceptions\InsertDataException.class
 manos\machine\FindingOutSystemOperation.class
 manos\views\View$6.class
 manos\views\View$1.class
