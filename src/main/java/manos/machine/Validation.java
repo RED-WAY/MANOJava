@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import manos.connection.database.DatabaseConfig;
 import manos.hardware.Utils;
+import manos.log.LogLevel;
+import manos.log.Logger;
 
 public class Validation {
     
@@ -38,10 +40,11 @@ public class Validation {
         String manoCode = this.host + this.hd;
         List<Map<String, Object>> sql;
         Map<String, Object> m;
-        
+       
+        try{
         sql = connection.getConnection()
                 .queryForList(String.format(
-                        "SELECT idMachine, machineName, consumerName, familyName,"
+                        "SELECT idMachina, machineName, consumerName, familyName,"
                         + " FORMAT(SWITCHOFFSET(machine.dtAdded, '-03:00'), 'dd/MM/yy-HH:mm') AS dtAdded"
                         + " FROM machine"
                         + " LEFT JOIN family ON idFamily = fkFamily"
@@ -63,6 +66,12 @@ public class Validation {
             return machine;
         }
         
+        }catch(Exception ex){
+            ex.getStackTrace();
+            
+            Logger.log("Erro ao tentar encontrar conexão prévia. ",ex.getMessage(), LogLevel.ERROR);
+    
+        }
         return null;
     }
     
