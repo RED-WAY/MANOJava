@@ -44,7 +44,7 @@ public class Validation {
         try{
         sql = connection.getConnection()
                 .queryForList(String.format(
-                        "SELECT idMachina, machineName, consumerName, familyName,"
+                        "SELECT idMachine, machineName, consumerName, familyName,"
                         + " FORMAT(SWITCHOFFSET(machine.dtAdded, '-03:00'), 'dd/MM/yy-HH:mm') AS dtAdded"
                         + " FROM machine"
                         + " LEFT JOIN family ON idFamily = fkFamily"
