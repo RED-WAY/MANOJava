@@ -16,6 +16,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -33,6 +34,9 @@ public class View extends javax.swing.JFrame {
 
     Machine machine;
 
+    private String mode;
+    private String token;
+
     Constant constant;
     Dynamic dynamic;
     Processes processes;
@@ -47,6 +51,9 @@ public class View extends javax.swing.JFrame {
         final URL imageResource = App.class.getClassLoader().getResource("images/appIcon64.png");
         final Image image = defaultToolkit.getImage(imageResource);
         this.setIconImage(image);
+
+        this.mode = "gui";
+//        this.mode = "cli";
 
         initComponents();
     }
@@ -640,11 +647,17 @@ public class View extends javax.swing.JFrame {
 
             } else {
 
-                Login.setVisible(true);
-                Home.setVisible(false);
+                if (mode.equals("gui")) {
+                    Login.setVisible(true);
+                    Home.setVisible(false);
 
-                iptToken.grabFocus();
-                iptToken.requestFocus();
+                    iptToken.grabFocus();
+                    iptToken.requestFocus();
+                } else {
+                    Scanner tokenReader = new Scanner(System.in);
+                    token = tokenReader.nextLine();
+                }
+
             }
 
         } catch (SQLException ex) {
