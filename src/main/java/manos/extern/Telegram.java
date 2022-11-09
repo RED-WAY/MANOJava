@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import manos.log.Logger;
 
 import manos.connection.database.DatabaseConfig;
+import manos.log.LogLevel;
 
 public class Telegram {
 
@@ -52,8 +53,11 @@ public class Telegram {
                 conn.disconnect();
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
+                
+                Logger.log("Erro de formatação na URL", ex.getMessage(), LogLevel.ERROR);
             } catch (IOException ex) {
                 ex.printStackTrace();
+                Logger.log("Erro genérico  de conexão com app", message, LogLevel.ERROR);
             }
 
         }

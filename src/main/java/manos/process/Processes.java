@@ -13,11 +13,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import manos.log.Logger;
 
 import manos.connection.database.DatabaseConfig;
 import manos.extern.Telegram;
 import manos.hardware.Utils;
+import manos.log.LogLevel;
 
 public class Processes {
 
@@ -132,6 +133,8 @@ public class Processes {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
             Thread.currentThread().interrupt();
+            ex.getStackTrace();
+            Logger.log("Erro ao matar processo na  maquina : " + machineName, ex.getMessage(), LogLevel.ERROR);
         }
     }
 
@@ -153,9 +156,11 @@ public class Processes {
             }
 
             this.insertData(ids);
-
+            
         } catch (IOException ex) {
             ex.printStackTrace();
+            ex.getStackTrace();
+            Logger.log("Erro ao tentar matar processo", ex.getMessage(), LogLevel.ERROR);
         }
 
     }
@@ -203,6 +208,8 @@ public class Processes {
 
         } catch (IOException ex) {
             ex.printStackTrace();
+            
+            Logger.log("Erro ao modificar o diretorio Hosts", ex.getMessage(), LogLevel.INFO);
         }
     }
 

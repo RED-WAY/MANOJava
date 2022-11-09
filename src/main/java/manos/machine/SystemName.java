@@ -2,6 +2,8 @@ package manos.machine;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import manos.log.LogLevel;
+import manos.log.Logger;
 
 public class SystemName {
 
@@ -17,6 +19,8 @@ public class SystemName {
             // SystemName stores the name of the system
         } catch (UnknownHostException E) {
             System.err.println(E.getMessage());
+            E.printStackTrace();
+            Logger.log("Erro ao tentar  criar o manoCode", E.getMessage(), LogLevel.ERROR);
         }
         return SystemName;
     }

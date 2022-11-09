@@ -67,7 +67,7 @@ public class Validation {
         }
         
         }catch(Exception ex){
-            ex.getStackTrace();
+            ex.printStackTrace();
             
             Logger.log("Erro ao tentar encontrar conexão prévia. ",ex.getMessage(), LogLevel.ERROR);
     

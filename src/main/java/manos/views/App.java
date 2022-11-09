@@ -1,5 +1,8 @@
 package manos.views;
 
+import manos.log.LogLevel;
+import manos.log.Logger;
+
 
 
 
@@ -16,6 +19,7 @@ public class App {
             view.startupApp();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
+           Logger.log("Erro ao inicializar o aplicativo", ex.getMessage(), LogLevel.ERROR);
         }
 
     }

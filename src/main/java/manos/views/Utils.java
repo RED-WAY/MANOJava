@@ -2,6 +2,8 @@ package manos.views;
 
 import java.awt.Color;
 import javax.swing.JComponent;
+import manos.log.LogLevel;
+import manos.log.Logger;
 
 public class Utils {
 
@@ -59,6 +61,7 @@ public class Utils {
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
                 Thread.currentThread().interrupt();
+                Logger.log("Erro de animação de cor ", ex.getMessage(), LogLevel.INFO);
             }
 
         }).start();
