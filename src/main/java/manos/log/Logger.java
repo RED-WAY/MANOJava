@@ -15,7 +15,7 @@ public class Logger {
 
         //GERA A MENSAGEM DE LOG
         // DATA-HORA - LEVEL - MENSAGEM - SO - IP - VERSAO_APP
-        String logMessage = new StringBuilder()
+        StringBuilder sbLog = new StringBuilder()
                 .append(DateTimeFormatter
                         .ofPattern("uuuuMMdd-HH:mm:ss")
                         .format(LocalDateTime.now()))
@@ -23,12 +23,16 @@ public class Logger {
                 .append(level.toString())
                 .append(": ")
                 .append(title)
-                .append("\n")
-                .append("\t\t\t\t")
-                .append("CAUSE: ")
-                .append(message)
-                .append("\n")
-                .toString();
+                .append("\n");
+        if (message != null) {
+            sbLog
+                    .append("\t\t\t\t")
+                    .append("CAUSE: ")
+                    .append(message)
+                    .append("\n");
+        }
+            
+        String logMessage = sbLog.toString();
 
         try {
             Files.createDirectories(Paths.get("C:\\Program Files\\REDWAY"));
@@ -36,8 +40,8 @@ public class Logger {
             Files.createDirectories(Paths.get("C:\\Program Files\\REDWAY\\" + LogLevel.HARDWARE.toString()));
             Files.createDirectories(Paths.get("C:\\Program Files\\REDWAY\\" + LogLevel.PROCESSES.toString()));
             Files.createDirectories(Paths.get("C:\\Program Files\\REDWAY\\" + LogLevel.INFO.toString()));
-            
-            System.out.println("Foi");
+
+           
 
             //REFERENCIA O ARQUIVO DESTINO DO LOG
             StringBuilder sb = new StringBuilder("C:\\Program Files\\REDWAY\\").append(level.toString());
@@ -55,5 +59,4 @@ public class Logger {
         }
     }
 
-    
 }

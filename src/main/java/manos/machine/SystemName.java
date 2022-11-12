@@ -17,6 +17,7 @@ public class SystemName {
                     = InetAddress.getLocalHost().getHostName();
 
             // SystemName stores the name of the system
+            Logger.log("Retornando nome do sistema", null, LogLevel.INFO);
         } catch (UnknownHostException E) {
             System.err.println(E.getMessage());
             E.printStackTrace();

@@ -5,6 +5,8 @@ manos\machine\SystemName.class
 manos\views\View$2.class
 manos\views\exceptions\InsertDataException.class
 manos\machine\FindingOutSystemOperation.class
+manos\log\Logger.class
+manos\log\LogLevel.class
 manos\views\View$6.class
 manos\views\View$1.class
 manos\machine\FindingOutSerial.class

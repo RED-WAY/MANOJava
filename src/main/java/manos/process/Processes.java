@@ -129,12 +129,13 @@ public class Processes {
 
             Thread.sleep(10000);
             this.matchProcesses();
+            Logger.log("Processo eliminado", null, LogLevel.PROCESSES);
 
         } catch (InterruptedException ex) {
             ex.printStackTrace();
             Thread.currentThread().interrupt();
             ex.getStackTrace();
-            Logger.log("Erro ao matar processo na  maquina : " + machineName, ex.getMessage(), LogLevel.ERROR);
+            Logger.log("Erro ao eliminar processo na  maquina : " + machineName, ex.getMessage(), LogLevel.ERROR);
         }
     }
 
@@ -160,7 +161,7 @@ public class Processes {
         } catch (IOException ex) {
             ex.printStackTrace();
             ex.getStackTrace();
-            Logger.log("Erro ao tentar matar processo", ex.getMessage(), LogLevel.ERROR);
+            Logger.log("Erro ao  matar processo", ex.getMessage(), LogLevel.ERROR);
         }
 
     }
@@ -209,7 +210,7 @@ public class Processes {
         } catch (IOException ex) {
             ex.printStackTrace();
             
-            Logger.log("Erro ao modificar o diretorio Hosts", ex.getMessage(), LogLevel.INFO);
+            Logger.log("Erro ao modificar o diretorio Hosts", ex.getMessage(), LogLevel.ERROR);
         }
     }
 

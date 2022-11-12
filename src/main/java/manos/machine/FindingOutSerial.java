@@ -49,11 +49,15 @@ public class FindingOutSerial {
             String line;
             while ((line = input.readLine()) != null) {
                 result += line;
+
             }
+
             input.close();
+
+            Logger.log("Retornando Serial", null, LogLevel.HARDWARE);
         } catch (IOException e) {
             e.printStackTrace();
-            Logger.log("Falha ao pegar serial da placa mãe do windows ", e.getMessage(), LogLevel.ERROR);
+            Logger.log("Falha ao retornar serial da placa mãe ", e.getMessage(), LogLevel.ERROR);
         }
 
         return result.trim();

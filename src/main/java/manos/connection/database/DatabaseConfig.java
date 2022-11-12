@@ -9,26 +9,26 @@ public class DatabaseConfig {
 
     private JdbcTemplate connection;
 
-    
     public DatabaseConfig() {
-        
+
         BasicDataSource dataSource = new BasicDataSource();
 
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-try{
-        dataSource.setUrl("jdbc:sqlserver://svr-manosecurity.database.windows.net:1433;"
-                + "database=db-azure-manosecurity;encryp\n"
-                + "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
+        try {
+            dataSource.setUrl("jdbc:sqlserver://svr-manosecurity.database.windows.net:1433;"
+                    + "database=db-azure-manosecurity;encryp\n"
+                    + "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
 
-        dataSource.setUsername("admin-manosecurity");
+            dataSource.setUsername("admin-manosecurity");
 
-        dataSource.setPassword("#Gfgrupo6");
+            dataSource.setPassword("#Gfgrupo6");
 
-        this.connection = new JdbcTemplate(dataSource);
-}catch(Exception ex){
-    ex.printStackTrace();
-    Logger.log("Erro ao conectar banco de dados azure ", ex.getMessage(), LogLevel.ERROR);
-}
+            this.connection = new JdbcTemplate(dataSource);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.log("Erro ao conectar banco de dados azure ", ex.getMessage(), LogLevel.ERROR);
+        }
     }
 
     // GETTER
