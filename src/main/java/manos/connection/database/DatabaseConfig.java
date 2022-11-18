@@ -7,11 +7,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class DatabaseConfig {
 
+ 
     private JdbcTemplate connection;
+    private JdbcTemplate connectionMySql;
 
     public DatabaseConfig() {
 
         BasicDataSource dataSource = new BasicDataSource();
+        BasicDataSource mySql = new BasicDataSource();
 
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         try {
@@ -23,18 +26,30 @@ public class DatabaseConfig {
 
             dataSource.setPassword("#Gfgrupo6");
 
-            this.connection = new JdbcTemplate(dataSource);
 
+            mySql.setDriverClassName("com.mysql.cj.jdbc.Driver");
+
+            mySql.setUrl("jdbc:mysql://localhost:3306/mano");
+
+            mySql.setUsername("root");
+
+            mySql.setPassword("urubu200");
+
+            this.connection = new JdbcTemplate(dataSource);
+            this.connectionMySql = new JdbcTemplate(mySql);
         } catch (Exception ex) {
             ex.printStackTrace();
             Logger.log("Erro ao conectar banco de dados azure ", ex.getMessage(), LogLevel.ERROR);
         }
     }
 
-    // GETTER
-    public JdbcTemplate getConnection() {
-
-        return connection;
+    public JdbcTemplate getMySqlConnection() {
+        return this.connectionMySql;
+    }
+    public JdbcTemplate getConnection(){
+           return this.connection;
+    }
+     
 
     }
-}
+
