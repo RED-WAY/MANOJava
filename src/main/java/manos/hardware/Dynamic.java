@@ -1,8 +1,10 @@
 package manos.hardware;
 
 import com.github.britooo.looca.api.core.Looca;
+import java.sql.SQLException;
 import java.util.Locale;
 import manos.connection.database.DatabaseConfig;
+import org.springframework.dao.DataAccessException;
 
 public class Dynamic {
 
@@ -43,8 +45,25 @@ public class Dynamic {
 
             Thread.sleep(5000);
             this.insertData();
-            
+
         } catch (InterruptedException ex) {
+            this.getData();
+
+            String updateQuery = String.format(Locale.US,
+                    "INSERT INTO dynamicHardware (cpu, ram, fkMachine) "
+                    + "VALUES (%.2f, %.2f, %d)",
+                    this.cpuUse,
+                    this.ramUse,
+                    this.idMachine
+            );
+
+            connection.getMySqlConnection().update(updateQuery);
+            System.out.println(this.toString());
+
+         
+            this.insertData();
+        } catch (DataAccessException ex) {
+
             ex.printStackTrace();
             Thread.currentThread().interrupt();
         }

@@ -6,6 +6,7 @@ import java.io.File;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import manos.connection.database.DatabaseConfig;
 import manos.extern.Telegram;
 import manos.hardware.Utils;
 import manos.log.LogLevel;
+import org.springframework.dao.DataAccessException;
 
 public class Processes {
 
@@ -118,10 +120,10 @@ public class Processes {
                 String[] names = notifyNames.toArray(new String[notifyNames.size()]);
                 for (String notifyName : names) {
                     String message = String.format(
-                                        "O processo %s foi morto na máquina '%s'",
-                                        notifyName, this.machineName);
+                            "O processo %s foi morto na máquina '%s'",
+                            notifyName, this.machineName);
 
-                        this.telegram.sendNotification(message);
+                    this.telegram.sendNotification(message);
                 }
 
                 this.killProcesses(pids, new ArrayList<>(ids));
@@ -157,7 +159,7 @@ public class Processes {
             }
 
             this.insertData(ids);
-            
+
         } catch (IOException ex) {
             ex.printStackTrace();
             ex.getStackTrace();
@@ -168,17 +170,23 @@ public class Processes {
 
     public void insertData(List<Integer> ids) {
         String strValues = "";
-        for (int i = 0; i < ids.size(); i++) {
-            Integer id = ids.get(i);
-            strValues += String.format("(%d, %d)", this.idMachine, id);
-            strValues += i == ids.size() - 1 ? ";" : ",";
+        try {
+            for (int i = 0; i < ids.size(); i++) {
+                Integer id = ids.get(i);
+                strValues += String.format("(%d, %d)", this.idMachine, id);
+                strValues += i == ids.size() - 1 ? ";" : ",";
+            }
+
+            String insertQuery = "INSERT INTO "
+                    + "operationKilled (fkMachine, fkOperation) "
+                    + "VALUES " + strValues;
+
+            connection.getConnection().update(insertQuery);
+        } catch (DataAccessException ex) {
+            connection.getMySqlConnection().update(strValues);
+        } catch (Exception ex) {
+            // aq giga
         }
-
-        String insertQuery = "INSERT INTO "
-                + "operationKilled (fkMachine, fkOperation) "
-                + "VALUES " + strValues;
-
-        connection.getConnection().update(insertQuery);
     }
 
     public void handleWebBlock(List<String> urls) {
@@ -209,7 +217,7 @@ public class Processes {
 
         } catch (IOException ex) {
             ex.printStackTrace();
-            
+
             Logger.log("Erro ao modificar o diretorio Hosts", ex.getMessage(), LogLevel.ERROR);
         }
     }
