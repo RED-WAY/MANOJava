@@ -24,7 +24,7 @@ public class UpdateDataBase {
             List<DynamicHardware> hardware
                     = mySql.query("SELECT * FROM dynamicHardware; ",
                             new BeanPropertyRowMapper(DynamicHardware.class));
-            System.out.println(hardware.size());
+            
             List<OperationKilled> operation
                     = mySql.query("SELECT * FROM operationKilled; ",
                             new BeanPropertyRowMapper(OperationKilled.class));
@@ -46,7 +46,7 @@ public class UpdateDataBase {
                     azure.update(String.format("INSERT INTO "
                             + "operationKilled(dtAdded, fkMachine, fkOperation) "
                             + "VALUES "
-                            + "(%s, %d, %d,) ", operation.get(i).getDtAdded(),
+                            + "(%s, %d, %d) ", operation.get(i).getDtAdded(),
                             operation.get(i).getFkMachine(), operation.get(i).getFkOperation()));
                 }
 
@@ -55,8 +55,11 @@ public class UpdateDataBase {
         } catch (Exception ex) {
             isConnected = false;
         } finally {
-            mySql.execute("TRUNCATE TABLE operationKilled");
-            mySql.execute("TRUNCATE TABLE dynamicHardware");
+            if (isConnected) {
+
+                mySql.execute("TRUNCATE TABLE operationKilled");
+                mySql.execute("TRUNCATE TABLE dynamicHardware");
+            }
 
         }
 

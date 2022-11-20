@@ -24,6 +24,7 @@ import manos.hardware.Dynamic;
 import manos.machine.Machine;
 import manos.process.Processes;
 import manos.app.App;
+import manos.update.database.UpdateDataBase;
 
 public class View extends javax.swing.JFrame {
 
@@ -612,6 +613,10 @@ public class View extends javax.swing.JFrame {
         Views.setVisible(false);
 
         this.errorThread.interrupt();
+
+        new Thread(() -> {
+            new UpdateDataBase().needUpdate();
+        }).start();
 
         this.verifyLink();
     }
