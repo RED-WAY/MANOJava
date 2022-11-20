@@ -18,7 +18,7 @@ public class DatabaseConfig {
         try {
             // AZURE CONFIG
             dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            
+
             dataSource.setUrl("jdbc:sqlserver://svr-manosecurity.database.windows.net:1433;"
                     + "database=db-azure-manosecurity;encryp\n"
                     + "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
@@ -30,7 +30,10 @@ public class DatabaseConfig {
             // MYSQL CONFIG
             mySql.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-            mySql.setUrl("jdbc:mysql://localhost:3306/mano");
+            mySql.setUrl("jdbc:mysql://localhost:3306/manosdb?useTimezone=true&"
+                    + "serverTimezone=UTC&"
+                    + "autoReconnect=true&"
+                    + "useSSL=false");
 
             mySql.setUsername("root");
 

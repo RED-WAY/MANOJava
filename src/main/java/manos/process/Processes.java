@@ -6,21 +6,18 @@ import java.io.File;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import manos.log.Logger;
 
 import manos.connection.database.DatabaseConfig;
 import manos.extern.Telegram;
 import manos.hardware.Utils;
 import manos.log.LogLevel;
-import org.springframework.dao.DataAccessException;
 
 public class Processes {
 
@@ -34,6 +31,7 @@ public class Processes {
     private List<String> manosNames;
     private List<Integer> manosIds;
 
+    private List<String> telegramMessages = new ArrayList<>();
     private Telegram telegram = new Telegram();
 
     public Processes(String machineName, Integer idMachine, String operationalSystem) {
@@ -123,7 +121,7 @@ public class Processes {
                             "O processo %s foi morto na máquina '%s'",
                             notifyName, this.machineName);
 
-                    this.telegram.sendNotification(message);
+                    telegramMessages.add(message);
                 }
 
                 this.killProcesses(pids, new ArrayList<>(ids));
@@ -170,32 +168,36 @@ public class Processes {
 
     public void insertData(List<Integer> ids) {
         String strValues = "";
-        try {
-            for (int i = 0; i < ids.size(); i++) {
-                Integer id = ids.get(i);
-                strValues += String.format("(%d, %d)", this.idMachine, id);
-                strValues += i == ids.size() - 1 ? ";" : ",";
-            }
+        Boolean isLogged = true;
 
-            String insertQuery = "INSERT INTO "
-                    + "operationKilled (fkMachine, fkOperation) "
-                    + "VALUES " + strValues;
+        System.out.println("IDS: " + ids.size());
+
+        for (int i = 0; i < ids.size(); i++) {
+            Integer id = ids.get(i);
+            strValues += String.format("(%d, %d)", this.idMachine, id);
+            strValues += i == ids.size() - 1 ? ";" : ",";
+        }
+
+        String insertQuery = "INSERT INTO "
+                + "operationKilled (fkMachine, fkOperation) "
+                + "VALUES " + strValues;
+
+        try {
 
             connection.getConnection().update(insertQuery);
-        } catch (DataAccessException ex) {
 
-            for (int i = 0; i < ids.size(); i++) {
-                Integer id = ids.get(i);
-                strValues += String.format("(%d, %d)", this.idMachine, id);
-                strValues += i == ids.size() - 1 ? ";" : ",";
-            }
-
-            String insertQuery = "INSERT INTO "
-                    + "operationKilled (fkMachine, fkOperation) "
-                    + "VALUES " + strValues;
-            connection.getMySqlConnection().update(strValues);
         } catch (Exception ex) {
-            // aq giga
+
+            isLogged = false;
+
+            connection.getMySqlConnection().update(insertQuery);
+            
+        } finally {
+            if (isLogged) {
+                for (String message : telegramMessages) {
+                    this.telegram.sendNotification(message);
+                }
+            }
         }
     }
 

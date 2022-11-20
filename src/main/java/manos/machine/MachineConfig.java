@@ -36,9 +36,9 @@ public class MachineConfig {
                             + "manoCode = '%s', "
                             + "isUsing = 'yes' "
                             + "WHERE idMachine = %s;", this.manoCode, token));
-            
-             connection.getMySqlConnection().update(String.format(" INSERT INTO machine(manoCode) values "
-                                                   + "('%s')", this.manoCode));
+
+            connection.getMySqlConnection().update(String.format("INSERT INTO machine (idHardware, manoCode) VALUES (%d, '%s')",
+                     Integer.valueOf(token), this.manoCode));
             return true;
         }
 

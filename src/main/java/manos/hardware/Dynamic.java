@@ -1,10 +1,10 @@
 package manos.hardware;
 
 import com.github.britooo.looca.api.core.Looca;
-import java.sql.SQLException;
 import java.util.Locale;
+
 import manos.connection.database.DatabaseConfig;
-import org.springframework.dao.DataAccessException;
+import manos.extern.Telegram;
 
 public class Dynamic {
 
@@ -12,14 +12,20 @@ public class Dynamic {
     private Double ramUse;
 
     private Integer idMachine;
+    private String machineName;
 
     private Looca looca;
     private DatabaseConfig connection;
+    private Telegram telegram;
 
-    public Dynamic(Integer idMachine) {
+    public Dynamic(Integer idMachine, String machineName) {
         this.idMachine = idMachine;
+        this.machineName = machineName;
         this.looca = new Looca();
         this.connection = new DatabaseConfig();
+        this.telegram = new Telegram();
+
+        this.telegram.requestChatIds();
     }
 
     public void getData() {
@@ -28,6 +34,9 @@ public class Dynamic {
     }
 
     public void insertData() {
+
+        Boolean isLogged = true;
+
         try {
 
             this.getData();
@@ -41,12 +50,21 @@ public class Dynamic {
             );
 
             connection.getConnection().update(updateQuery);
-            System.out.println(this.toString());
+            System.out.println("CLOUD: " + this.toString());
 
             Thread.sleep(5000);
-            this.insertData();
 
         } catch (InterruptedException ex) {
+
+            isLogged = false;
+
+            ex.printStackTrace();
+            Thread.currentThread().interrupt();
+
+        } catch (Exception ex) {
+
+            isLogged = false;
+
             this.getData();
 
             String updateQuery = String.format(Locale.US,
@@ -58,21 +76,28 @@ public class Dynamic {
             );
 
             connection.getMySqlConnection().update(updateQuery);
-            System.out.println(this.toString());
+            System.out.println("LOCAL: " + this.toString());
 
-         
+        } finally {
+
+            if (isLogged) {
+                if (this.cpuUse > 80) {
+                    this.telegram.sendNotification("CPU: " + this.cpuUse.intValue() + "% - em PERIGO na máquina " + this.machineName);
+                }
+
+                if (this.ramUse > 80) {
+                    this.telegram.sendNotification("RAM: " + this.ramUse.intValue() + "% - em PERIGO na máquina " + this.machineName);
+                }
+            }
+
             this.insertData();
-        } catch (DataAccessException ex) {
-         
-            
-            ex.printStackTrace();
-            Thread.currentThread().interrupt();
+
         }
     }
 
     @Override
     public String toString() {
-        return "--- CATCH ---\n"
+        return "\n"
                 + "CPU: " + this.cpuUse.intValue() + "%\n"
                 + "RAM: " + this.ramUse.intValue() + "%\n\n";
     }
