@@ -183,6 +183,16 @@ public class Processes {
 
             connection.getConnection().update(insertQuery);
         } catch (DataAccessException ex) {
+
+            for (int i = 0; i < ids.size(); i++) {
+                Integer id = ids.get(i);
+                strValues += String.format("(%d, %d)", this.idMachine, id);
+                strValues += i == ids.size() - 1 ? ";" : ",";
+            }
+
+            String insertQuery = "INSERT INTO "
+                    + "operationKilled (fkMachine, fkOperation) "
+                    + "VALUES " + strValues;
             connection.getMySqlConnection().update(strValues);
         } catch (Exception ex) {
             // aq giga

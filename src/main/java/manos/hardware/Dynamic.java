@@ -63,7 +63,8 @@ public class Dynamic {
          
             this.insertData();
         } catch (DataAccessException ex) {
-
+         
+            
             ex.printStackTrace();
             Thread.currentThread().interrupt();
         }

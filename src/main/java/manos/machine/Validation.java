@@ -65,7 +65,7 @@ public class Validation {
             
             return machine;
         }
-            Logger.log("Conexão encontrada com sucesso.", manoCode, LogLevel.INFO);
+            Logger.log("Conexão encontrada com sucesso. manoCode: " + manoCode, null, LogLevel.INFO);
         }catch(Exception ex){
             ex.printStackTrace();
             
