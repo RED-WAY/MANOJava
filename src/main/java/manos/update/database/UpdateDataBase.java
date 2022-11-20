@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package manos.update.database;
 
 import java.util.ArrayList;
@@ -21,15 +17,16 @@ public class UpdateDataBase {
     JdbcTemplate azure = connection.getConnection();
 
     public void needUpdate() {
+        Boolean isConnected = true;
 
         try {
 
             List<DynamicHardware> hardware
-                    = mySql.query("SELECT * FROM dynamicHardware ",
+                    = mySql.query("SELECT * FROM dynamicHardware; ",
                             new BeanPropertyRowMapper(DynamicHardware.class));
-
+            System.out.println(hardware.size());
             List<OperationKilled> operation
-                    = mySql.query("SELECT * FROM operationKelled ",
+                    = mySql.query("SELECT * FROM operationKilled; ",
                             new BeanPropertyRowMapper(OperationKilled.class));
 
             if (!hardware.isEmpty()) {
@@ -37,12 +34,11 @@ public class UpdateDataBase {
                 for (int i = 0; i < hardware.size(); i++) {
                     azure.update(String.format("INSERT INTO dynamicHardware"
                             + "(cpu, ram, dtAdded, fkMachine) VALUES "
-                            + "(%.2f, %.2f, %s, %d ) ", hardware.get(i).getCpuUse(),
-                            hardware.get(i).getRamUse(), hardware.get(i).getDtAdded(),
+                            + "(%.2f, %.2f, %s, %d ) ", hardware.get(i).getCpu(),
+                            hardware.get(i).getRam(), hardware.get(i).getDtAdded(),
                             hardware.get(i).getFkMachine()));
 
                 }
-                mySql.execute("TRUNCATE TABLE dynamicHardware");
 
             }
             if (!operation.isEmpty()) {
@@ -53,11 +49,15 @@ public class UpdateDataBase {
                             + "(%s, %d, %d,) ", operation.get(i).getDtAdded(),
                             operation.get(i).getFkMachine(), operation.get(i).getFkOperation()));
                 }
-                mySql.execute("TRUNCATE TABLE operaionKilled");
+
             }
 
         } catch (Exception ex) {
-         // AQ GIGA
+            isConnected = false;
+        } finally {
+            mySql.execute("TRUNCATE TABLE operationKilled");
+            mySql.execute("TRUNCATE TABLE dynamicHardware");
+
         }
 
     }

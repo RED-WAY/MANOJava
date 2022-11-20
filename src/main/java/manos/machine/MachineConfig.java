@@ -17,6 +17,14 @@ public class MachineConfig {
         this.manoCode = this.validation.getHost() + this.validation.getHd();
     }
 
+    public String getName(String token) {
+        return (String) connection.getConnection()
+                .queryForList(String.format(
+                        "SELECT machineName "
+                        + " FROM machine"
+                        + " WHERE idMachine = '%s'", token)).get(0).get("machineName");
+    }
+
     public Boolean checkMachineAvailability(String token) {
         List machineAvailable = connection.getConnection()
                 .queryForList(String.format(
@@ -37,8 +45,10 @@ public class MachineConfig {
                             + "isUsing = 'yes' "
                             + "WHERE idMachine = %s;", this.manoCode, token));
 
-            connection.getMySqlConnection().update(String.format("INSERT INTO machine (idHardware, manoCode) VALUES (%d, '%s')",
-                     Integer.valueOf(token), this.manoCode));
+            String name = this.getName(token);
+            
+            connection.getMySqlConnection().update(String.format("INSERT INTO machine (idHardware, manoCode, machineName) VALUES (%d, '%s', '%s')",
+                    Integer.valueOf(token), this.manoCode, name));
             return true;
         }
 

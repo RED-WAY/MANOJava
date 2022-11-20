@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package manos.update.database;
 
 /**
@@ -9,21 +5,20 @@ package manos.update.database;
  * @author pedro
  */
 public class DynamicHardware {
+
     private Integer idDynamicHardware;
-    private Double cpuUse;
-    private Double ramUse;
+    private Double cpu;
+    private Double ram;
     private Integer fkMachine;
     private String dtAdded;
 
-    public DynamicHardware(Integer idDynamicHardware, Double cpuUse, Double ramUse, Integer fkMachine, String dtAdded) {
+    public DynamicHardware(Integer idDynamicHardware, Double cpu, Double ram, Integer fkMachine, String dtAdded) {
         this.idDynamicHardware = idDynamicHardware;
-        this.cpuUse = cpuUse;
-        this.ramUse = ramUse;
+        this.cpu = cpu;
+        this.ram = ram;
         this.fkMachine = fkMachine;
         this.dtAdded = dtAdded;
     }
-    
-    
 
     public Integer getIdDynamicHardware() {
         return idDynamicHardware;
@@ -41,29 +36,24 @@ public class DynamicHardware {
         this.idDynamicHardware = idDynamicHardware;
     }
 
-    public Double getCpuUse() {
-        return cpuUse;
+    public Double getCpu() {
+        return cpu;
     }
 
-    public void setCpuUse(Double cpuUse) {
-        this.cpuUse = cpuUse;
+    public void setCpu(Double cpu) {
+        this.cpu = cpu;
     }
 
-    public Double getRamUse() {
-        return ramUse;
+    public Double getRam() {
+        return ram;
     }
 
-    public void setRamUse(Double ramUse) {
-        this.ramUse = ramUse;
+    public void setRamUse(Double ram) {
+        this.ram = ram;
     }
 
     public Integer getFkMachine() {
         return fkMachine;
     }
-
- 
-    
-    
-    
 
 }

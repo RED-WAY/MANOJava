@@ -1,5 +1,7 @@
 package manos.machine;
 
+import com.github.britooo.looca.api.core.Looca;
+
 public class Machine {
 
     private Integer idMachine;
@@ -9,6 +11,14 @@ public class Machine {
     private String consumerName;
     private String familyName;
     private String operationalSystem;
+
+    public Machine(
+            Integer idMachine, String manoCode, String machineName, String operationalSystem) {
+        this.idMachine = idMachine;
+        this.manoCode = manoCode;
+        this.machineName = machineName.trim();
+        this.operationalSystem = operationalSystem;
+    }
 
     public Machine(
             Integer idMachine,
@@ -42,6 +52,5 @@ public class Machine {
     public String getOperationalSystem() {
         return this.operationalSystem;
     }
-
 
 }

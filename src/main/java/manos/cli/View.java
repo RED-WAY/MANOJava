@@ -12,6 +12,7 @@ import manos.hardware.Constant;
 import manos.hardware.Dynamic;
 import manos.machine.Machine;
 import manos.process.Processes;
+import manos.update.database.UpdateDataBase;
 
 public class View {
 
@@ -37,7 +38,11 @@ public class View {
     }
 
     public void startupApp() {
-
+        
+        new Thread(() -> {
+            new UpdateDataBase().needUpdate();
+        }).start();
+        
         this.verifyLink();
     }
 
