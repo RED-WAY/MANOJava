@@ -24,7 +24,7 @@ public class UpdateDataBase {
             List<DynamicHardware> hardware
                     = mySql.query("SELECT * FROM dynamicHardware; ",
                             new BeanPropertyRowMapper(DynamicHardware.class));
-            
+
             List<OperationKilled> operation
                     = mySql.query("SELECT * FROM operationKilled; ",
                             new BeanPropertyRowMapper(OperationKilled.class));
@@ -32,21 +32,23 @@ public class UpdateDataBase {
             if (!hardware.isEmpty()) {
 
                 for (int i = 0; i < hardware.size(); i++) {
+
                     azure.update(String.format("INSERT INTO dynamicHardware"
                             + "(cpu, ram, dtAdded, fkMachine) VALUES "
-                            + "(%.2f, %.2f, %s, %d ) ", hardware.get(i).getCpu(),
-                            hardware.get(i).getRam(), hardware.get(i).getDtAdded(),
+                            + " (%.0f, %.0f, '%s', %d) ", hardware.get(i).getCpu(),
+                            hardware.get(i).getRam(), hardware.get(i).getDtAdded().replaceAll(" ", "T"),
                             hardware.get(i).getFkMachine()));
 
                 }
 
             }
             if (!operation.isEmpty()) {
+
                 for (int i = 0; i < operation.size(); i++) {
                     azure.update(String.format("INSERT INTO "
                             + "operationKilled(dtAdded, fkMachine, fkOperation) "
                             + "VALUES "
-                            + "(%s, %d, %d) ", operation.get(i).getDtAdded(),
+                            + "('%s', %d, %d) ", operation.get(i).getDtAdded().replaceAll(" ", "T"),
                             operation.get(i).getFkMachine(), operation.get(i).getFkOperation()));
                 }
 
@@ -54,9 +56,9 @@ public class UpdateDataBase {
 
         } catch (Exception ex) {
             isConnected = false;
+            System.out.println("fudeu");
         } finally {
             if (isConnected) {
-
                 mySql.execute("TRUNCATE TABLE operationKilled");
                 mySql.execute("TRUNCATE TABLE dynamicHardware");
             }

@@ -38,11 +38,11 @@ public class View {
     }
 
     public void startupApp() {
-        
+    UpdateDataBase update = new UpdateDataBase();
         new Thread(() -> {
-            new UpdateDataBase().needUpdate();
+             update.needUpdate();
         }).start();
-        
+
         this.verifyLink();
     }
 

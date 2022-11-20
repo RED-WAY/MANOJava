@@ -47,7 +47,7 @@ public class MachineConfig {
 
             String name = this.getName(token);
             
-            connection.getMySqlConnection().update(String.format("INSERT INTO machine (idHardware, manoCode, machineName) VALUES (%d, '%s', '%s')",
+            connection.getMySqlConnection().update(String.format("INSERT INTO machine (idMachine, manoCode, machineName) VALUES (%d, '%s', '%s')",
                     Integer.valueOf(token), this.manoCode, name));
             return true;
         }

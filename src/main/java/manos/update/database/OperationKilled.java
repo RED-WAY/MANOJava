@@ -14,18 +14,15 @@ public class OperationKilled {
     private Integer fkMachine;
     private Integer fkOperation;
 
-    public OperationKilled(Integer idOperationRunning, String dtAdded, Integer fkMachine, Integer fkOperation) {
-        this.idOperationRunning = idOperationRunning;
-        this.dtAdded = dtAdded;
-        this.fkMachine = fkMachine;
-        this.fkOperation = fkOperation;
-    }
-    
-    
-
     public Integer getIdOperationRunning() {
         return idOperationRunning;
     }
+
+  
+    
+    
+
+  
 
     public void setIdOperationRunning(Integer idOperationRunning) {
         this.idOperationRunning = idOperationRunning;
@@ -54,6 +51,13 @@ public class OperationKilled {
     public void setFkOperation(Integer fkOperation) {
         this.fkOperation = fkOperation;
     }
+
+    @Override
+    public String toString() {
+        return "OperationKilled{" + "idOperationRunning=" + idOperationRunning + ", dtAdded=" + dtAdded + ", fkMachine=" + fkMachine + ", fkOperation=" + fkOperation + '}';
+    }
+    
+    
     
 
 }

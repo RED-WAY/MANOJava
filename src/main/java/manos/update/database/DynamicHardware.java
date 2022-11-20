@@ -9,16 +9,11 @@ public class DynamicHardware {
     private Integer idDynamicHardware;
     private Double cpu;
     private Double ram;
-    private Integer fkMachine;
     private String dtAdded;
+    private Integer fkMachine;
 
-    public DynamicHardware(Integer idDynamicHardware, Double cpu, Double ram, Integer fkMachine, String dtAdded) {
-        this.idDynamicHardware = idDynamicHardware;
-        this.cpu = cpu;
-        this.ram = ram;
-        this.fkMachine = fkMachine;
-        this.dtAdded = dtAdded;
-    }
+
+    
 
     public Integer getIdDynamicHardware() {
         return idDynamicHardware;
@@ -48,12 +43,24 @@ public class DynamicHardware {
         return ram;
     }
 
-    public void setRamUse(Double ram) {
+    public void setRam(Double ram) {
         this.ram = ram;
+    }
+
+    public void setFkMachine(Integer fkMachine) {
+        this.fkMachine = fkMachine;
     }
 
     public Integer getFkMachine() {
         return fkMachine;
+    }
+
+    @Override
+    public String toString() {
+        return "DynamicHardware{" + "idDynamicHardware=" + idDynamicHardware + "\n cpu=" 
+                + cpu + "\n ram=" + ram + 
+                " fkMachine=" + fkMachine + 
+                "\n dtAdded=" + dtAdded + '}';
     }
 
 }

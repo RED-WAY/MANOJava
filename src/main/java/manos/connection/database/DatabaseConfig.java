@@ -30,14 +30,14 @@ public class DatabaseConfig {
             // MYSQL CONFIG
             mySql.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-            mySql.setUrl("jdbc:mysql://localhost:3306/manosdb?useTimezone=true&"
+            mySql.setUrl("jdbc:mysql://localhost:3306/mano?useTimezone=true&"
                     + "serverTimezone=UTC&"
                     + "autoReconnect=true&"
                     + "useSSL=false");
 
             mySql.setUsername("root");
 
-            mySql.setPassword("urubu200");
+            mySql.setPassword("#Gf52455690865");
 
             this.connection = new JdbcTemplate(dataSource);
             this.connectionMySql = new JdbcTemplate(mySql);
