@@ -37,23 +37,26 @@ public class Logger {
 
         try {
 
-            String path = new Looca()
+            String os = new Looca()
                     .getSistema()
                     .getSistemaOperacional()
-                    .toLowerCase()
-                    .equals("windows") 
-                    ? "C:\\Program Files\\REDWAY" 
-                    : "\\home\\ubuntu\\REDWAY\\LOGS";
+                    .toLowerCase();
+
+            String path = os.equals("windows")
+                    ? "C:\\Program Files\\REDWAY\\LOGS\\"
+                    : "/home/ubuntu/REDWAY/LOGS/";
+
+            String preFile = os.equals("windows") ? "\\" : "/";
 
             Files.createDirectories(Paths.get(path));
-            Files.createDirectories(Paths.get(path + "\\" + LogLevel.ERROR.toString()));
-            Files.createDirectories(Paths.get(path + "\\" + LogLevel.HARDWARE.toString()));
-            Files.createDirectories(Paths.get(path + "\\" + LogLevel.PROCESSES.toString()));
-            Files.createDirectories(Paths.get(path + "\\" + LogLevel.INFO.toString()));
+            Files.createDirectories(Paths.get(path + LogLevel.ERROR.toString()));
+            Files.createDirectories(Paths.get(path + LogLevel.HARDWARE.toString()));
+            Files.createDirectories(Paths.get(path + LogLevel.PROCESSES.toString()));
+            Files.createDirectories(Paths.get(path + LogLevel.INFO.toString()));
 
             //REFERENCIA O ARQUIVO DESTINO DO LOG
-            StringBuilder sb = new StringBuilder(path).append("\\").append(level.toString());
-            Path logFile = Paths.get(sb.append("\\log.txt").toString());
+            StringBuilder sb = new StringBuilder(path).append(level.toString());
+            Path logFile = Paths.get(sb.append(preFile).append("log.txt").toString());
 
             //VERIFICA SE O ARQUIVO NAO EXISTE (ARQUIVO ONDE FICARA OS LOGS)
             if (!logFile.toFile().exists()) {
