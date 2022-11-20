@@ -1,21 +1,22 @@
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\log\LogLevel.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\machine\FindingOutSerial.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\extern\Telegram.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\machine\MachineConfig.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\views\exceptions\InsertDataException.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\views\exceptions\ArraySizesIncompatibleException.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\views\Utils.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\connection\database\DatabaseConfig.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\machine\Validation.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\views\View.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\hardware\Constant.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\machine\FindingOutSystemOperation.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\views\App.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\process\Processes.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\views\Colors.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\machine\Machine.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\log\Logger.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\machine\SystemName.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\hardware\Dynamic.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\hardware\Utils.java
-C:\Users\Andrey\Desktop\Arquivos REDWAY\MANOJava\src\main\java\manos\hardware\Conversor.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\hardware\Conversor.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\gui\View.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\machine\SystemName.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\extern\Telegram.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\gui\Utils.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\log\Logger.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\machine\MachineConfig.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\machine\FindingOutSerial.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\connection\database\DatabaseConfig.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\gui\Colors.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\hardware\Constant.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\hardware\Utils.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\log\LogLevel.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\cli\View.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\views\exceptions\ArraySizesIncompatibleException.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\hardware\Dynamic.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\views\exceptions\InsertDataException.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\process\Processes.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\machine\FindingOutSystemOperation.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\machine\Machine.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\app\App.java
+C:\Users\Vitor\Desktop\REDWAY\MANOJava\src\main\java\manos\machine\Validation.java

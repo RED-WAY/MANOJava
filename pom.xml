@@ -23,7 +23,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>manos.views.App</mainClass> 
+                            <mainClass>manos.app.App</mainClass> 
                         </manifest>
                     </archive>
                 </configuration>

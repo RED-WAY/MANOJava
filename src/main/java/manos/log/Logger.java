@@ -1,5 +1,6 @@
 package manos.log;
 
+import com.github.britooo.looca.api.core.Looca;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,20 +32,27 @@ public class Logger {
                     .append(message)
                     .append("\n");
         }
-            
+
         String logMessage = sbLog.toString();
 
         try {
-            Files.createDirectories(Paths.get("C:\\Program Files\\REDWAY"));
-            Files.createDirectories(Paths.get("C:\\Program Files\\REDWAY\\" + LogLevel.ERROR.toString()));
-            Files.createDirectories(Paths.get("C:\\Program Files\\REDWAY\\" + LogLevel.HARDWARE.toString()));
-            Files.createDirectories(Paths.get("C:\\Program Files\\REDWAY\\" + LogLevel.PROCESSES.toString()));
-            Files.createDirectories(Paths.get("C:\\Program Files\\REDWAY\\" + LogLevel.INFO.toString()));
 
-           
+            String path = new Looca()
+                    .getSistema()
+                    .getSistemaOperacional()
+                    .toLowerCase()
+                    .equals("windows") 
+                    ? "C:\\Program Files\\REDWAY" 
+                    : "\\home\\ubuntu\\REDWAY\\LOGS";
+
+            Files.createDirectories(Paths.get(path));
+            Files.createDirectories(Paths.get(path + "\\" + LogLevel.ERROR.toString()));
+            Files.createDirectories(Paths.get(path + "\\" + LogLevel.HARDWARE.toString()));
+            Files.createDirectories(Paths.get(path + "\\" + LogLevel.PROCESSES.toString()));
+            Files.createDirectories(Paths.get(path + "\\" + LogLevel.INFO.toString()));
 
             //REFERENCIA O ARQUIVO DESTINO DO LOG
-            StringBuilder sb = new StringBuilder("C:\\Program Files\\REDWAY\\").append(level.toString());
+            StringBuilder sb = new StringBuilder(path).append("\\").append(level.toString());
             Path logFile = Paths.get(sb.append("\\log.txt").toString());
 
             //VERIFICA SE O ARQUIVO NAO EXISTE (ARQUIVO ONDE FICARA OS LOGS)

@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class DatabaseConfig {
 
- 
     private JdbcTemplate connection;
     private JdbcTemplate connectionMySql;
 
@@ -16,8 +15,10 @@ public class DatabaseConfig {
         BasicDataSource dataSource = new BasicDataSource();
         BasicDataSource mySql = new BasicDataSource();
 
-        dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         try {
+            // AZURE CONFIG
+            dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            
             dataSource.setUrl("jdbc:sqlserver://svr-manosecurity.database.windows.net:1433;"
                     + "database=db-azure-manosecurity;encryp\n"
                     + "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
@@ -26,7 +27,7 @@ public class DatabaseConfig {
 
             dataSource.setPassword("#Gfgrupo6");
 
-
+            // MYSQL CONFIG
             mySql.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
             mySql.setUrl("jdbc:mysql://localhost:3306/mano");
@@ -39,17 +40,16 @@ public class DatabaseConfig {
             this.connectionMySql = new JdbcTemplate(mySql);
         } catch (Exception ex) {
             ex.printStackTrace();
-            Logger.log("Erro ao conectar banco de dados azure ", ex.getMessage(), LogLevel.ERROR);
+            Logger.log("Erro ao conectar com o banco de dados", ex.getMessage(), LogLevel.ERROR);
         }
     }
 
     public JdbcTemplate getMySqlConnection() {
         return this.connectionMySql;
     }
-    public JdbcTemplate getConnection(){
-           return this.connection;
-    }
-     
 
+    public JdbcTemplate getConnection() {
+        return this.connection;
     }
 
+}
