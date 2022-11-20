@@ -20,7 +20,7 @@ public class UpdateDataBase {
     JdbcTemplate mySql = connection.getMySqlConnection();
     JdbcTemplate azure = connection.getConnection();
 
-    public void needUpdate(Integer idMachine) {
+    public void needUpdate() {
 
         try {
 
@@ -39,9 +39,10 @@ public class UpdateDataBase {
                             + "(cpu, ram, dtAdded, fkMachine) VALUES "
                             + "(%.2f, %.2f, %s, %d ) ", hardware.get(i).getCpuUse(),
                             hardware.get(i).getRamUse(), hardware.get(i).getDtAdded(),
-                            idMachine));
+                            hardware.get(i).getFkMachine()));
 
                 }
+                mySql.execute("TRUNCATE TABLE dynamicHardware");
 
             }
             if (!operation.isEmpty()) {
@@ -50,8 +51,9 @@ public class UpdateDataBase {
                             + "operationKilled(dtAdded, fkMachine, fkOperation) "
                             + "VALUES "
                             + "(%s, %d, %d,) ", operation.get(i).getDtAdded(),
-                            idMachine, operation.get(i).getFkMachine()));
+                            operation.get(i).getFkMachine(), operation.get(i).getFkOperation()));
                 }
+                mySql.execute("TRUNCATE TABLE operaionKilled");
             }
 
         } catch (Exception ex) {
@@ -59,11 +61,4 @@ public class UpdateDataBase {
         }
 
     }
-
-    //public void updatingDataBase() {
-    //  try {
-    //} catch () {
-    //    }
-//
-    //  }
 }
