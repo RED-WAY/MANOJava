@@ -23,7 +23,7 @@ public class Validation {
     private Looca looca;
 
     public Validation() {
-        this.connection = new DatabaseConfig();
+   
         this.utils = new Utils();
         this.looca = new Looca();
 
@@ -46,6 +46,7 @@ public class Validation {
         Map<String, Object> m;
 
         try {
+                 this.connection = new DatabaseConfig();
             sql = connection.getConnection()
                     .queryForList(String.format(
                             "SELECT idMachine, machineName, consumerName, familyName,"

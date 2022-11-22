@@ -20,7 +20,7 @@ public class UpdateDataBase {
         Boolean isConnected = true;
 
         try {
-
+            
             List<DynamicHardware> hardware
                     = mySql.query("SELECT * FROM dynamicHardware; ",
                             new BeanPropertyRowMapper(DynamicHardware.class));

@@ -13,12 +13,13 @@ public class MachineConfig {
 
     public MachineConfig() {
         this.validation = new Validation();
-        this.connection = new DatabaseConfig();
+   
         this.manoCode = this.validation.getHost() + this.validation.getHd();
     }
 
     public String getName(String token) {
         try {
+                 this.connection = new DatabaseConfig();
             return (String) connection.getConnection()
                     .queryForList(String.format(
                             "SELECT machineName "
@@ -33,7 +34,9 @@ public class MachineConfig {
     }
 
     public Boolean checkMachineAvailability(String token) {
+        
         try {
+                 this.connection = new DatabaseConfig();
             List machineAvailable = connection.getConnection()
                     .queryForList(String.format(
                             "SELECT * FROM machine "
@@ -53,6 +56,7 @@ public class MachineConfig {
 
         if (checkMachineAvailability(token)) {
             try {
+                     this.connection = new DatabaseConfig();
                 connection.getConnection()
                         .update(String.format(
                                 "UPDATE machine SET "
