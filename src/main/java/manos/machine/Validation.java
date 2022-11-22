@@ -1,6 +1,7 @@
 package manos.machine;
 
 import com.github.britooo.looca.api.core.Looca;
+import com.google.common.util.concurrent.ExecutionError;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,9 @@ import manos.connection.database.DatabaseConfig;
 import manos.hardware.Utils;
 import manos.log.LogLevel;
 import manos.log.Logger;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+import java.sql.ResultSet;
 
 public class Validation {
 
@@ -62,11 +66,13 @@ public class Validation {
                         (String) m.get("familyName"),
                         looca.getSistema().getSistemaOperacional()
                 );
+               
 
                 return machine;
             }
             Logger.log("Conexão encontrada com sucesso. manoCode: " + manoCode, null, LogLevel.INFO);
-        } catch (Exception ex) {
+        } catch (CannotGetJdbcConnectionException ex ) {
+            
             ex.printStackTrace();
 
             Logger.log("Erro ao tentar encontrar conexão prévia. ", ex.getMessage(), LogLevel.ERROR);
@@ -74,21 +80,22 @@ public class Validation {
             if (this.machine == null) {
                 sql = connection.getMySqlConnection()
                         .queryForList(String.format(
-                                "SELECT idHardware, machineName"
+                                "SELECT idMachine, machineName"
                                 + " FROM machine"
                                 + " WHERE manoCode = '%s'", manoCode));
 
                 if (sql.size() == 1) {
                     m = sql.get(0);
                     this.machine = new Machine(
-                            (Integer) m.get("idHardware"),
+                            (Integer) m.get("idMachine"),
                             manoCode,
                             (String) m.get("machineName"),
                             looca.getSistema().getSistemaOperacional()
                     );
-
+              
+                     
                 }
-
+                 System.out.println(this.machine.toString());
                 return machine;
             }
         }

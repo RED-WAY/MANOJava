@@ -17,6 +17,7 @@ import manos.log.Logger;
 
 import manos.connection.database.DatabaseConfig;
 import manos.log.LogLevel;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 
 public class Telegram {
 
@@ -66,6 +67,7 @@ public class Telegram {
 
 //    public void sendNotification()
     public void requestChatIds() {
+        try {
         List<Map<String, Object>> sql;
 
         sql = connection.getConnection()
@@ -80,6 +82,10 @@ public class Telegram {
             for (Map<String, Object> map : sql) {
                 this.chatIds.add((String) map.get("telegramId"));
             }
+            }
+        }catch(CannotGetJdbcConnectionException ex){
+           ex.printStackTrace();
+            Logger.log("Erro ao conectar com o banco de dados", ex.getMessage(), LogLevel.ERROR);
         }
 
     }
