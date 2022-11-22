@@ -50,32 +50,36 @@ public class Processes {
     }
 
     public void getManosProcesses() {
-        List<Map<String, Object>> sql = this.connection.getConnection()
-                .queryForList(String.format(
-                        "SELECT operationName, idOperation, operationType FROM operation"
-                        + " JOIN companyoperations ON idOperation = fkOperation"
-                        + " JOIN familyoperations ON idCompanyOperations = fkCompanyOperations"
-                        + " JOIN family ON idFamily = familyoperations.fkFamily"
-                        + " JOIN machine ON idFamily = machine.fkFamily "
-                        + " WHERE idMachine = %d;", this.idMachine));
+        try {
+            List<Map<String, Object>> sql = this.connection.getConnection()
+                    .queryForList(String.format(
+                            "SELECT operationName, idOperation, operationType FROM operation"
+                            + " JOIN companyoperations ON idOperation = fkOperation"
+                            + " JOIN familyoperations ON idCompanyOperations = fkCompanyOperations"
+                            + " JOIN family ON idFamily = familyoperations.fkFamily"
+                            + " JOIN machine ON idFamily = machine.fkFamily "
+                            + " WHERE idMachine = %d;", this.idMachine));
 
-        List<String> urls = new ArrayList<>();
+            List<String> urls = new ArrayList<>();
 
-        for (Map<String, Object> map : sql) {
-            String name = map.entrySet().toArray()[0].toString().replace("operationName=", "");
-            Integer id = Integer.valueOf(map.entrySet().toArray()[1].toString().replace("idOperation=", ""));
-            String type = map.entrySet().toArray()[2].toString().replace("operationType=", "");
+            for (Map<String, Object> map : sql) {
+                String name = map.entrySet().toArray()[0].toString().replace("operationName=", "");
+                Integer id = Integer.valueOf(map.entrySet().toArray()[1].toString().replace("idOperation=", ""));
+                String type = map.entrySet().toArray()[2].toString().replace("operationType=", "");
 
-            if (type.equals("desktop")) {
-                manosNames.add(name);
-                manosIds.add(id);
-            } else {
-                urls.add(name.toLowerCase());
+                if (type.equals("desktop")) {
+                    manosNames.add(name);
+                    manosIds.add(id);
+                } else {
+                    urls.add(name.toLowerCase());
+                }
             }
-        }
 
-        if (!urls.isEmpty()) {
-            this.handleWebBlock(urls);
+            if (!urls.isEmpty()) {
+                this.handleWebBlock(urls);
+            }
+        } catch (NullPointerException ex) {
+                
         }
     }
 

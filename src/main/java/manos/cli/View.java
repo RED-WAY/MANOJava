@@ -4,6 +4,8 @@ package manos.cli;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 // CLASSES
 import manos.machine.Validation;
@@ -130,7 +132,11 @@ public class View {
     public void startDataCapture() {
         new Thread(() -> {
             this.dynamic = new Dynamic(this.machine.getIdMachine(), this.machine.getMachineName());
-            this.dynamic.insertData();
+            try {
+                this.dynamic.insertData();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }).start();
         new Thread(() -> {
             this.processes = new Processes(this.machine.getMachineName(), this.machine.getIdMachine(), this.machine.getOperationalSystem());

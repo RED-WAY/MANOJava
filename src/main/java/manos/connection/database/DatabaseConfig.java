@@ -3,6 +3,7 @@ package manos.connection.database;
 import manos.log.LogLevel;
 import manos.log.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class DatabaseConfig {
@@ -28,7 +29,7 @@ public class DatabaseConfig {
             this.connectionMySql = new JdbcTemplate(mySql);
             return this.connectionMySql;
         } catch (Exception ex) {
-            System.out.println("fudeu");
+            
         }
         return this.connectionMySql;
     }
@@ -46,11 +47,16 @@ public class DatabaseConfig {
             dataSource.setPassword("#Gfgrupo6");
             this.connection = new JdbcTemplate(dataSource);
             return this.connection;
-        } catch (Exception ex) {
-            System.out.println("fudeu");
+        } catch (CannotGetJdbcConnectionException ex) {
+             // giga
         }
-        return this.connection;
-    }
+            
+                
+            
+            return this.connection;
+        }
+
+    
 
     public void closeConnection() {
         try {

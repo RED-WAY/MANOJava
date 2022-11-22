@@ -16,6 +16,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -758,7 +760,11 @@ public class View extends javax.swing.JFrame {
     public void startDataCapture() {
         new Thread(() -> {
             this.dynamic = new Dynamic(this.machine.getIdMachine(), this.machine.getMachineName());
-            this.dynamic.insertData();
+            try {
+                this.dynamic.insertData();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }).start();
         new Thread(() -> {
             this.processes = new Processes(this.machine.getMachineName(), this.machine.getIdMachine(), this.machine.getOperationalSystem());

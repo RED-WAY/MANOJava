@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import manos.connection.database.DatabaseConfig;
 import manos.extern.Telegram;
+import manos.update.database.UpdateDataBase;
 
 public class Dynamic {
 
@@ -17,12 +18,14 @@ public class Dynamic {
     private Looca looca;
     private DatabaseConfig connection;
     private Telegram telegram;
+    private Boolean isLogged = false;
+    private Integer cont = 0;
 
     public Dynamic(Integer idMachine, String machineName) {
         this.idMachine = idMachine;
         this.machineName = machineName;
         this.looca = new Looca();
-        
+
         this.telegram = new Telegram();
 
         this.telegram.requestChatIds();
@@ -35,11 +38,8 @@ public class Dynamic {
 
     public void insertData() throws InterruptedException {
 
-        Boolean isLogged = true;
-       
-
         try {
-         this.connection = new DatabaseConfig();
+            this.connection = new DatabaseConfig();
             this.getData();
 
             String updateQuery = String.format(Locale.US,
@@ -54,19 +54,25 @@ public class Dynamic {
             connection.closeConnection();
             System.out.println("CLOUD: " + this.toString());
 
+            if (this.isLogged && cont == 1) {
+                cont += 2;
+                UpdateDataBase update = new UpdateDataBase();
+                update.needUpdate();
+
+            }
+
+            if (this.isLogged == false) {
+                this.isLogged = true;
+                cont++;
+            }
+
             Thread.sleep(5000);
             this.insertData();
 
         } catch (InterruptedException ex) {
 
             isLogged = false;
-
-            ex.printStackTrace();
-            Thread.currentThread().interrupt();
-
-        } catch (Exception ex) {
-
-            isLogged = false;
+            cont = 0;
 
             this.getData();
 
@@ -85,6 +91,12 @@ public class Dynamic {
             Thread.sleep(5000);
             this.insertData();
 
+        } catch (Exception ex) {
+            isLogged = false;
+
+            ex.printStackTrace();
+            Thread.currentThread().interrupt();
+
         } finally {
 
             if (isLogged) {
@@ -98,7 +110,7 @@ public class Dynamic {
 
             }
 
-           Thread.sleep(5000);
+            Thread.sleep(5000);
             this.insertData();
 
         }

@@ -54,9 +54,10 @@ public class UpdateDataBase {
 
             }
 
-        } catch (Exception ex) {
-            isConnected = false;
-            System.out.println("fudeu");
+            Thread.sleep((hardware.size() + operation.size()) * 1000);
+
+        } catch (InterruptedException ex) {
+
         } finally {
             if (isConnected) {
                 mySql.execute("TRUNCATE TABLE operationKilled");

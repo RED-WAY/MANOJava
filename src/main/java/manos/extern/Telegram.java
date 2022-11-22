@@ -27,7 +27,7 @@ public class Telegram {
     private List<String> chatIds;
 
     public Telegram() {
-        this.connection = new DatabaseConfig();
+
         this.chatIds = new ArrayList<>();
     }
 
@@ -36,7 +36,7 @@ public class Telegram {
         for (String chatId : this.chatIds) {
 
             try {
-
+                this.connection = new DatabaseConfig();
                 urlString = String.format("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s", this.apiToken, chatId, message);
                 URL url = new URL(urlString);
 
@@ -68,7 +68,7 @@ public class Telegram {
 //    public void sendNotification()
     public void requestChatIds() {
         try {
-             this.connection = new DatabaseConfig();
+            this.connection = new DatabaseConfig();
             List<Map<String, Object>> sql;
 
             sql = connection.getConnection()
