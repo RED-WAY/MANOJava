@@ -25,7 +25,7 @@ public class DatabaseConfig {
 
             mySql.setUsername("root");
 
-            mySql.setPassword("#Gf52455690865");
+            mySql.setPassword("urubu200W");
             this.connectionMySql = new JdbcTemplate(mySql);
             return this.connectionMySql;
         } catch (Exception ex) {
