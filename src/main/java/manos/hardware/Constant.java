@@ -6,6 +6,7 @@ import com.github.britooo.looca.api.core.Looca;
 import manos.connection.database.DatabaseConfig;
 
 public class Constant {
+
     private Integer idMachine;
     private DatabaseConfig connection;
     private Looca looca;
@@ -29,8 +30,8 @@ public class Constant {
         try {
             String insertQuery = String.format(Locale.US,
                     "INSERT INTO constantHardware "
-                            + "(cpuName, cpuCore, ramSize, diskModel, diskSize, operationalSystem, fkMachine) "
-                            + "VALUES ('%s', %d, %.2f, '%s', %.2f, '%s', %d)",
+                    + "(cpuName, cpuCore, ramSize, diskModel, diskSize, operationalSystem, fkMachine) "
+                    + "VALUES ('%s', %d, %.2f, '%s', %.2f, '%s', %d)",
                     looca.getProcessador().getNome(),
                     looca.getProcessador().getNumeroCpusFisicas(),
                     Math.ceil(utils.convertToDoubleGb(looca.getMemoria().getTotal(), 1)),
@@ -43,6 +44,9 @@ public class Constant {
             connection.getConnection().update(insertQuery);
         } catch (RuntimeException e) {
             e.printStackTrace();
+        } finally {
+            connection.closeMySql();
+            connection.closeConnection();
         }
     }
 

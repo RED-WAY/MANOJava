@@ -98,6 +98,8 @@ public class Validation {
                  System.out.println(this.machine.toString());
                 return machine;
             }
+        }finally{
+          connection.closeConnection();
         }
 
         return null;

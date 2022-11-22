@@ -32,12 +32,12 @@ public class Telegram {
     }
 
     public void sendNotification(String message) {
-        
+
         for (String chatId : this.chatIds) {
 
             try {
-                
-                 urlString = String.format("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s", this.apiToken, chatId, message);
+
+                urlString = String.format("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s", this.apiToken, chatId, message);
                 URL url = new URL(urlString);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -54,7 +54,7 @@ public class Telegram {
                 conn.disconnect();
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
-                
+
                 Logger.log("Erro de formatação na URL", ex.getMessage(), LogLevel.ERROR);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -68,24 +68,28 @@ public class Telegram {
 //    public void sendNotification()
     public void requestChatIds() {
         try {
-        List<Map<String, Object>> sql;
+             this.connection = new DatabaseConfig();
+            List<Map<String, Object>> sql;
 
-        sql = connection.getConnection()
-                .queryForList(String.format(
-                        "SELECT telegramId"
-                        + " FROM consumer"
-                        + " WHERE fkCompany = %d"
-                        + " AND telegramId IS NOT NULL", 1));
+            sql = connection.getConnection()
+                    .queryForList(String.format(
+                            "SELECT telegramId"
+                            + " FROM consumer"
+                            + " WHERE fkCompany = %d"
+                            + " AND telegramId IS NOT NULL", 1));
 
-        if (!sql.isEmpty()) {
+            if (!sql.isEmpty()) {
 
-            for (Map<String, Object> map : sql) {
-                this.chatIds.add((String) map.get("telegramId"));
+                for (Map<String, Object> map : sql) {
+                    this.chatIds.add((String) map.get("telegramId"));
+                }
             }
-            }
-        }catch(CannotGetJdbcConnectionException ex){
-           ex.printStackTrace();
+        } catch (CannotGetJdbcConnectionException ex) {
+            ex.printStackTrace();
             Logger.log("Erro ao conectar com o banco de dados", ex.getMessage(), LogLevel.ERROR);
+        } finally {
+            connection.closeMySql();
+            connection.closeConnection();
         }
 
     }

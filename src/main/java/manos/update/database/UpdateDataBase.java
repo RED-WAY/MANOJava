@@ -61,6 +61,8 @@ public class UpdateDataBase {
             if (isConnected) {
                 mySql.execute("TRUNCATE TABLE operationKilled");
                 mySql.execute("TRUNCATE TABLE dynamicHardware");
+                connection.closeMySql();
+                connection.closeConnection();
             }
 
         }

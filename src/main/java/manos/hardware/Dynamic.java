@@ -22,7 +22,7 @@ public class Dynamic {
         this.idMachine = idMachine;
         this.machineName = machineName;
         this.looca = new Looca();
-        this.connection = new DatabaseConfig();
+        
         this.telegram = new Telegram();
 
         this.telegram.requestChatIds();
@@ -33,12 +33,13 @@ public class Dynamic {
         this.ramUse = Double.valueOf((looca.getMemoria().getEmUso() * 100) / looca.getMemoria().getTotal());
     }
 
-    public void insertData() {
+    public void insertData() throws InterruptedException {
 
         Boolean isLogged = true;
+       
 
         try {
-
+         this.connection = new DatabaseConfig();
             this.getData();
 
             String updateQuery = String.format(Locale.US,
@@ -50,9 +51,11 @@ public class Dynamic {
             );
 
             connection.getConnection().update(updateQuery);
+            connection.closeConnection();
             System.out.println("CLOUD: " + this.toString());
 
             Thread.sleep(5000);
+            this.insertData();
 
         } catch (InterruptedException ex) {
 
@@ -78,6 +81,10 @@ public class Dynamic {
             connection.getMySqlConnection().update(updateQuery);
             System.out.println("LOCAL: " + this.toString());
 
+            connection.closeMySql();
+            Thread.sleep(5000);
+            this.insertData();
+
         } finally {
 
             if (isLogged) {
@@ -88,8 +95,10 @@ public class Dynamic {
                 if (this.ramUse > 80) {
                     this.telegram.sendNotification("RAM: " + this.ramUse.intValue() + "% - em PERIGO na máquina " + this.machineName);
                 }
+
             }
 
+           Thread.sleep(5000);
             this.insertData();
 
         }

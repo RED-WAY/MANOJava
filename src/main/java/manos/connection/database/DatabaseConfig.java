@@ -9,24 +9,11 @@ public class DatabaseConfig {
 
     private JdbcTemplate connection;
     private JdbcTemplate connectionMySql;
+    private BasicDataSource dataSource = new BasicDataSource();
+    private BasicDataSource mySql = new BasicDataSource();
 
-    public DatabaseConfig() {
-
-        BasicDataSource dataSource = new BasicDataSource();
-        BasicDataSource mySql = new BasicDataSource();
-
+    public JdbcTemplate getMySqlConnection() {
         try {
-            // AZURE CONFIG
-            dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-            dataSource.setUrl("jdbc:sqlserver://svr-manosecurity.database.windows.net:1433;"
-                    + "database=db-azure-manosecurity;encryp\n"
-                    + "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
-
-            dataSource.setUsername("admin-manosecurity");
-
-            dataSource.setPassword("#Gfgrupo6");
-
             // MYSQL CONFIG
             mySql.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
@@ -38,21 +25,47 @@ public class DatabaseConfig {
             mySql.setUsername("root");
 
             mySql.setPassword("#Gf52455690865");
-
-            this.connection = new JdbcTemplate(dataSource);
             this.connectionMySql = new JdbcTemplate(mySql);
+            return this.connectionMySql;
         } catch (Exception ex) {
-            ex.printStackTrace();
-            Logger.log("Erro ao conectar com o banco de dados", ex.getMessage(), LogLevel.ERROR);
+            System.out.println("fudeu");
         }
-    }
-
-    public JdbcTemplate getMySqlConnection() {
         return this.connectionMySql;
     }
 
     public JdbcTemplate getConnection() {
+        try {
+            dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            dataSource.setUrl("jdbc:sqlserver://svr-manosecurity.database.windows.net:1433;"
+                    + "database=db-azure-manosecurity;encryp\n"
+                    + "t=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
+
+            dataSource.setUsername("admin-manosecurity");
+
+            dataSource.setPassword("#Gfgrupo6");
+            this.connection = new JdbcTemplate(dataSource);
+            return this.connection;
+        } catch (Exception ex) {
+            System.out.println("fudeu");
+        }
         return this.connection;
+    }
+
+    public void closeConnection() {
+        try {
+            dataSource.close();
+        } catch (Exception ex) {
+        }
+    }
+
+    public void closeMySql() {
+        try {
+            mySql.close();
+        } catch (Exception ex) {
+
+        }
+
     }
 
 }

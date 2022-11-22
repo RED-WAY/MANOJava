@@ -35,7 +35,7 @@ public class Processes {
     private Telegram telegram = new Telegram();
 
     public Processes(String machineName, Integer idMachine, String operationalSystem) {
-        this.connection = new DatabaseConfig();
+
         this.utils = new Utils();
         this.looca = new Looca();
 
@@ -183,7 +183,7 @@ public class Processes {
                 + "VALUES " + strValues;
 
         try {
-
+            this.connection = new DatabaseConfig();
             connection.getConnection().update(insertQuery);
 
         } catch (Exception ex) {
@@ -191,13 +191,16 @@ public class Processes {
             isLogged = false;
 
             connection.getMySqlConnection().update(insertQuery);
-            
+
         } finally {
             if (isLogged) {
                 for (String message : telegramMessages) {
                     this.telegram.sendNotification(message);
                 }
             }
+
+            connection.closeMySql();
+            connection.closeConnection();
         }
     }
 
