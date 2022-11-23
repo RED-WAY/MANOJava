@@ -6,6 +6,7 @@ import java.util.Locale;
 import manos.connection.database.DatabaseConfig;
 import manos.extern.Telegram;
 import manos.update.database.UpdateDataBase;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 
 public class Dynamic {
 
@@ -69,7 +70,7 @@ public class Dynamic {
             Thread.sleep(5000);
             this.insertData();
 
-        } catch (InterruptedException ex) {
+        } catch (CannotGetJdbcConnectionException ex) {
 
             isLogged = false;
             cont = 0;
@@ -91,7 +92,7 @@ public class Dynamic {
             Thread.sleep(5000);
             this.insertData();
 
-        } catch (Exception ex) {
+        } catch (InterruptedException ex) {
             isLogged = false;
 
             ex.printStackTrace();
@@ -110,7 +111,7 @@ public class Dynamic {
 
             }
 
-            Thread.sleep(5000);
+        
             this.insertData();
 
         }

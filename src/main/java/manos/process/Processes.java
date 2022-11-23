@@ -18,6 +18,9 @@ import manos.connection.database.DatabaseConfig;
 import manos.extern.Telegram;
 import manos.hardware.Utils;
 import manos.log.LogLevel;
+import manos.update.database.OperationKilled;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 public class Processes {
 
@@ -51,21 +54,40 @@ public class Processes {
 
     public void getManosProcesses() {
         try {
-            List<Map<String, Object>> sql = this.connection.getConnection()
-                    .queryForList(String.format(
+            this.connection = new DatabaseConfig();
+            List<Operation> azure = this.connection.getConnection()
+                    .query((String.format(
                             "SELECT operationName, idOperation, operationType FROM operation"
                             + " JOIN companyoperations ON idOperation = fkOperation"
                             + " JOIN familyoperations ON idCompanyOperations = fkCompanyOperations"
                             + " JOIN family ON idFamily = familyoperations.fkFamily"
                             + " JOIN machine ON idFamily = machine.fkFamily "
-                            + " WHERE idMachine = %d;", this.idMachine));
+                            + " WHERE idMachine = %d;", this.idMachine)),
+                            new BeanPropertyRowMapper(Operation.class));
+
+            List<Operation> mySql = this.connection.getMySqlConnection()
+                    .query(String.format("SELECT * FROM operation"),
+                            new BeanPropertyRowMapper(Operation.class));
+
+            if (azure.size() != mySql.size()) {
+                connection.getMySqlConnection().execute("TRUNCATE TABLE operation");
+                for (int i = 0; i < azure.size(); i++) {
+                    connection.getMySqlConnection().update(String.format("INSERT INTO operation"
+                            + "(idOperation, operationType, operationName) VALUES"
+                            + "(%d, '%s','%s')", azure.get(i).getIdOperation(),
+                            azure.get(i).getOperationType(), azure.get(i).getOperationName()));
+
+                }
+                connection.closeMySql();
+
+            }
 
             List<String> urls = new ArrayList<>();
 
-            for (Map<String, Object> map : sql) {
-                String name = map.entrySet().toArray()[0].toString().replace("operationName=", "");
-                Integer id = Integer.valueOf(map.entrySet().toArray()[1].toString().replace("idOperation=", ""));
-                String type = map.entrySet().toArray()[2].toString().replace("operationType=", "");
+            for (int i = 0; i < mySql.size(); i++) {
+                String name = mySql.get(i).getOperationName();
+                Integer id = mySql.get(i).getIdOperation();
+                String type = mySql.get(i).getOperationType();
 
                 if (type.equals("desktop")) {
                     manosNames.add(name);
@@ -78,8 +100,34 @@ public class Processes {
             if (!urls.isEmpty()) {
                 this.handleWebBlock(urls);
             }
-        } catch (NullPointerException ex) {
-                
+        } catch (CannotGetJdbcConnectionException ex) {
+
+            this.connection = new DatabaseConfig();
+            List<String> urls = new ArrayList<>();
+
+            List<Operation> mySql = this.connection.getMySqlConnection()
+                    .query(String.format("SELECT * FROM operation"),
+                            new BeanPropertyRowMapper(Operation.class));
+
+            for (int i = 0; i < mySql.size(); i++) {
+                String name = mySql.get(i).getOperationName();
+                Integer id = mySql.get(i).getIdOperation();
+                String type = mySql.get(i).getOperationType();
+
+                if (type.equals("desktop")) {
+                    manosNames.add(name);
+                    manosIds.add(id);
+                } else {
+                    urls.add(name.toLowerCase());
+                }
+            }
+
+            if (!urls.isEmpty()) {
+                this.handleWebBlock(urls);
+            }
+        } finally {
+            connection.closeConnection();
+            connection.closeMySql();
         }
     }
 

@@ -18,14 +18,15 @@ public class DatabaseConfig {
             // MYSQL CONFIG
             mySql.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-            mySql.setUrl("jdbc:mysql://172.17.0.2:3306/mano?useTimezone=true&"
-                    + "serverTimezone=UTC&"
-                    + "autoReconnect=true&"
-                    + "useSSL=false");
-
-            mySql.setUsername("root");
+           mySql.setUrl("jdbc:mysql://172.17.0.2:3306/mano?useTimezone=true&"
+                   + "serverTimezone=UTC&"
+                   + "autoReconnect=true&"
+                   + "useSSL=false");
+            
+            
 
             mySql.setPassword("urubu200");
+    
             this.connectionMySql = new JdbcTemplate(mySql);
             return this.connectionMySql;
         } catch (Exception ex) {

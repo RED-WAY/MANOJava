@@ -3,6 +3,7 @@ package manos.update.database;
 import java.util.ArrayList;
 import java.util.List;
 import manos.connection.database.DatabaseConfig;
+import manos.process.Processes;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,15 +13,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class UpdateDataBase {
 
-    DatabaseConfig connection = new DatabaseConfig();
+    DatabaseConfig connection;
     JdbcTemplate mySql = connection.getMySqlConnection();
     JdbcTemplate azure = connection.getConnection();
+    Processes processes;
 
     public void needUpdate() {
         Boolean isConnected = true;
 
         try {
-            
+             connection = new DatabaseConfig();
+             
+             
             List<DynamicHardware> hardware
                     = mySql.query("SELECT * FROM dynamicHardware; ",
                             new BeanPropertyRowMapper(DynamicHardware.class));
@@ -53,7 +57,7 @@ public class UpdateDataBase {
                 }
 
             }
-
+            processes.getManosProcesses();
             Thread.sleep((hardware.size() + operation.size()) * 1000);
 
         } catch (InterruptedException ex) {
