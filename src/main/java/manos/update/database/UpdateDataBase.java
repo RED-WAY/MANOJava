@@ -14,8 +14,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class UpdateDataBase {
 
     DatabaseConfig connection;
-    JdbcTemplate mySql = connection.getMySqlConnection();
-    JdbcTemplate azure = connection.getConnection();
+    JdbcTemplate mySql ;
+    JdbcTemplate azure;
     Processes processes;
 
     public void needUpdate() {
@@ -23,8 +23,8 @@ public class UpdateDataBase {
 
         try {
              connection = new DatabaseConfig();
-             
-             
+             mySql = connection.getMySqlConnection();
+             azure = connection.getConnection();
             List<DynamicHardware> hardware
                     = mySql.query("SELECT * FROM dynamicHardware; ",
                             new BeanPropertyRowMapper(DynamicHardware.class));

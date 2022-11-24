@@ -29,8 +29,10 @@ public class DatabaseConfig {
     
             this.connectionMySql = new JdbcTemplate(mySql);
             return this.connectionMySql;
-        } catch (Exception ex) {
-            
+        } catch (NullPointerException ex) {
+            // tavex tire aq, tava no Exception ex
+        }catch(Exception ex){
+        //volta p cima
         }
         return this.connectionMySql;
     }
