@@ -37,6 +37,11 @@ public class Operation {
     public void setOperationType(String operationType) {
         this.operationType = operationType;
     }
+
+    @Override
+    public String toString() {
+        return "Operation{" + "idOperation=" + idOperation + ", operationName=" + operationName + ", operationType=" + operationType + '}';
+    }
       
       
     

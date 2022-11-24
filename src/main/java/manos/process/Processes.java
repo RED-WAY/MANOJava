@@ -52,7 +52,12 @@ public class Processes {
         this.telegram.requestChatIds();
     }
 
-    public void getManosProcesses() {
+    public Processes() {
+    }
+    
+    
+
+    public void getManosProcesses() throws InterruptedException {
         try {
             this.connection = new DatabaseConfig();
             List<Operation> azure = this.connection.getConnection()
@@ -83,8 +88,10 @@ public class Processes {
             }
 
             List<String> urls = new ArrayList<>();
-
+           
+                     
             for (int i = 0; i < mySql.size(); i++) {
+            
                 String name = mySql.get(i).getOperationName();
                 Integer id = mySql.get(i).getIdOperation();
                 String type = mySql.get(i).getOperationType();
@@ -92,11 +99,11 @@ public class Processes {
                 if (type.equals("desktop")) {
                     manosNames.add(name);
                     manosIds.add(id);
-                } else {
+                } else{
                     urls.add(name.toLowerCase());
                 }
             }
-
+        Thread.sleep(10000);
             if (!urls.isEmpty()) {
                 this.handleWebBlock(urls);
             }
@@ -121,10 +128,12 @@ public class Processes {
                     urls.add(name.toLowerCase());
                 }
             }
-
+Thread.sleep(10000);
             if (!urls.isEmpty()) {
                 this.handleWebBlock(urls);
             }
+        }catch(NullPointerException ex){
+        
         } finally {
             connection.closeConnection();
             connection.closeMySql();
