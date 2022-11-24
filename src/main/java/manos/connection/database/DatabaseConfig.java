@@ -16,25 +16,15 @@ public class DatabaseConfig {
     public JdbcTemplate getMySqlConnection() {
         try {
             // MYSQL CONFIG
-         //   mySql.setDriverClassName("com.mysql.cj.jdbc.Driver");
+            mySql.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-         //   mySql.setUrl("jdbc:mysql://172.17.0.2:3306/mano?useTimezone=true&"
-         //           + "serverTimezone=UTC&"
-         //           + "autoReconnect=true&"
-          //          + "useSSL=false");
-         //   mySql.setUsername("root");
-
-         //   mySql.setPassword("urubu200");
-            
-            
-             mySql.setUrl("jdbc:mysql://localhost:3306/mano?useTimezone=true&"
+            mySql.setUrl("jdbc:mysql://172.17.0.2:3306/mano?useTimezone=true&"
                     + "serverTimezone=UTC&"
                     + "autoReconnect=true&"
                     + "useSSL=false");
             mySql.setUsername("root");
 
-            mySql.setPassword("#Gf52455690865");
-
+            mySql.setPassword("urubu200");
 
             this.connectionMySql = new JdbcTemplate(mySql);
             return this.connectionMySql;
@@ -42,7 +32,7 @@ public class DatabaseConfig {
 
             // tavex tire aq, tava no Exception ex
         } catch (Exception ex) {
-       
+
             //volta p cima
         }
         return this.connectionMySql;
@@ -62,7 +52,7 @@ public class DatabaseConfig {
             this.connection = new JdbcTemplate(dataSource);
             return this.connection;
         } catch (CannotGetJdbcConnectionException ex) {
-            
+
             // giga
         }
 
