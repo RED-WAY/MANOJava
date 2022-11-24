@@ -54,8 +54,6 @@ public class Processes {
 
     public Processes() {
     }
-    
-    
 
     public void getManosProcesses() throws InterruptedException {
         try {
@@ -83,28 +81,26 @@ public class Processes {
                             azure.get(i).getOperationType(), azure.get(i).getOperationName()));
 
                 }
-              
 
             }
 
             List<String> urls = new ArrayList<>();
-           
-                     
+
             for (int i = 0; i < mySql.size(); i++) {
-            
+
                 String name = mySql.get(i).getOperationName();
                 Integer id = mySql.get(i).getIdOperation();
                 String type = mySql.get(i).getOperationType();
 
                 if (type.equals("desktop")) {
                     manosNames.add(name);
-                    
+
                     manosIds.add(id);
-                } else{
+                } else {
                     urls.add(name.toLowerCase());
                 }
             }
-        Thread.sleep(10000);
+            Thread.sleep(10000);
             if (!urls.isEmpty()) {
                 this.handleWebBlock(urls);
             }
@@ -133,11 +129,11 @@ public class Processes {
             if (!urls.isEmpty()) {
                 this.handleWebBlock(urls);
             }
-        }catch(NullPointerException ex){
-            
+        } catch (NullPointerException ex) {
+
             System.out.println("null poiter getManosProcesses");
-        
-        }catch(InterruptedException ex){
+
+        } catch (InterruptedException ex) {
             System.out.println("Interruption");
         } finally {
             connection.closeConnection();
@@ -146,7 +142,7 @@ public class Processes {
     }
 
     public List<Processo> getOsProcess() {
-        System.out.println(looca.getGrupoDeProcessos().getProcessos());
+
         return looca.getGrupoDeProcessos().getProcessos();
     }
 
@@ -194,7 +190,6 @@ public class Processes {
                 this.killProcesses(pids, new ArrayList<>(ids));
             }
 
-           
             this.matchProcesses();
             Logger.log("Processo eliminado", null, LogLevel.PROCESSES);
 
