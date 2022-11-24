@@ -83,7 +83,7 @@ public class Processes {
                             azure.get(i).getOperationType(), azure.get(i).getOperationName()));
 
                 }
-                connection.closeMySql();
+              
 
             }
 
@@ -98,6 +98,7 @@ public class Processes {
 
                 if (type.equals("desktop")) {
                     manosNames.add(name);
+                    
                     manosIds.add(id);
                 } else{
                     urls.add(name.toLowerCase());
@@ -128,12 +129,16 @@ public class Processes {
                     urls.add(name.toLowerCase());
                 }
             }
-Thread.sleep(10000);
+            Thread.sleep(5000);
             if (!urls.isEmpty()) {
                 this.handleWebBlock(urls);
             }
         }catch(NullPointerException ex){
+            
+            System.out.println("null poiter getManosProcesses");
         
+        }catch(InterruptedException ex){
+            System.out.println("Interruption");
         } finally {
             connection.closeConnection();
             connection.closeMySql();
@@ -141,6 +146,7 @@ Thread.sleep(10000);
     }
 
     public List<Processo> getOsProcess() {
+        System.out.println(looca.getGrupoDeProcessos().getProcessos());
         return looca.getGrupoDeProcessos().getProcessos();
     }
 
@@ -188,11 +194,11 @@ Thread.sleep(10000);
                 this.killProcesses(pids, new ArrayList<>(ids));
             }
 
-            Thread.sleep(10000);
+           
             this.matchProcesses();
             Logger.log("Processo eliminado", null, LogLevel.PROCESSES);
 
-        } catch (InterruptedException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             Thread.currentThread().interrupt();
             ex.getStackTrace();
@@ -247,7 +253,7 @@ Thread.sleep(10000);
             this.connection = new DatabaseConfig();
             connection.getConnection().update(insertQuery);
 
-        } catch (Exception ex) {
+        } catch (CannotGetJdbcConnectionException ex) {
 
             isLogged = false;
 

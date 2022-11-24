@@ -14,7 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class UpdateDataBase {
 
     DatabaseConfig connection;
-    JdbcTemplate mySql ;
+    JdbcTemplate mySql;
     JdbcTemplate azure;
     Processes processes;
 
@@ -22,9 +22,9 @@ public class UpdateDataBase {
         Boolean isConnected = true;
 
         try {
-             connection = new DatabaseConfig();
-             mySql = connection.getMySqlConnection();
-             azure = connection.getConnection();
+            connection = new DatabaseConfig();
+            mySql = connection.getMySqlConnection();
+            azure = connection.getConnection();
             List<DynamicHardware> hardware
                     = mySql.query("SELECT * FROM dynamicHardware; ",
                             new BeanPropertyRowMapper(DynamicHardware.class));
@@ -44,7 +44,7 @@ public class UpdateDataBase {
                             hardware.get(i).getFkMachine()));
 
                 }
-
+                mySql.execute("TRUNCATE TABLE dynamicHardware");
             }
             if (!operation.isEmpty()) {
 
@@ -55,20 +55,19 @@ public class UpdateDataBase {
                             + "('%s', %d, %d) ", operation.get(i).getDtAdded().replaceAll(" ", "T"),
                             operation.get(i).getFkMachine(), operation.get(i).getFkOperation()));
                 }
-
+                mySql.execute("TRUNCATE TABLE operationKilled");
             }
 
             Thread.sleep((hardware.size() + operation.size()) * 1000);
 
         } catch (InterruptedException ex) {
-
+            Thread.currentThread().interrupt();
         } finally {
-            if (isConnected) {
-                mySql.execute("TRUNCATE TABLE operationKilled");
-                mySql.execute("TRUNCATE TABLE dynamicHardware");
+            
+
                 connection.closeMySql();
                 connection.closeConnection();
-            }
+            
 
         }
 
