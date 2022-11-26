@@ -11,15 +11,25 @@ import manos.machine.MachineConfig;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import manos.hardware.Constant;
 import manos.hardware.Dynamic;
@@ -44,12 +54,59 @@ public class View extends javax.swing.JFrame {
     Utils utils = new Utils();
     Colors colors = new Colors();
 
+    JFrame view = this;
+
     public View() {
-        // icon
         final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
         final URL imageResource = App.class.getClassLoader().getResource("images/appIcon64.png");
         final Image image = defaultToolkit.getImage(imageResource);
-        this.setIconImage(image);
+
+        // dock icon
+        view.setIconImage(image);
+        // background tray system icon
+        view.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+
+        // tray config
+        SystemTray systemTray = SystemTray.getSystemTray();
+        PopupMenu popupMenu = new PopupMenu();
+
+        MenuItem show = new MenuItem("Abrir");
+        show.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                view.setVisible(true);
+            }
+        });
+        MenuItem exit = new MenuItem("Sair");
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        popupMenu.add(show);
+        popupMenu.add(exit);
+
+        TrayIcon trayIcon = new TrayIcon(image, "man.OS", popupMenu);
+
+        trayIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    setVisible(true);
+                }
+            }
+
+        });
+
+//        trayIcon.setPopupMenu(popupMenu);
+        try {
+            systemTray.add(trayIcon);
+        } catch (AWTException ex) {
+            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         initComponents();
     }
@@ -492,7 +549,11 @@ public class View extends javax.swing.JFrame {
 
     // ------------------- USER INTERACTIONS -------------------    
     private void lblCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseClicked
-        System.exit(0);
+        if (SystemTray.isSupported()) {
+            view.setVisible(false);
+        } else {
+            System.exit(0);
+        }
     }//GEN-LAST:event_lblCloseMouseClicked
 
     private void lblCloseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCloseMouseEntered
@@ -617,7 +678,7 @@ public class View extends javax.swing.JFrame {
         this.errorThread.interrupt();
 
         new Thread(() -> {
-            new UpdateDataBase().needUpdate();
+//            new UpdateDataBase().needUpdate();
         }).start();
 
         this.verifyLink();
@@ -758,6 +819,8 @@ public class View extends javax.swing.JFrame {
     }
 
     public void startDataCapture() {
+        view.setVisible(false);
+        
         new Thread(() -> {
             this.dynamic = new Dynamic(this.machine.getIdMachine(), this.machine.getMachineName());
             try {

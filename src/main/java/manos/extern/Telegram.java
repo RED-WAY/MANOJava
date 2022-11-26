@@ -23,7 +23,7 @@ public class Telegram {
 
     private DatabaseConfig connection;
     private String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
-    private final String apiToken = "5785472072:AAG2umyIttkO1Hyyc6-k3-8ETNQr9sU3AX4";
+    private final String apiToken = "5755430418:AAGFotEAQ8i8ErqknS7jC67NutoGpGv77YE";
     private List<String> chatIds;
 
     public Telegram() {

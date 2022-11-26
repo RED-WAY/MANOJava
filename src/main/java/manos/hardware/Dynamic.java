@@ -67,9 +67,6 @@ public class Dynamic {
                 cont++;
             }
 
-            Thread.sleep(5000);
-            this.insertData();
-
         } catch (CannotGetJdbcConnectionException ex) {
 
             isLogged = false;
@@ -89,10 +86,8 @@ public class Dynamic {
             System.out.println("LOCAL: " + this.toString());
 
             connection.closeMySql();
-            Thread.sleep(5000);
-            this.insertData();
 
-        } catch (InterruptedException ex) {
+        } catch (Exception ex) {
             isLogged = false;
 
             ex.printStackTrace();
@@ -111,7 +106,8 @@ public class Dynamic {
 
             }
 
-        
+            Thread.sleep(7000);
+
             this.insertData();
 
         }

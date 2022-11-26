@@ -1,5 +1,6 @@
 manos\hardware\Conversor.class
 manos\views\exceptions\ArraySizesIncompatibleException.class
+manos\gui\View$9.class
 manos\hardware\Utils.class
 manos\gui\View$2.class
 manos\machine\SystemName.class
@@ -12,6 +13,7 @@ manos\log\LogLevel.class
 manos\app\App.class
 manos\machine\FindingOutSerial.class
 manos\gui\View$5.class
+manos\gui\View$8.class
 manos\process\Processes.class
 manos\machine\Machine.class
 manos\update\database\DynamicHardware.class
@@ -19,8 +21,10 @@ manos\connection\database\DatabaseConfig.class
 manos\extern\Telegram.class
 manos\gui\View$3.class
 manos\gui\Colors.class
+manos\process\Operation.class
 manos\gui\Utils.class
 manos\cli\View.class
+manos\gui\View$7.class
 manos\gui\View$1.class
 manos\hardware\Constant.class
 manos\gui\View.class
