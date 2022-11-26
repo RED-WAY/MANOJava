@@ -21,7 +21,6 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -101,7 +100,6 @@ public class View extends javax.swing.JFrame {
 
         });
 
-//        trayIcon.setPopupMenu(popupMenu);
         try {
             systemTray.add(trayIcon);
         } catch (AWTException ex) {
@@ -678,7 +676,7 @@ public class View extends javax.swing.JFrame {
         this.errorThread.interrupt();
 
         new Thread(() -> {
-//            new UpdateDataBase().needUpdate();
+            new UpdateDataBase().needUpdate();
         }).start();
 
         this.verifyLink();
@@ -831,7 +829,11 @@ public class View extends javax.swing.JFrame {
         }).start();
         new Thread(() -> {
             this.processes = new Processes(this.machine.getMachineName(), this.machine.getIdMachine(), this.machine.getOperationalSystem());
-            this.processes.getManosProcesses();
+            try {
+                this.processes.getManosProcesses();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.processes.matchProcesses();
         }).start();
     }

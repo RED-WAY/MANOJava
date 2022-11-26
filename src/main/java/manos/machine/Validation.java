@@ -74,7 +74,7 @@ public class Validation {
             Logger.log("Conexão encontrada com sucesso. manoCode: " + manoCode, null, LogLevel.INFO);
         } catch (CannotGetJdbcConnectionException ex ) {
             
-            ex.printStackTrace();
+           
 
             Logger.log("Erro ao tentar encontrar conexão prévia. ", ex.getMessage(), LogLevel.ERROR);
 
@@ -96,11 +96,12 @@ public class Validation {
               
                      
                 }
-                 System.out.println(this.machine.toString());
+   
                 return machine;
             }
         }finally{
           connection.closeConnection();
+          
         }
 
         return null;

@@ -140,7 +140,11 @@ public class View {
         }).start();
         new Thread(() -> {
             this.processes = new Processes(this.machine.getMachineName(), this.machine.getIdMachine(), this.machine.getOperationalSystem());
-            this.processes.getManosProcesses();
+            try {
+                this.processes.getManosProcesses();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.processes.matchProcesses();
         }).start();
     }

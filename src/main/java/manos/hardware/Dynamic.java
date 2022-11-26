@@ -52,7 +52,7 @@ public class Dynamic {
             );
 
             connection.getConnection().update(updateQuery);
-            connection.closeConnection();
+
             System.out.println("CLOUD: " + this.toString());
 
             if (this.isLogged && cont == 1) {
@@ -68,15 +68,15 @@ public class Dynamic {
             }
 
         } catch (CannotGetJdbcConnectionException ex) {
-
+            this.connection = new DatabaseConfig();
             isLogged = false;
             cont = 0;
 
             this.getData();
 
-            String updateQuery = String.format(Locale.US,
+            String updateQuery = String.format(
                     "INSERT INTO dynamicHardware (cpu, ram, fkMachine) "
-                    + "VALUES (%.2f, %.2f, %d)",
+                    + "VALUES (%.0f, %.0f, %d)",
                     this.cpuUse,
                     this.ramUse,
                     this.idMachine
@@ -84,13 +84,13 @@ public class Dynamic {
 
             connection.getMySqlConnection().update(updateQuery);
             System.out.println("LOCAL: " + this.toString());
-
             connection.closeMySql();
 
         } catch (Exception ex) {
             isLogged = false;
 
-            ex.printStackTrace();
+            System.out.println(ex);
+            System.out.println("Insert Data");
             Thread.currentThread().interrupt();
 
         } finally {
@@ -105,7 +105,9 @@ public class Dynamic {
                 }
 
             }
-
+            connection.closeConnection();
+            connection.closeMySql();
+            
             Thread.sleep(7000);
 
             this.insertData();

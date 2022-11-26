@@ -52,7 +52,10 @@ public class Processes {
         this.telegram.requestChatIds();
     }
 
-    public void getManosProcesses() {
+    public Processes() {
+    }
+
+    public void getManosProcesses() throws InterruptedException {
         try {
             this.connection = new DatabaseConfig();
             List<Operation> azure = this.connection.getConnection()
@@ -78,25 +81,26 @@ public class Processes {
                             azure.get(i).getOperationType(), azure.get(i).getOperationName()));
 
                 }
-                connection.closeMySql();
 
             }
 
             List<String> urls = new ArrayList<>();
 
             for (int i = 0; i < mySql.size(); i++) {
+
                 String name = mySql.get(i).getOperationName();
                 Integer id = mySql.get(i).getIdOperation();
                 String type = mySql.get(i).getOperationType();
 
                 if (type.equals("desktop")) {
                     manosNames.add(name);
+
                     manosIds.add(id);
                 } else {
                     urls.add(name.toLowerCase());
                 }
             }
-
+            Thread.sleep(10000);
             if (!urls.isEmpty()) {
                 this.handleWebBlock(urls);
             }
@@ -121,10 +125,16 @@ public class Processes {
                     urls.add(name.toLowerCase());
                 }
             }
-
+            Thread.sleep(5000);
             if (!urls.isEmpty()) {
                 this.handleWebBlock(urls);
             }
+        } catch (NullPointerException ex) {
+
+            System.out.println("null poiter getManosProcesses");
+
+        } catch (InterruptedException ex) {
+            System.out.println("Interruption");
         } finally {
             connection.closeConnection();
             connection.closeMySql();
@@ -132,6 +142,7 @@ public class Processes {
     }
 
     public List<Processo> getOsProcess() {
+
         return looca.getGrupoDeProcessos().getProcessos();
     }
 
@@ -179,11 +190,10 @@ public class Processes {
                 this.killProcesses(pids, new ArrayList<>(ids));
             }
 
-            Thread.sleep(10000);
             this.matchProcesses();
             Logger.log("Processo eliminado", null, LogLevel.PROCESSES);
 
-        } catch (InterruptedException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             Thread.currentThread().interrupt();
             ex.getStackTrace();
@@ -238,7 +248,7 @@ public class Processes {
             this.connection = new DatabaseConfig();
             connection.getConnection().update(insertQuery);
 
-        } catch (Exception ex) {
+        } catch (CannotGetJdbcConnectionException ex) {
 
             isLogged = false;
 
