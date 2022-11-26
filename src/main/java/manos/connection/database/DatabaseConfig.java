@@ -18,7 +18,7 @@ public class DatabaseConfig {
             // MYSQL CONFIG
             mySql.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-            mySql.setUrl("jdbc:mysql://172.17.0.2:3306/mano?useTimezone=true&"
+            mySql.setUrl("jdbc:mysql://172.17.0.2:3306/manosecurity?useTimezone=true&"
                     + "serverTimezone=UTC&"
                     + "autoReconnect=true&"
                     + "useSSL=false");

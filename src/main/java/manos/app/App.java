@@ -1,7 +1,7 @@
 package manos.app;
 
 // CHANGE IMPORT TO BUILD PREFERRED VERSION
-import manos.cli.View;
+import manos.gui.View;
 
 import manos.log.LogLevel;
 import manos.log.Logger;

@@ -85,7 +85,7 @@ public class Telegram {
                 }
             }
         } catch (CannotGetJdbcConnectionException ex) {
-            ex.printStackTrace();
+           
             Logger.log("Erro ao conectar com o banco de dados", ex.getMessage(), LogLevel.ERROR);
         } finally {
             connection.closeMySql();

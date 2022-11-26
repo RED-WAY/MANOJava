@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import manos.connection.database.DatabaseConfig;
 import manos.process.Processes;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -62,6 +63,8 @@ public class UpdateDataBase {
 
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
+        }catch(CannotGetJdbcConnectionException ex){
+        
         } finally {
             
 
