@@ -27,7 +27,7 @@ public class Dynamic {
         this.machineName = machineName;
         this.looca = new Looca();
 
-        this.telegram = new Telegram();
+        this.telegram = new Telegram(idMachine);
 
         this.telegram.requestChatIds();
     }

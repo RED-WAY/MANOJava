@@ -25,9 +25,10 @@ public class Telegram {
     private String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
     private final String apiToken = "5755430418:AAGFotEAQ8i8ErqknS7jC67NutoGpGv77YE";
     private List<String> chatIds;
+    private Integer idMachine;
 
-    public Telegram() {
-
+    public Telegram(Integer idMachine) {
+        this.idMachine = idMachine;
         this.chatIds = new ArrayList<>();
     }
 
@@ -75,8 +76,8 @@ public class Telegram {
                     .queryForList(String.format(
                             "SELECT telegramId"
                             + " FROM consumer"
-                            + " WHERE fkCompany = %d"
-                            + " AND telegramId IS NOT NULL", 1));
+                            + " WHERE fkCompany = (SELECT fkCompany FROM machine WHERE idMachine = %d)"
+                            + " AND telegramId IS NOT NULL", this.idMachine));
 
             if (!sql.isEmpty()) {
 

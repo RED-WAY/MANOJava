@@ -35,7 +35,7 @@ public class Processes {
     private List<Integer> manosIds;
 
     private List<String> telegramMessages = new ArrayList<>();
-    private Telegram telegram = new Telegram();
+    private Telegram telegram;
 
     public Processes(String machineName, Integer idMachine, String operationalSystem) {
 
@@ -49,6 +49,7 @@ public class Processes {
         this.manosNames = new ArrayList<>();
         this.manosIds = new ArrayList<>();
 
+        this.telegram = new Telegram(idMachine);
         this.telegram.requestChatIds();
     }
 
@@ -189,9 +190,9 @@ public class Processes {
 
                 this.killProcesses(pids, new ArrayList<>(ids));
             }
-
+            
+            Thread.sleep(6000);
             this.matchProcesses();
-            Logger.log("Processo eliminado", null, LogLevel.PROCESSES);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -217,6 +218,8 @@ public class Processes {
                 }
                 rt.exec("kill -9 " + pidsString);
             }
+
+            Logger.log("Processos eliminados", null, LogLevel.PROCESSES);
 
             this.insertData(ids);
 
